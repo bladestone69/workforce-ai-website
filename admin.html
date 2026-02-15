@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Workforce AI Conversations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #1a202c;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .conversations {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .conversation-card:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .session-id {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            color: #a0aec0;
+            font-size: 0.875rem;
+        }
+
+        .conversation-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            font-size: 0.875rem;
+        }
+
+        .info-label {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .message-preview {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .message-preview strong {
+            color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #718096;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .transcript-message {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .transcript-message.user {
+            background: #edf2f7;
+            border-left: 3px solid #667eea;
+        }
+
+        .transcript-message.assistant {
+            background: #f0fff4;
+            border-left: 3px solid #48bb78;
+        }
+
+        .message-role {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ AI Conversations Dashboard</h1>
+            <p class="subtitle">Track all visitor interactions with your AI assistant</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="total-conversations">0</div>
+                <div class="stat-label">Total Conversations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-messages">0</div>
+                <div class="stat-label">Total Messages</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-duration">0s</div>
+                <div class="stat-label">Avg Duration</div>
+            </div>
+        </div>
+
+        <div class="conversations">
+            <button class="refresh-btn" onclick="loadConversations()">🔄 Refresh</button>
+            <div id="conversations-list">
+                <div class="loading">Loading conversations...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="conversation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Conversation Details</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadConversations() {
+            const listEl = document.getElementById('conversations-list');
+            listEl.innerHTML = '<div class="loading">Loading conversations...</div>';
+
+            try {
+                const response = await fetch('/api/get-conversations');
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error);
+                }
+
+                const conversations = data.conversations;
+
+                // Update stats
+                document.getElementById('total-conversations').textContent = conversations.length;
+                const totalMessages = conversations.reduce((sum, c) => sum + (c.messageCount || 0), 0);
+                document.getElementById('total-messages').textContent = totalMessages;
+                const avgDuration = conversations.length > 0
+                    ? Math.round(conversations.reduce((sum, c) => sum + (c.durationSeconds || 0), 0) / conversations.length)
+                    : 0;
+                document.getElementById('avg-duration').textContent = avgDuration + 's';
+
+                // Display conversations
+                if (conversations.length === 0) {
+                    listEl.innerHTML = '<div class="loading">No conversations yet</div>';
+                    return;
+                }
+
+                listEl.innerHTML = conversations.map(conv => `
+                    <div class="conversation-card" onclick="viewConversation('${conv.sessionId}')">
+                        <div class="conversation-header">
+                            <div class="session-id">${conv.sessionId}</div>
+                            <div class="timestamp">${new Date(conv.sessionStart).toLocaleString()}</div>
+                        </div>
+                        <div class="conversation-info">
+                            <div class="info-item">
+                                <div class="info-label">Duration</div>
+                                <div class="info-value">${conv.durationSeconds}s</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Messages</div>
+                                <div class="info-value">${conv.messageCount}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Browser</div>
+                                <div class="info-value">${conv.visitorInfo?.language || 'Unknown'}</div>
+                            </div>
+                        </div>
+                        ${conv.firstMessage ? `
+                            <div class="message-preview">
+                                <strong>First message:</strong> ${conv.firstMessage.substring(0, 100)}${conv.firstMessage.length > 100 ? '...' : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading conversations:', error);
+                listEl.innerHTML = `<div class="error">Failed to load conversations: ${error.message}</div>`;
+            }
+        }
+
+        async function viewConversation(sessionId) {
+            const modal = document.getElementById('conversation-modal');
+            const modalBody = document.getElementById('modal-body');
+
+            modal.classList.add('active');
+            modalBody.innerHTML = '<div class="loading">Loading conversation details...</div>';
+
+            try {
+                const response = await fetch(`/api/get-conversation?sessionId=${sessionId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error);
+                }
+
+                const conv = data.conversation;
+
+                modalBody.innerHTML = `
+                    <div style="margin-bottom: 2rem;">
+                        <h3>Session: ${conv.sessionId}</h3>
+                        <p style="color: #718096; margin-top: 0.5rem;">
+                            ${new Date(conv.sessionStart).toLocaleString()} - ${new Date(conv.sessionEnd).toLocaleString()}
+                        </p>
+                    </div>
+                    <h4 style="margin-bottom: 1rem;">Transcript</h4>
+                    ${conv.transcript.map(msg => `
+                        <div class="transcript-message ${msg.role}">
+                            <div class="message-role">${msg.role === 'user' ? '👤 Visitor' : '🤖 AI'}</div>
+                            <div class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</div>
+                            <div>${msg.text}</div>
+                        </div>
+                    `).join('')}
+                `;
+
+            } catch (error) {
+                console.error('Error loading conversation:', error);
+                modalBody.innerHTML = `<div class="error">Failed to load conversation: ${error.message}</div>`;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('conversation-modal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('conversation-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'conversation-modal') {
+                closeModal();
+            }
+        });
+
+        // Load conversations on page load
+        loadConversations();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadConversations, 30000);
+    </script>
+</body>
+
+</html>

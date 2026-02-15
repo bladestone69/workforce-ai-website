@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Workforce AI - Your intelligent AI worker that automates tasks, boosts productivity, and transforms your business operations with cutting-edge artificial intelligence.">
+    <title>Workforce AI - Your AI Worker | Intelligent Automation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <!-- Hume AI Official Voice Embed -->
+    <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="url(#logo-gradient)" />
+                        <path d="M20 10L28 15V25L20 30L12 25V15L20 10Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <circle cx="20" cy="20" r="3" fill="white" />
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#6366F1" />
+                                <stop offset="1" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">Workforce<span class="logo-accent">AI</span></span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Solutions</a>
+                    <a href="#our-process" class="nav-link">Our Process</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-secondary" id="btn-signin">Sign In</button>
+                    <button class="btn-primary" id="btn-get-started">Get Started</button>
+                </div>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <div class="grid-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    <span>Powered by Advanced AI Technology</span>
+                </div>
+                <h1 class="hero-title">
+                    Your <span class="gradient-text">AI Worker</span><br>
+                    That Never Sleeps
+                </h1>
+                <p class="hero-description">
+                    We build custom AI workers specifically for your business. No off-the-shelf solutions—every AI
+                    worker is designed,
+                    developed, and deployed to match your unique workflows and challenges across Africa.
+                </p>
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large" id="btn-hero-start">
+                        Book a Consultation
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="btn-outline btn-large" id="btn-hero-demo">
+                        View Case Studies
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8 5L14 10L8 15V5Z" fill="currentColor" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="mockup-title">Workforce AI Dashboard</div>
+                    </div>
+                    <div class="mockup-content" id="dashboard-image"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Custom AI Solutions for African Businesses</h2>
+                <p class="section-description">We build AI workers tailored to your industry, challenges, and
+                    opportunities</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-1)" />
+                            <path d="M16 9V23M9 16H23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="icon-gradient-1" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#6366F1" />
+                                    <stop offset="1" stop-color="#8B5CF6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Intelligent Automation</h3>
+                    <p class="feature-description">Automate complex workflows with AI that learns and adapts to your
+                        business processes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-2)" />
+                            <circle cx="16" cy="16" r="6" stroke="white" stroke-width="2" />
+                            <path d="M16 10V16L20 18" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="icon-gradient-2" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#EC4899" />
+                                    <stop offset="1" stop-color="#F43F5E" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">24/7 Availability</h3>
+                    <p class="feature-description">Your AI worker never takes a break, ensuring continuous productivity
+                        around the clock.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-3)" />
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <defs>
+                                <linearGradient id="icon-gradient-3" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#10B981" />
+                                    <stop offset="1" stop-color="#059669" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart Decision Making</h3>
+                    <p class="feature-description">Advanced AI algorithms analyze data and make intelligent decisions in
+                        real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-4)" />
+                            <path d="M8 24L16 8L24 24H8Z" stroke="white" stroke-width="2" stroke-linejoin="round" />
+                            <defs>
+                                <linearGradient id="icon-gradient-4" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#F59E0B" />
+                                    <stop offset="1" stop-color="#EF4444" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Seamless Integration</h3>
+                    <p class="feature-description">Connect with your existing tools and platforms through our robust API
+                        and integrations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-5)" />
+                            <rect x="10" y="10" width="12" height="12" rx="2" stroke="white" stroke-width="2" />
+                            <defs>
+                                <linearGradient id="icon-gradient-5" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#3B82F6" />
+                                    <stop offset="1" stop-color="#1D4ED8" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Advanced Analytics</h3>
+                    <p class="feature-description">Get deep insights into your operations with comprehensive analytics
+                        and reporting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-6)" />
+                            <path d="M16 8L20 12L16 16L12 12L16 8Z" stroke="white" stroke-width="2"
+                                stroke-linejoin="round" />
+                            <path d="M16 16L20 20L16 24L12 20L16 16Z" stroke="white" stroke-width="2"
+                                stroke-linejoin="round" />
+                            <defs>
+                                <linearGradient id="icon-gradient-6" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#8B5CF6" />
+                                    <stop offset="1" stop-color="#6366F1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Scalable Infrastructure</h3>
+                    <p class="feature-description">Grow without limits with our cloud-based infrastructure that scales
+                        with your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Process Section -->
+    <section class="our-process" id="our-process">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Consultative Process</h2>
+                <p class="section-description">We build custom AI workers tailored specifically to your business needs
+                </p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Discovery & Analysis</h3>
+                        <p class="step-description">We meet with your team to understand your unique challenges,
+                            workflows, and business objectives. Our experts analyze where AI can deliver the most value.
+                        </p>
+                    </div>
+                    <div class="step-visual step-visual-1"></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Custom Development</h3>
+                        <p class="step-description">Our team builds AI workers specifically designed for your
+                            requirements. We integrate with your existing systems and train the AI on your processes.
+                        </p>
+                    </div>
+                    <div class="step-visual step-visual-2"></div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Deploy & Support</h3>
+                        <p class="step-description">We deploy your custom AI workers and provide ongoing support,
+                            training, and optimization to ensure maximum ROI and continuous improvement.</p>
+                    </div>
+                    <div class="step-visual step-visual-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Investment in Your AI Workforce</h2>
+                <p class="section-description">Custom pricing based on your specific needs. Every solution is unique to
+                    your business.
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-plan">Single AI Worker</h3>
+                        <div class="pricing-price">
+                            <span class="price-currency">R</span>
+                            <span class="price-amount">5K</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <p class="pricing-description">One custom AI worker for a specific task</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Discovery & requirements analysis</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Custom AI worker development</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Integration with your systems</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>3 months support included</li>
+                    </ul>
+                    <button class="btn-outline btn-full" id="btn-starter">Get a Quote</button>
+                </div>
+                <div class="pricing-card pricing-card-featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-plan">AI Workforce Team</h3>
+                        <div class="pricing-price">
+                            <span class="price-currency">R</span>
+                            <span class="price-amount">15K</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <p class="pricing-description">Multiple AI workers for department automation</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>3-5 custom AI workers</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Complete workflow automation</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Advanced system integrations</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>6 months support & optimization</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Dedicated account manager</li>
+                    </ul>
+                    <button class="btn-primary btn-full" id="btn-professional">Get a Quote</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-plan">Enterprise</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">Custom</span>
+                        </div>
+                        <p class="pricing-description">For large organizations with custom needs</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Unlimited custom AI workers</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Enterprise-wide automation</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Complex system integrations</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>24/7 dedicated support team</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>Ongoing optimization & training</li>
+                        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="#10B981" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>On-site deployment options</li>
+                    </ul>
+                    <button class="btn-outline btn-full" id="btn-enterprise">Schedule Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Build Your AI Workforce?</h2>
+                <p class="cta-description">Let's discuss how custom AI workers can transform your business operations
+                </p>
+                <div class="cta-actions">
+                    <button class="btn-primary btn-large" id="btn-cta-start">Book Free Consultation</button>
+                    <button class="btn-outline btn-large btn-outline-light" id="btn-cta-sales">Request Proposal</button>
+                </div>
+                <p class="cta-note">Free consultation • Custom solutions • Based in South Africa, serving Africa</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="url(#footer-logo-gradient)" />
+                            <path d="M20 10L28 15V25L20 30L12 25V15L20 10Z" stroke="white" stroke-width="2"
+                                stroke-linejoin="round" />
+                            <circle cx="20" cy="20" r="3" fill="white" />
+                            <defs>
+                                <linearGradient id="footer-logo-gradient" x1="0" y1="0" x2="40" y2="40"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#6366F1" />
+                                    <stop offset="1" stop-color="#8B5CF6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="footer-logo-text">Workforce<span class="logo-accent">AI</span></span>
+                    </div>
+                    <p class="footer-description">Your intelligent AI worker that automates tasks and transforms
+                        business operations.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#integrations">Integrations</a></li>
+                        <li><a href="#api">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#documentation">Documentation</a></li>
+                        <li><a href="#support">Support</a></li>
+                        <li><a href="#community">Community</a></li>
+                        <li><a href="#status">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2026 Workforce AI. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating AI Chat Button -->
+    <button class="ai-chat-button" id="ai-chat-button" aria-label="Talk to AI Agent">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12C2 13.93 2.6 15.72 3.63 17.19L2.05 21.95L7.06 20.42C8.47 21.32 10.18 21.86 12 21.86C17.52 21.86 22 17.38 22 11.86C22 6.34 17.52 2 12 2Z"
+                fill="white" />
+            <circle cx="8" cy="12" r="1.5" fill="url(#chat-gradient)" />
+            <circle cx="12" cy="12" r="1.5" fill="url(#chat-gradient)" />
+            <circle cx="16" cy="12" r="1.5" fill="url(#chat-gradient)" />
+            <defs>
+                <linearGradient id="chat-gradient" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#6366F1" />
+                    <stop offset="1" stop-color="#8B5CF6" />
+                </linearGradient>
+            </defs>
+        </svg>
+        <span class="ai-chat-text">Talk to AI</span>
+    </button>
+
+    <!-- Hume AI Voice Interface Modal -->
+    <div class="ai-chat-modal" id="ai-chat-modal">
+        <div class="ai-chat-modal-content">
+            <div class="ai-chat-header">
+                <div class="ai-chat-title">
+                    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="url(#modal-logo-gradient)" />
+                        <path d="M20 10L28 15V25L20 30L12 25V15L20 10Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <circle cx="20" cy="20" r="3" fill="white" />
+                        <defs>
+                            <linearGradient id="modal-logo-gradient" x1="0" y1="0" x2="40" y2="40"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#6366F1" />
+                                <stop offset="1" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div>
+                        <h3>Workforce AI Assistant</h3>
+                        <p>Ask me anything about our AI workers</p>
+                    </div>
+                </div>
+                <button class="ai-chat-close" id="ai-chat-close" aria-label="Close chat">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="ai-chat-body" id="ai-chat-body">
+                <!-- Hume AI EVI will be embedded here -->
+                <div id="hume-ai-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="hume-ai.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
