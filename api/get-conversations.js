@@ -1,7 +1,5 @@
-// Vercel Serverless Function to get all conversations
+// Vercel Serverless Function to get all conversations from Blob storage
 // Save this as: api/get-conversations.js
-
-import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
     // Only allow GET requests
@@ -10,32 +8,36 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Get all session IDs (sorted by timestamp, newest first)
-        const sessionIds = await kv.zrange('conversations:all', 0, -1, { rev: true });
+        // Try to read index file
+        const indexUrl = process.env.BLOB_STORE_URL || 'https://your-project.vercel.app';
+        const indexResponse = await fetch(`${indexUrl}/index.json`);
 
-        // Get summaries for all sessions
-        const summaries = await Promise.all(
-            sessionIds.map(async (sessionId) => {
-                const summary = await kv.get(`summary:${sessionId}`);
-                return summary;
-            })
-        );
+        if (!indexResponse.ok) {
+            // No conversations yet
+            return res.status(200).json({
+                success: true,
+                count: 0,
+                conversations: []
+            });
+        }
 
-        // Filter out any null values
-        const validSummaries = summaries.filter(s => s !== null);
+        const conversations = await indexResponse.json();
 
         return res.status(200).json({
             success: true,
-            count: validSummaries.length,
-            conversations: validSummaries
+            count: conversations.length,
+            conversations: conversations
         });
 
     } catch (error) {
         console.error('❌ Error fetching conversations:', error);
-        return res.status(500).json({
-            success: false,
-            error: 'Failed to fetch conversations',
-            details: error.message
+
+        // Return empty array instead of error (better UX)
+        return res.status(200).json({
+            success: true,
+            count: 0,
+            conversations: [],
+            note: 'No conversations found yet'
         });
     }
 }

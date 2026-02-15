@@ -1,7 +1,5 @@
-// Vercel Serverless Function to get specific conversation
+// Vercel Serverless Function to get specific conversation from Blob storage
 // Save this as: api/get-conversation.js
-
-import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
     // Only allow GET requests
@@ -19,15 +17,20 @@ export default async function handler(req, res) {
             });
         }
 
-        // Get full conversation data
-        const conversation = await kv.get(`conversation:${sessionId}`);
+        // Fetch conversation from Blob storage
+        const blobUrl = process.env.BLOB_STORE_URL || 'https://your-project.vercel.app';
+        const conversationUrl = `${blobUrl}/conversations/${sessionId}.json`;
 
-        if (!conversation) {
+        const response = await fetch(conversationUrl);
+
+        if (!response.ok) {
             return res.status(404).json({
                 success: false,
                 error: 'Conversation not found'
             });
         }
+
+        const conversation = await response.json();
 
         return res.status(200).json({
             success: true,

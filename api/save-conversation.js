@@ -1,7 +1,7 @@
-// Vercel Serverless Function to save conversations
+// Vercel Serverless Function to save conversations using Blob storage
 // Save this as: api/save-conversation.js
 
-import { kv } from '@vercel/kv';
+import { put } from '@vercel/blob';
 
 export default async function handler(req, res) {
     // Only allow POST requests
@@ -11,20 +11,15 @@ export default async function handler(req, res) {
 
     try {
         const conversationData = req.body;
-
-        // Generate unique key
-        const timestamp = new Date().toISOString();
         const sessionId = conversationData.sessionId;
-        const key = `conversation:${sessionId}`;
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
 
-        // Save to Vercel KV (Redis-compatible database)
-        await kv.set(key, conversationData);
-
-        // Also add to a list for easy retrieval
-        await kv.zadd('conversations:all', {
-            score: Date.now(),
-            member: sessionId
-        });
+        // Save full conversation to Blob storage
+        const conversationBlob = await put(
+            `conversations/${sessionId}.json`,
+            JSON.stringify(conversationData),
+            { access: 'public' }
+        );
 
         // Save summary for quick access
         const summary = {
@@ -35,17 +30,43 @@ export default async function handler(req, res) {
             messageCount: conversationData.transcript?.length || 0,
             visitorInfo: conversationData.visitorInfo,
             firstMessage: conversationData.transcript?.[0]?.text || '',
-            lastMessage: conversationData.transcript?.[conversationData.transcript?.length - 1]?.text || ''
+            lastMessage: conversationData.transcript?.[conversationData.transcript?.length - 1]?.text || '',
+            blobUrl: conversationBlob.url
         };
 
-        await kv.set(`summary:${sessionId}`, summary);
+        const summaryBlob = await put(
+            `summaries/${sessionId}.json`,
+            JSON.stringify(summary),
+            { access: 'public' }
+        );
+
+        // Also save to index file for listing
+        try {
+            const indexResponse = await fetch(process.env.BLOB_READ_WRITE_TOKEN ?
+                `https://blob.vercel-storage.com/index.json` :
+                summaryBlob.url.replace(`summaries/${sessionId}.json`, 'index.json')
+            );
+
+            let index = [];
+            if (indexResponse.ok) {
+                index = await indexResponse.json();
+            }
+
+            index.unshift(summary); // Add to beginning
+            index = index.slice(0, 100); // Keep last 100 conversations
+
+            await put('index.json', JSON.stringify(index), { access: 'public' });
+        } catch (e) {
+            console.log('Index update failed (non-critical):', e.message);
+        }
 
         console.log('✅ Conversation saved:', sessionId);
 
         return res.status(200).json({
             success: true,
             message: 'Conversation saved successfully',
-            sessionId: sessionId
+            sessionId: sessionId,
+            url: conversationBlob.url
         });
 
     } catch (error) {
