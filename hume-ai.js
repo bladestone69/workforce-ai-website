@@ -136,10 +136,24 @@ async function startChat(startBtn, statusDiv) {
         socket.send(JSON.stringify(sessionSettings));
         console.log('📤 Sent session_settings');
 
-        statusDiv.textContent = '🎤 Listening...';
+        statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
         statusDiv.style.color = '#10B981';
+        statusDiv.style.fontWeight = '600';
         transcriptDiv.style.display = 'block';
-        transcriptDiv.textContent = 'Listening for your voice...';
+        transcriptDiv.innerHTML = '<div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #10B981, #059669); color: white; border-radius: 0.5rem; font-weight: 600; animation: pulse 1.5s ease-in-out infinite;">🎤 SPEAK NOW - I\'m listening!</div>';
+
+        // Add pulse animation
+        if (!document.getElementById('pulse-animation')) {
+            const style = document.createElement('style');
+            style.id = 'pulse-animation';
+            style.textContent = `
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 0.7; transform: scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
 
         startBtn.innerHTML = '<svg width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg> Stop';
         startBtn.disabled = false;
@@ -156,6 +170,10 @@ async function startChat(startBtn, statusDiv) {
         if (msg.type === 'user_message' && msg.message) {
             const text = msg.message.content || msg.message.text || '';
             if (text) {
+                // Show that AI heard you
+                statusDiv.innerHTML = '🤖 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is thinking...</span>';
+                statusDiv.style.color = '#6366F1';
+
                 transcriptDiv.innerHTML = `<div style="margin-bottom:0.5rem;"><strong>You:</strong> ${text}</div>` + transcriptDiv.innerHTML;
                 console.log('👤 Visitor said:', text);
 
@@ -171,6 +189,10 @@ async function startChat(startBtn, statusDiv) {
         if (msg.type === 'assistant_message' && msg.message) {
             const text = msg.message.content || msg.message.text || '';
             if (text) {
+                // Show AI is responding
+                statusDiv.innerHTML = '🔊 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is speaking...</span>';
+                statusDiv.style.color = '#8B5CF6';
+
                 transcriptDiv.innerHTML = `<div style="margin-bottom:0.5rem;color:#6366F1;"><strong>AI:</strong> ${text}</div>` + transcriptDiv.innerHTML;
                 console.log('🤖 AI said:', text);
 
@@ -185,6 +207,11 @@ async function startChat(startBtn, statusDiv) {
 
         if (msg.type === 'audio_output' && msg.data) {
             console.log('🔊 Audio chunk');
+
+            // Show AI is speaking
+            statusDiv.innerHTML = '🔊 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is speaking...</span>';
+            statusDiv.style.color = '#8B5CF6';
+
             audioQueue.push(msg.data);
 
             // Save audio chunk (will be sent to YOUR backend)
@@ -291,6 +318,25 @@ function startSendLoop() {
 async function playNextAudio() {
     if (audioQueue.length === 0) {
         isPlaying = false;
+
+        // Reset to listening mode
+        const statusDiv = document.getElementById('voice-status');
+        const transcriptDiv = document.getElementById('transcript');
+        if (statusDiv && transcriptDiv) {
+            statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
+            statusDiv.style.color = '#10B981';
+
+            // Add visual cue at top of transcript
+            const existingCue = transcriptDiv.querySelector('.listening-cue');
+            if (existingCue) existingCue.remove();
+
+            const listeningCue = document.createElement('div');
+            listeningCue.className = 'listening-cue';
+            listeningCue.style.cssText = 'text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #10B981, #059669); color: white; border-radius: 0.5rem; font-weight: 600; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite;';
+            listeningCue.textContent = '🎤 Your turn - Speak now!';
+            transcriptDiv.insertBefore(listeningCue, transcriptDiv.firstChild);
+        }
+
         return;
     }
 
