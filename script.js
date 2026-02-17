@@ -345,9 +345,15 @@ const aiChatModal = document.getElementById('ai-chat-modal');
 const aiChatClose = document.getElementById('ai-chat-close');
 
 // Open AI chat modal
-// aiChatButton?.addEventListener('click', () => {
-//     aiChatModal.classList.add('active');
-// });
+const heroStartBtn = document.getElementById('btn-hero-start');
+const tryAvatarBtn = document.getElementById('btn-try-avatar');
+
+function openAiModal() {
+    aiChatModal.classList.add('active');
+}
+
+heroStartBtn?.addEventListener('click', openAiModal);
+tryAvatarBtn?.addEventListener('click', openAiModal);
 
 // Close AI chat modal
 // aiChatClose?.addEventListener('click', () => {
