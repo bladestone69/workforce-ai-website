@@ -345,14 +345,14 @@ const aiChatModal = document.getElementById('ai-chat-modal');
 const aiChatClose = document.getElementById('ai-chat-close');
 
 // Open AI chat modal
-aiChatButton?.addEventListener('click', () => {
-    aiChatModal.classList.add('active');
-});
+// aiChatButton?.addEventListener('click', () => {
+//     aiChatModal.classList.add('active');
+// });
 
 // Close AI chat modal
-aiChatClose?.addEventListener('click', () => {
-    aiChatModal.classList.remove('active');
-});
+// aiChatClose?.addEventListener('click', () => {
+//     aiChatModal.classList.remove('active');
+// });
 
 // Close modal when clicking outside
 aiChatModal?.addEventListener('click', (e) => {
