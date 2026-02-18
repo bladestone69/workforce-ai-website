@@ -90,7 +90,7 @@ async function toggleVoiceChat() {
 
         if (audioContext.state === 'suspended') {
             await audioContext.resume();
-            console.log('✅ AudioContext resumed');
+            console.log('✅ Audio capture started');
         }
 
         statusDiv.textContent = 'Requesting microphone...';
@@ -112,6 +112,44 @@ async function toggleVoiceChat() {
         sessionStartTime = new Date();
         sessionId = generateSessionId();
 
+        function startSendLoop() {
+            function sendLoop() {
+                if (!socket || socket.readyState !== WebSocket.OPEN) return;
+
+                const now = performance.now();
+                const deltaTime = (now - lastFrameTime) / 1000;
+                lastFrameTime = now;
+
+                timeSinceLastSend += deltaTime;
+
+                if (timeSinceLastSend >= sendInterval && sendBuffer.length > 0) {
+                    const dataToSend = new Uint8Array(sendBuffer);
+                    sendBuffer = [];
+
+                    // Convert to Base64 using a safer method for large buffers (prevents max call stack size exceeded)
+                    const blob = new Blob([dataToSend], { type: 'application/octet-stream' });
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const dataUrl = reader.result;
+                        const base64 = dataUrl.split(',')[1];
+
+                        if (socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({
+                                type: 'audio_input',
+                                data: base64
+                            }));
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+
+                    timeSinceLastSend = 0;
+                }
+
+                requestAnimationFrame(sendLoop);
+            }
+
+            requestAnimationFrame(sendLoop);
+        }
         await startChat(startBtn, statusDiv);
 
     } catch (error) {
@@ -128,6 +166,11 @@ async function startChat(startBtn, statusDiv) {
     const transcriptDiv = document.getElementById('transcript');
 
     // AudioContext is already initialized in toggleVoiceChat for mobile compatibility
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+        console.log('✅ AudioContext force resumed in startChat');
+    }
+
     audioQueue = [];
     isPlaying = false;
     sendBuffer = [];
