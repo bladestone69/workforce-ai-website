@@ -80,11 +80,26 @@ async function toggleVoiceChat() {
         return;
     }
 
+    // CRITICAL: Initialize AudioContext immediately on user click to capture gesture
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+    console.log('✅ AudioContext created/resumed (User Gesture). State:', audioContext.state);
+
     try {
         const statusDiv = document.getElementById('voice-status');
         statusDiv.textContent = 'Requesting microphone...';
 
-        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
+        });
 
         statusDiv.textContent = 'Connecting...';
         startBtn.disabled = true;
@@ -99,32 +114,25 @@ async function toggleVoiceChat() {
 
     } catch (error) {
         console.error('❌ Error:', error);
-        document.getElementById('voice-status').textContent = '❌ Microphone denied';
+        document.getElementById('voice-status').textContent = '❌ Microphone access failed. Check permissions.';
     }
 }
 
-function generateSessionId() {
-    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
+// ... (rest of file) ...
+
+
 
 async function startChat(startBtn, statusDiv) {
     const transcriptDiv = document.getElementById('transcript');
 
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    // CRITICAL: Force resume AudioContext as it might be suspended by default
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-    }
-    console.log('✅ AudioContext state:', audioContext.state, 'Sample Rate:', audioContext.sampleRate);
-
+    // AudioContext is already initialized in toggleVoiceChat
     audioQueue = [];
     isPlaying = false;
     sendBuffer = [];
     timeSinceLastSend = 0;
     lastFrameTime = performance.now();
 
-    const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${HUME_API_KEY}&config_id=${HUME_CONFIG_ID}`;
+    console.log('🎤 Audio context sample rate:', audioContext.sampleRate);
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
@@ -384,10 +392,14 @@ async function playNextAudio() {
 
         // Convert Int16 -> Float32 (Web Audio API Standard)
         const float32Data = new Float32Array(int16Data.length);
+        let maxAmp = 0;
         for (let i = 0; i < int16Data.length; i++) {
             // Normalize -32768..32767 to -1.0..1.0
             float32Data[i] = int16Data[i] / 32768.0;
+            if (Math.abs(float32Data[i]) > maxAmp) maxAmp = Math.abs(float32Data[i]);
         }
+
+        console.log(`🔊 Decoding: Samples=${float32Data.length}, Max Amp=${maxAmp.toFixed(4)}`);
 
         // Create AudioBuffer (Hume typically defaults to 24kHz output)
         const audioBuffer = audioContext.createBuffer(1, float32Data.length, 24000);
