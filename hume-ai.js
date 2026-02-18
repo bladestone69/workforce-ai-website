@@ -111,19 +111,27 @@ async function startChat(startBtn, statusDiv) {
     const transcriptDiv = document.getElementById('transcript');
 
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // CRITICAL: Force resume AudioContext as it might be suspended by default
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+    console.log('✅ AudioContext state:', audioContext.state, 'Sample Rate:', audioContext.sampleRate);
+
     audioQueue = [];
     isPlaying = false;
     sendBuffer = [];
     timeSinceLastSend = 0;
     lastFrameTime = performance.now();
 
-    console.log('🎤 Audio context sample rate:', audioContext.sampleRate);
-
     const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${HUME_API_KEY}&config_id=${HUME_CONFIG_ID}`;
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
-        console.log('✅ Connected');
+        console.log('✅ Connected to Hume API');
+
+        // ... (rest of onopen) ...
+
 
         const sessionSettings = {
             type: 'session_settings',
@@ -277,10 +285,20 @@ function startAudioCapture() {
 
     console.log(`🎤 Resampling: ${nativeSampleRate}Hz → ${targetSampleRate}Hz (ratio: ${resampleRatio.toFixed(3)})`);
 
+    let logCounter = 0;
+
     processor.onaudioprocess = (e) => {
         if (!socket || socket.readyState !== WebSocket.OPEN) return;
 
         const inputData = e.inputBuffer.getChannelData(0);
+
+        // DEBUG: Log input level occasionally to verify mic is working
+        logCounter++;
+        if (logCounter % 50 === 0) { // Every ~2-3 seconds
+            const maxLevel = inputData.reduce((max, val) => Math.max(max, Math.abs(val)), 0);
+            console.log(`🎤 Mic Level: ${maxLevel.toFixed(4)} ${maxLevel < 0.001 ? '(SILENCE?)' : ''}`);
+        }
+
         const inputLength = inputData.length;
 
         const outputLength = Math.floor(inputLength * resampleRatio);
