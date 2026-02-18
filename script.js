@@ -346,13 +346,26 @@ const aiChatClose = document.getElementById('ai-chat-close');
 
 // Open AI chat modal
 const heroStartBtn = document.getElementById('btn-hero-start');
+const heroDemoBtn = document.getElementById('btn-hero-demo');
 const tryAvatarBtn = document.getElementById('btn-try-avatar');
 
 function openAiModal() {
-    aiChatModal.classList.add('active');
+    aiChatModal?.classList.add('active');
 }
 
-heroStartBtn?.addEventListener('click', openAiModal);
+function scrollToSection(sectionId) {
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+
+    const offsetTop = target.offsetTop - 80;
+    window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+    });
+}
+
+heroStartBtn?.addEventListener('click', () => scrollToSection('ai-avatars'));
+heroDemoBtn?.addEventListener('click', () => scrollToSection('games'));
 tryAvatarBtn?.addEventListener('click', openAiModal);
 
 // Close AI chat modal
