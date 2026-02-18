@@ -359,24 +359,13 @@ async function playNextAudio() {
     if (audioQueue.length === 0) {
         isPlaying = false;
 
-        // Reset to listening mode
+        // Reset UI if we are done speaking
         const statusDiv = document.getElementById('voice-status');
         const transcriptDiv = document.getElementById('transcript');
         if (statusDiv && transcriptDiv) {
             statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
             statusDiv.style.color = '#10B981';
-
-            // Add visual cue at top of transcript
-            const existingCue = transcriptDiv.querySelector('.listening-cue');
-            if (existingCue) existingCue.remove();
-
-            const listeningCue = document.createElement('div');
-            listeningCue.className = 'listening-cue';
-            listeningCue.style.cssText = 'text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #10B981, #059669); color: white; border-radius: 0.5rem; font-weight: 600; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite;';
-            listeningCue.textContent = '🎤 Your turn - Speak now!';
-            transcriptDiv.insertBefore(listeningCue, transcriptDiv.firstChild);
         }
-
         return;
     }
 
@@ -384,27 +373,39 @@ async function playNextAudio() {
     const base64Audio = audioQueue.shift();
 
     try {
+        // Convert Base64 -> Binary String -> Int16Array (Raw PCM)
         const binaryString = atob(base64Audio);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
             bytes[i] = binaryString.charCodeAt(i);
         }
+        const int16Data = new Int16Array(bytes.buffer);
 
-        const blob = new Blob([bytes], { type: 'audio/wav' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
+        // Convert Int16 -> Float32 (Web Audio API Standard)
+        const float32Data = new Float32Array(int16Data.length);
+        for (let i = 0; i < int16Data.length; i++) {
+            // Normalize -32768..32767 to -1.0..1.0
+            float32Data[i] = int16Data[i] / 32768.0;
+        }
 
-        audio.onended = () => {
-            URL.revokeObjectURL(url);
+        // Create AudioBuffer (Hume typically defaults to 24kHz output)
+        const audioBuffer = audioContext.createBuffer(1, float32Data.length, 24000);
+        audioBuffer.copyToChannel(float32Data, 0);
+
+        // Play the buffer
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.destination);
+
+        source.onended = () => {
+            currentSource = null;
             playNextAudio();
         };
 
-        audio.onerror = () => {
-            URL.revokeObjectURL(url);
-            playNextAudio();
-        };
-
-        await audio.play();
+        currentSource = source;
+        source.start(0);
+        console.log('🔊 Playing audio buffer');
 
     } catch (error) {
         console.error('❌ Playback error:', error);
