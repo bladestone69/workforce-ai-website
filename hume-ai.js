@@ -81,25 +81,21 @@ async function toggleVoiceChat() {
     }
 
     // CRITICAL: Initialize AudioContext immediately on user click to capture gesture
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-    }
-    console.log('✅ AudioContext created/resumed (User Gesture). State:', audioContext.state);
-
+    // Moved INSIDE try/catch to handle errors properly
     try {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioContext.state === 'suspended') {
+            await audioContext.resume();
+        }
+        console.log('✅ AudioContext created/resumed (User Gesture). State:', audioContext.state);
+
         const statusDiv = document.getElementById('voice-status');
         statusDiv.textContent = 'Requesting microphone...';
 
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: true
-            }
-        });
+        // Reverted to simple constraints to avoid hardware incompatibility
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         statusDiv.textContent = 'Connecting...';
         startBtn.disabled = true;
