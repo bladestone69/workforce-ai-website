@@ -80,22 +80,23 @@ async function toggleVoiceChat() {
         return;
     }
 
-    // CRITICAL: Initialize AudioContext immediately on user click to capture gesture
-    // Moved INSIDE try/catch to handle errors properly
-    try {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioContext.state === 'suspended') {
-            await audioContext.resume();
-        }
-        console.log('✅ AudioContext created/resumed (User Gesture). State:', audioContext.state);
+    // 1. Create AudioContext immediately (Sync) to capture user gesture
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
 
+    try {
         const statusDiv = document.getElementById('voice-status');
         statusDiv.textContent = 'Requesting microphone...';
 
-        // Reverted to simple constraints to avoid hardware incompatibility
+        // 2. Request Mic Permission *before* doing anything else that might block
         mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        // 3. Resume AudioContext now that we have permission & flow is active
+        if (audioContext.state === 'suspended') {
+            await audioContext.resume();
+        }
+        console.log('✅ AudioContext active. State:', audioContext.state);
 
         statusDiv.textContent = 'Connecting...';
         startBtn.disabled = true;
@@ -109,8 +110,8 @@ async function toggleVoiceChat() {
         await startChat(startBtn, statusDiv);
 
     } catch (error) {
-        console.error('❌ Error:', error);
-        document.getElementById('voice-status').textContent = '❌ Microphone access failed. Check permissions.';
+        console.error('❌ Error/Permission Denied:', error);
+        document.getElementById('voice-status').textContent = `❌ Error: ${error.message || 'Mic access denied'}`;
     }
 }
 
