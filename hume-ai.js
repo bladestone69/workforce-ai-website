@@ -82,26 +82,9 @@ async function toggleVoiceChat() {
 
     try {
         const statusDiv = document.getElementById('voice-status');
-
-        // Mobile Safari/Chrome requirement: Create/Resume AudioContext within a user interaction
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Let browser decide sample rate
-        }
-
-        if (audioContext.state === 'suspended') {
-            await audioContext.resume();
-            console.log('✅ Audio capture started');
-        }
-
         statusDiv.textContent = 'Requesting microphone...';
 
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: true
-            }
-        });
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         statusDiv.textContent = 'Connecting...';
         startBtn.disabled = true;
@@ -112,49 +95,11 @@ async function toggleVoiceChat() {
         sessionStartTime = new Date();
         sessionId = generateSessionId();
 
-        function startSendLoop() {
-            function sendLoop() {
-                if (!socket || socket.readyState !== WebSocket.OPEN) return;
-
-                const now = performance.now();
-                const deltaTime = (now - lastFrameTime) / 1000;
-                lastFrameTime = now;
-
-                timeSinceLastSend += deltaTime;
-
-                if (timeSinceLastSend >= sendInterval && sendBuffer.length > 0) {
-                    const dataToSend = new Uint8Array(sendBuffer);
-                    sendBuffer = [];
-
-                    // Convert to Base64 using a safer method for large buffers (prevents max call stack size exceeded)
-                    const blob = new Blob([dataToSend], { type: 'application/octet-stream' });
-                    const reader = new FileReader();
-                    reader.onload = function () {
-                        const dataUrl = reader.result;
-                        const base64 = dataUrl.split(',')[1];
-
-                        if (socket.readyState === WebSocket.OPEN) {
-                            socket.send(JSON.stringify({
-                                type: 'audio_input',
-                                data: base64
-                            }));
-                        }
-                    };
-                    reader.readAsDataURL(blob);
-
-                    timeSinceLastSend = 0;
-                }
-
-                requestAnimationFrame(sendLoop);
-            }
-
-            requestAnimationFrame(sendLoop);
-        }
         await startChat(startBtn, statusDiv);
 
     } catch (error) {
         console.error('❌ Error:', error);
-        document.getElementById('voice-status').textContent = '❌ Microphone access failed. Check permissions.';
+        document.getElementById('voice-status').textContent = '❌ Microphone denied';
     }
 }
 
@@ -165,12 +110,7 @@ function generateSessionId() {
 async function startChat(startBtn, statusDiv) {
     const transcriptDiv = document.getElementById('transcript');
 
-    // AudioContext is already initialized in toggleVoiceChat for mobile compatibility
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-        console.log('✅ AudioContext force resumed in startChat');
-    }
-
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
     audioQueue = [];
     isPlaying = false;
     sendBuffer = [];
@@ -185,7 +125,6 @@ async function startChat(startBtn, statusDiv) {
     socket.onopen = () => {
         console.log('✅ Connected');
 
-        // ... (settings remain the same) ...
         const sessionSettings = {
             type: 'session_settings',
             audio: {
@@ -248,44 +187,69 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
 
     socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
+        console.log('📨', msg.type);
 
         if (msg.type === 'user_message' && msg.message) {
             const text = msg.message.content || msg.message.text || '';
             if (text) {
+                // Show that AI heard you
                 statusDiv.innerHTML = '🤖 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is thinking...</span>';
                 statusDiv.style.color = '#6366F1';
+
                 transcriptDiv.innerHTML = `<div style="margin-bottom:0.5rem;"><strong>You:</strong> ${text}</div>` + transcriptDiv.innerHTML;
                 console.log('👤 Visitor said:', text);
-                conversationHistory.push({ role: 'user', text: text, timestamp: new Date().toISOString() });
+
+                // Save to conversation history (will be sent to YOUR backend)
+                conversationHistory.push({
+                    role: 'user',
+                    text: text,
+                    timestamp: new Date().toISOString()
+                });
             }
         }
 
         if (msg.type === 'assistant_message' && msg.message) {
             const text = msg.message.content || msg.message.text || '';
             if (text) {
+                // Show AI is responding
                 statusDiv.innerHTML = '🔊 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is speaking...</span>';
                 statusDiv.style.color = '#8B5CF6';
+
                 transcriptDiv.innerHTML = `<div style="margin-bottom:0.5rem;color:#6366F1;"><strong>AI:</strong> ${text}</div>` + transcriptDiv.innerHTML;
                 console.log('🤖 AI said:', text);
-                conversationHistory.push({ role: 'assistant', text: text, timestamp: new Date().toISOString() });
+
+                // Save to conversation history
+                conversationHistory.push({
+                    role: 'assistant',
+                    text: text,
+                    timestamp: new Date().toISOString()
+                });
             }
         }
 
         if (msg.type === 'audio_output' && msg.data) {
-            // Decouple audio processing to prevent blocking the socket handling
-            processAudioChunk(msg.data);
+            console.log('🔊 Audio chunk');
 
-            // Save audio chunk metadata (without the massive base64 literal to save memory in logs)
+            // Show AI is speaking
+            statusDiv.innerHTML = '🔊 <span style="animation: pulse 1.5s ease-in-out infinite;">AI is speaking...</span>';
+            statusDiv.style.color = '#8B5CF6';
+
+            audioQueue.push(msg.data);
+
+            // Save audio chunk (will be sent to YOUR backend)
             recordedAudioChunks.push({
                 role: 'assistant',
-                timestamp: new Date().toISOString(),
-                // data: msg.data // Uncomment if you REALLY need to save audio blobs to backend
+                audioData: msg.data,
+                timestamp: new Date().toISOString()
             });
+
+            if (!isPlaying) playNextAudio();
         }
 
         if (msg.type === 'user_interruption') {
             console.log('⏸️ Interruption');
-            stopAudioPlayback();
+            audioQueue = [];
+            isPlaying = false;
         }
     };
 
@@ -300,73 +264,134 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
     };
 }
 
-async function processAudioChunk(base64Data) {
-    try {
-        const binaryString = atob(base64Data);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+function startAudioCapture() {
+    const source = audioContext.createMediaStreamSource(mediaStream);
+    processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+    source.connect(processor);
+    processor.connect(audioContext.destination);
+
+    const nativeSampleRate = audioContext.sampleRate;
+    const targetSampleRate = 16000;
+    const resampleRatio = targetSampleRate / nativeSampleRate;
+
+    console.log(`🎤 Resampling: ${nativeSampleRate}Hz → ${targetSampleRate}Hz (ratio: ${resampleRatio.toFixed(3)})`);
+
+    processor.onaudioprocess = (e) => {
+        if (!socket || socket.readyState !== WebSocket.OPEN) return;
+
+        const inputData = e.inputBuffer.getChannelData(0);
+        const inputLength = inputData.length;
+
+        const outputLength = Math.floor(inputLength * resampleRatio);
+        const resampled = new Float32Array(outputLength);
+
+        for (let i = 0; i < outputLength; i++) {
+            const srcIndex = i / resampleRatio;
+            const srcIndexFloor = Math.floor(srcIndex);
+            const srcIndexCeil = Math.min(srcIndexFloor + 1, inputLength - 1);
+            const fraction = srcIndex - srcIndexFloor;
+
+            resampled[i] = inputData[srcIndexFloor] * (1 - fraction) + inputData[srcIndexCeil] * fraction;
         }
 
-        // Decode audio data using Web Audio API
-        // CRITICAL FIX: slice(0) to ensure a clean ArrayBuffer copy is passed to decodeAudioData
-        // This prevents "detached ArrayBuffer" errors or issues with views
-        const audioBuffer = await audioContext.decodeAudioData(bytes.buffer.slice(0));
-        audioQueue.push(audioBuffer);
-
-        if (!isPlaying) {
-            playNextAudio();
+        const int16 = new Int16Array(outputLength);
+        for (let i = 0; i < outputLength; i++) {
+            const s = Math.max(-1, Math.min(1, resampled[i]));
+            int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
         }
-    } catch (e) {
-        console.error("Error decoding audio chunk:", e);
-    }
+
+        const bytes = new Uint8Array(int16.buffer);
+        sendBuffer.push(...bytes);
+    };
+
+    console.log('✅ Audio capture started');
 }
 
-// Keep track of the currently playing source to stop it immediately on interruption
-let currentSource = null;
+function startSendLoop() {
+    function sendLoop() {
+        if (!socket || socket.readyState !== WebSocket.OPEN) return;
 
-function stopAudioPlayback() {
-    isPlaying = false;
-    audioQueue = []; // Clear queue
-    if (currentSource) {
-        try {
-            currentSource.stop();
-        } catch (e) {
-            // Ignore if already stopped
+        const now = performance.now();
+        const deltaTime = (now - lastFrameTime) / 1000;
+        lastFrameTime = now;
+
+        timeSinceLastSend += deltaTime;
+
+        if (timeSinceLastSend >= sendInterval && sendBuffer.length > 0) {
+            const dataToSend = new Uint8Array(sendBuffer);
+            sendBuffer = [];
+
+            const base64 = btoa(String.fromCharCode(...dataToSend));
+            socket.send(JSON.stringify({
+                type: 'audio_input',
+                data: base64
+            }));
+
+            timeSinceLastSend = 0;
         }
-        currentSource = null;
+
+        requestAnimationFrame(sendLoop);
     }
+
+    requestAnimationFrame(sendLoop);
 }
 
-function playNextAudio() {
+async function playNextAudio() {
     if (audioQueue.length === 0) {
         isPlaying = false;
 
-        // Reset UI if we are done speaking
+        // Reset to listening mode
         const statusDiv = document.getElementById('voice-status');
         const transcriptDiv = document.getElementById('transcript');
         if (statusDiv && transcriptDiv) {
             statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
             statusDiv.style.color = '#10B981';
+
+            // Add visual cue at top of transcript
+            const existingCue = transcriptDiv.querySelector('.listening-cue');
+            if (existingCue) existingCue.remove();
+
+            const listeningCue = document.createElement('div');
+            listeningCue.className = 'listening-cue';
+            listeningCue.style.cssText = 'text-align: center; padding: 0.75rem; background: linear-gradient(135deg, #10B981, #059669); color: white; border-radius: 0.5rem; font-weight: 600; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite;';
+            listeningCue.textContent = '🎤 Your turn - Speak now!';
+            transcriptDiv.insertBefore(listeningCue, transcriptDiv.firstChild);
         }
+
         return;
     }
 
     isPlaying = true;
-    const buffer = audioQueue.shift();
+    const base64Audio = audioQueue.shift();
 
-    const source = audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioContext.destination);
+    try {
+        const binaryString = atob(base64Audio);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
 
-    source.onended = () => {
-        currentSource = null;
+        const blob = new Blob([bytes], { type: 'audio/wav' });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+
+        audio.onended = () => {
+            URL.revokeObjectURL(url);
+            playNextAudio();
+        };
+
+        audio.onerror = () => {
+            URL.revokeObjectURL(url);
+            playNextAudio();
+        };
+
+        await audio.play();
+
+    } catch (error) {
+        console.error('❌ Playback error:', error);
         playNextAudio();
-    };
-
-    currentSource = source;
-    source.start(0);
+    }
 }
 
 function stopChat() {
