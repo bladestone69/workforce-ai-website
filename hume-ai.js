@@ -1,6 +1,7 @@
 // Hume AI EVI Integration - Sends conversation data to backend for admin tracking
 const HUME_API_KEY = 'zsASFWTIShA5swhpfrxkYj9AYOPEEyhYxZFhtgMsWpHzjgDF';
 const HUME_CONFIG_ID = 'fbc5cf5c-5965-4f98-abc2-97a77896d600';
+const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${encodeURIComponent(HUME_API_KEY)}&config_id=${encodeURIComponent(HUME_CONFIG_ID)}`;
 
 // Backend endpoint where conversation data will be sent (YOU can track visitors)
 const BACKEND_ENDPOINT = '/api/save-conversation'; // Update this to your actual backend URL
@@ -12,6 +13,7 @@ let audioQueue = [];
 let isPlaying = false;
 let mediaStream = null;
 let processor = null;
+let currentSource = null;
 let sendBuffer = [];
 let sendInterval = 0.1;
 let timeSinceLastSend = 0;
@@ -89,6 +91,10 @@ async function toggleVoiceChat() {
         const statusDiv = document.getElementById('voice-status');
         statusDiv.textContent = 'Requesting microphone...';
 
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error('Microphone is unavailable in this browser/context. Use HTTPS.');
+        }
+
         // 2. Request Mic Permission *before* doing anything else that might block
         mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
@@ -113,6 +119,10 @@ async function toggleVoiceChat() {
         console.error('❌ Error/Permission Denied:', error);
         document.getElementById('voice-status').textContent = `❌ Error: ${error.message || 'Mic access denied'}`;
     }
+}
+
+function generateSessionId() {
+    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 }
 
 // ... (rest of file) ...
@@ -430,6 +440,15 @@ function stopChat() {
     if (processor) {
         processor.disconnect();
         processor = null;
+    }
+    if (currentSource) {
+        try {
+            currentSource.stop();
+        } catch (e) {
+            // Ignore if already stopped.
+        }
+        currentSource.disconnect();
+        currentSource = null;
     }
     if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
