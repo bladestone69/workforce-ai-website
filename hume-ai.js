@@ -181,7 +181,7 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
         socket.send(JSON.stringify(sessionSettings));
         console.log('📤 Sent session_settings');
 
-        statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
+        statusDiv.innerHTML = 'Mic on <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
         statusDiv.style.color = '#10B981';
         statusDiv.style.fontWeight = '600';
         transcriptDiv.style.display = 'block';
@@ -270,8 +270,16 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
         }
 
         if (msg.type === 'user_interruption') {
-            console.log('⏸️ Interruption');
+            console.log('Interruption');
             audioQueue = [];
+            if (currentSource) {
+                try {
+                    currentSource.stop();
+                } catch (e) {
+                    // Ignore if source already ended.
+                }
+                currentSource = null;
+            }
             isPlaying = false;
         }
     };
@@ -378,7 +386,7 @@ async function playNextAudio() {
         const statusDiv = document.getElementById('voice-status');
         const transcriptDiv = document.getElementById('transcript');
         if (statusDiv && transcriptDiv) {
-            statusDiv.innerHTML = '🎤 <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
+            statusDiv.innerHTML = 'Mic on <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
             statusDiv.style.color = '#10B981';
         }
         return;
@@ -388,46 +396,36 @@ async function playNextAudio() {
     const base64Audio = audioQueue.shift();
 
     try {
-        // Convert Base64 -> Binary String -> Int16Array (Raw PCM)
+        // Hume returns audio_output.data as base64 WAV, so decode WAV directly.
         const binaryString = atob(base64Audio);
         const len = binaryString.length;
         const bytes = new Uint8Array(len);
         for (let i = 0; i < len; i++) {
             bytes[i] = binaryString.charCodeAt(i);
         }
-        const int16Data = new Int16Array(bytes.buffer);
 
-        // Convert Int16 -> Float32 (Web Audio API Standard)
-        const float32Data = new Float32Array(int16Data.length);
-        let maxAmp = 0;
-        for (let i = 0; i < int16Data.length; i++) {
-            // Normalize -32768..32767 to -1.0..1.0
-            float32Data[i] = int16Data[i] / 32768.0;
-            if (Math.abs(float32Data[i]) > maxAmp) maxAmp = Math.abs(float32Data[i]);
-        }
+        const wavBuffer = bytes.buffer.slice(0);
+        const audioBuffer = await audioContext.decodeAudioData(wavBuffer);
 
-        console.log(`🔊 Decoding: Samples=${float32Data.length}, Max Amp=${maxAmp.toFixed(4)}`);
-
-        // Create AudioBuffer (Hume typically defaults to 24kHz output)
-        const audioBuffer = audioContext.createBuffer(1, float32Data.length, 24000);
-        audioBuffer.copyToChannel(float32Data, 0);
-
-        // Play the buffer
         const source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(audioContext.destination);
 
         source.onended = () => {
-            currentSource = null;
+            if (currentSource === source) {
+                currentSource = null;
+            }
+            isPlaying = false;
             playNextAudio();
         };
 
         currentSource = source;
         source.start(0);
-        console.log('🔊 Playing audio buffer');
+        console.log(`Playing WAV buffer at ${audioBuffer.sampleRate}Hz`);
 
     } catch (error) {
-        console.error('❌ Playback error:', error);
+        console.error('Playback error:', error);
+        isPlaying = false;
         playNextAudio();
     }
 }
@@ -521,3 +519,4 @@ async function sendConversationToBackend() {
 if (humeAiContainer) {
     initializeHumeUI();
 }
+
