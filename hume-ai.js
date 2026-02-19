@@ -175,25 +175,46 @@ GUIDELINES:
 - BE PERSUASIVE: Use engaging, professional, and confident language.
 - CLOSE THE DEAL (Soft Close): Encourage them to consider how much time and money they could save. Ask things like: "How much time does your team currently spend answering repetitive questions?".
 
-PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shining example of the product you are selling.`
+                PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shining example of the product you are selling.`
             },
             tools: [
                 {
                     type: "function",
-                    name: "create_lead",
-                    parameters: "{ \"type\": \"object\", \"properties\": { \"name\": { \"type\": \"string\", \"description\": \"Name of the potential client\" }, \"email\": { \"type\": \"string\", \"description\": \"Email address of the potential client\" }, \"phone\": { \"type\": \"string\", \"description\": \"Phone number of the potential client\" }, \"notes\": { \"type\": \"string\", \"description\": \"Any specific needs or notes about the client\" } }, \"required\": [\"name\"] }",
-                    description: "Use this tool to create a new sales lead when the user expresses interest or provides their contact information."
+                    function: {
+                        name: "create_lead",
+                        parameters: JSON.stringify({
+                            type: "object",
+                            properties: {
+                                name: { type: "string", description: "Name of the potential client" },
+                                email: { type: "string", description: "Email address of the potential client" },
+                                phone: { type: "string", description: "Phone number of the potential client" },
+                                notes: { type: "string", description: "Any specific needs or notes about the client" }
+                            },
+                            required: ["name"]
+                        }),
+                        description: "Use this tool to create a new sales lead when the user expresses interest or provides their contact information."
+                    }
                 },
                 {
                     type: "function",
-                    name: "take_message",
-                    parameters: "{ \"type\": \"object\", \"properties\": { \"name\": { \"type\": \"string\", \"description\": \"Name of the person leaving the message\" }, \"message\": { \"type\": \"string\", \"description\": \"The message content\" }, \"contact_info\": { \"type\": \"string\", \"description\": \"Optional contact info (email/phone) if provided\" } }, \"required\": [\"message\"] }",
-                    description: "Use this tool to take a message from the user if they want to leave one for the team."
+                    function: {
+                        name: "take_message",
+                        parameters: JSON.stringify({
+                            type: "object",
+                            properties: {
+                                name: { type: "string", description: "Name of the person leaving the message" },
+                                message: { type: "string", description: "The message content" },
+                                contact_info: { type: "string", description: "Optional contact info (email/phone) if provided" }
+                            },
+                            required: ["message"]
+                        }),
+                        description: "Use this tool to take a message from the user if they want to leave one for the team."
+                    }
                 }
             ]
         };
+        console.log('📤 Sending session_settings:', JSON.stringify(sessionSettings, null, 2));
         socket.send(JSON.stringify(sessionSettings));
-        console.log('📤 Sent session_settings');
 
         statusDiv.innerHTML = 'Mic on <span style="animation: pulse 1.5s ease-in-out infinite;">Listening - Speak now!</span>';
         statusDiv.style.color = '#10B981';
@@ -224,7 +245,8 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
 
     socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
-        console.log('📨', msg.type);
+        console.log('📨 Received message type:', msg.type);
+        console.log('Explanation:', msg); // Log full message for debugging
 
         if (msg.type === 'user_message' && msg.message) {
             const text = msg.message.content || msg.message.text || '';
