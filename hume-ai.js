@@ -180,36 +180,32 @@ GUIDELINES:
             tools: [
                 {
                     type: "function",
-                    function: {
-                        name: "create_lead",
-                        parameters: JSON.stringify({
-                            type: "object",
-                            properties: {
-                                name: { type: "string", description: "Name of the potential client" },
-                                email: { type: "string", description: "Email address of the potential client" },
-                                phone: { type: "string", description: "Phone number of the potential client" },
-                                notes: { type: "string", description: "Any specific needs or notes about the client" }
-                            },
-                            required: ["name"]
-                        }),
-                        description: "Use this tool to create a new sales lead when the user expresses interest or provides their contact information."
-                    }
+                    name: "create_lead",
+                    parameters: JSON.stringify({
+                        type: "object",
+                        properties: {
+                            name: { type: "string", description: "Name of the potential client" },
+                            email: { type: "string", description: "Email address of the potential client" },
+                            phone: { type: "string", description: "Phone number of the potential client" },
+                            notes: { type: "string", description: "Any specific needs or notes about the client" }
+                        },
+                        required: ["name"]
+                    }),
+                    description: "Use this tool to create a new sales lead when the user expresses interest or provides their contact information."
                 },
                 {
                     type: "function",
-                    function: {
-                        name: "take_message",
-                        parameters: JSON.stringify({
-                            type: "object",
-                            properties: {
-                                name: { type: "string", description: "Name of the person leaving the message" },
-                                message: { type: "string", description: "The message content" },
-                                contact_info: { type: "string", description: "Optional contact info (email/phone) if provided" }
-                            },
-                            required: ["message"]
-                        }),
-                        description: "Use this tool to take a message from the user if they want to leave one for the team."
-                    }
+                    name: "take_message",
+                    parameters: JSON.stringify({
+                        type: "object",
+                        properties: {
+                            name: { type: "string", description: "Name of the person leaving the message" },
+                            message: { type: "string", description: "The message content" },
+                            contact_info: { type: "string", description: "Optional contact info (email/phone) if provided" }
+                        },
+                        required: ["message"]
+                    }),
+                    description: "Use this tool to take a message from the user if they want to leave one for the team."
                 }
             ]
         };
