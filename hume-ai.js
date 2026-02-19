@@ -176,7 +176,21 @@ GUIDELINES:
 - CLOSE THE DEAL (Soft Close): Encourage them to consider how much time and money they could save. Ask things like: "How much time does your team currently spend answering repetitive questions?".
 
 PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shining example of the product you are selling.`
-            }
+            },
+            tools: [
+                {
+                    type: "function",
+                    name: "create_lead",
+                    parameters: "{ \"type\": \"object\", \"properties\": { \"name\": { \"type\": \"string\", \"description\": \"Name of the potential client\" }, \"email\": { \"type\": \"string\", \"description\": \"Email address of the potential client\" }, \"phone\": { \"type\": \"string\", \"description\": \"Phone number of the potential client\" }, \"notes\": { \"type\": \"string\", \"description\": \"Any specific needs or notes about the client\" } }, \"required\": [\"name\"] }",
+                    description: "Use this tool to create a new sales lead when the user expresses interest or provides their contact information."
+                },
+                {
+                    type: "function",
+                    name: "take_message",
+                    parameters: "{ \"type\": \"object\", \"properties\": { \"name\": { \"type\": \"string\", \"description\": \"Name of the person leaving the message\" }, \"message\": { \"type\": \"string\", \"description\": \"The message content\" }, \"contact_info\": { \"type\": \"string\", \"description\": \"Optional contact info (email/phone) if provided\" } }, \"required\": [\"message\"] }",
+                    description: "Use this tool to take a message from the user if they want to leave one for the team."
+                }
+            ]
         };
         socket.send(JSON.stringify(sessionSettings));
         console.log('📤 Sent session_settings');
@@ -281,6 +295,11 @@ PERSONALITY: Professional, efficient, futuristic, and friendly. You are a shinin
                 currentSource = null;
             }
             isPlaying = false;
+        }
+
+        if (msg.type === 'tool_call') {
+            console.log('🛠️ Tool call:', msg);
+            handleToolCall(msg);
         }
     };
 
@@ -515,6 +534,63 @@ async function sendConversationToBackend() {
         }
     }
 }
+
+
+async function handleToolCall(toolCallMsg) {
+    const { tool_call_id, name, parameters } = toolCallMsg;
+    console.log(`🛠️ Handling tool: ${name}`, parameters);
+
+    let result = "Tool executed successfully.";
+    let success = true;
+
+    try {
+        const params = JSON.parse(parameters);
+
+        // Send data to OUR backend
+        const response = await fetch('/api/save-lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tool: name,
+                ...params,
+                sessionId: sessionId
+            })
+        });
+
+        const respData = await response.json();
+
+        if (respData.success) {
+            result = `Successfully processed ${name}. saved to ${respData.filename}`;
+            // Optional: Show UI feedback
+            const statusDiv = document.getElementById('voice-status');
+            if (statusDiv) {
+                const originalText = statusDiv.innerHTML;
+                statusDiv.innerHTML = `✅ Saved ${name === 'create_lead' ? 'Lead' : 'Message'}!`;
+                setTimeout(() => statusDiv.innerHTML = originalText, 3000);
+            }
+        } else {
+            success = false;
+            result = `Failed to process ${name}: ${respData.error}`;
+        }
+
+    } catch (e) {
+        console.error('Tool execution error:', e);
+        success = false;
+        result = `Error executing tool: ${e.message}`;
+    }
+
+    // Send response back to Hume
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        const toolResponse = {
+            type: 'tool_response',
+            tool_call_id: tool_call_id,
+            content: result
+        };
+        socket.send(JSON.stringify(toolResponse));
+        console.log('📤 Sent tool_response:', toolResponse);
+    }
+}
+
 
 if (humeAiContainer) {
     initializeHumeUI();
