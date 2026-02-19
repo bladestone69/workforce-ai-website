@@ -1,7 +1,7 @@
 // Hume AI EVI Integration - Sends conversation data to backend for admin tracking
 const HUME_API_KEY = 'zsASFWTIShA5swhpfrxkYj9AYOPEEyhYxZFhtgMsWpHzjgDF';
 const HUME_CONFIG_ID = 'fbc5cf5c-5965-4f98-abc2-97a77896d600';
-const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${encodeURIComponent(HUME_API_KEY)}&config_id=${encodeURIComponent(HUME_CONFIG_ID)}`;
+const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${encodeURIComponent(HUME_API_KEY)}`;
 
 // Backend endpoint where conversation data will be sent (YOU can track visitors)
 const BACKEND_ENDPOINT = '/api/save-conversation'; // Update this to your actual backend URL
