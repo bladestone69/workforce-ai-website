@@ -113,3 +113,9 @@ Add password protection:
 1. Have at least one conversation first
 2. Wait 30 seconds for auto-refresh
 3. Click the "Refresh" button
+
+## Lead SMS Alerts
+
+For Twilio SMS lead alerts, follow:
+
+- `TWILIO_SMS_SETUP.md`

@@ -48,3 +48,9 @@ DNS changes can take anywhere from **1 hour to 24 hours** to propagate across th
 ## 📧 What About Email?
 
 If you have email set up (e.g., `info@lockdownstudios.co.za`), ensure you **do not touch the MX records**. As long as you only change the **A record** (@) and **CNAME** (www) as instructed above, your email will continue to work through Cool Ideas.
+
+## Lead Alerts Setup
+
+For Twilio SMS lead alerts, follow:
+
+- `TWILIO_SMS_SETUP.md`

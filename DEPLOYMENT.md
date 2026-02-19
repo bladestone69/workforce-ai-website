@@ -128,3 +128,9 @@ If you need help:
 - [ ] Tested admin dashboard
 - [ ] Set up custom domain (optional)
 - [ ] Added password protection to admin (recommended)
+
+## Lead SMS Alerts
+
+To send new leads by Twilio SMS, use:
+
+- `TWILIO_SMS_SETUP.md`
