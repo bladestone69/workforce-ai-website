@@ -314,7 +314,10 @@ console.log('%cInterested in joining our team? Check out our careers page!', 'fo
 if ('performance' in window) {
     window.addEventListener('load', () => {
         const perfData = performance.getEntriesByType('navigation')[0];
-        console.log('Page load time:', Math.round(perfData.loadEventEnd - perfData.fetchStart), 'ms');
+        const measuredLoad = perfData?.loadEventEnd - perfData?.startTime;
+        const fallbackLoad = perfData?.duration ?? performance.now();
+        const loadMs = Number.isFinite(measuredLoad) && measuredLoad >= 0 ? measuredLoad : fallbackLoad;
+        console.log('Page load time:', Math.max(0, Math.round(loadMs)), 'ms');
     });
 }
 

@@ -5,6 +5,9 @@ const wsUrl = `wss://api.hume.ai/v0/evi/chat?api_key=${encodeURIComponent(HUME_A
 
 // Backend endpoint where conversation data will be sent (YOU can track visitors)
 const BACKEND_ENDPOINT = '/api/save-conversation'; // Update this to your actual backend URL
+const AUDIO_WORKLET_PATH = 'audio-capture-worklet.js';
+const MAX_STORED_AUDIO_CHUNKS = 20;
+const MAX_CONVERSATION_PAYLOAD_BYTES = 900000;
 
 const humeAiContainer = document.getElementById('hume-ai-container');
 let socket = null;
@@ -13,6 +16,9 @@ let audioQueue = [];
 let isPlaying = false;
 let mediaStream = null;
 let processor = null;
+let captureNode = null;
+let inputSource = null;
+let audioWorkletReady = false;
 let currentSource = null;
 let sendBuffer = [];
 let sendInterval = 0.1;
@@ -24,6 +30,10 @@ let conversationHistory = [];
 let recordedAudioChunks = [];
 let sessionStartTime = null;
 let sessionId = null;
+let conversationSent = false;
+let droppedAudioChunkCount = 0;
+let droppedAudioBase64Chars = 0;
+let isStopping = false;
 
 function initializeHumeUI() {
     humeAiContainer.innerHTML = `
@@ -110,6 +120,10 @@ async function toggleVoiceChat() {
         // Initialize recording
         conversationHistory = [];
         recordedAudioChunks = [];
+        conversationSent = false;
+        droppedAudioChunkCount = 0;
+        droppedAudioBase64Chars = 0;
+        isStopping = false;
         sessionStartTime = new Date();
         sessionId = generateSessionId();
 
@@ -182,8 +196,15 @@ async function startChat(startBtn, statusDiv) {
         startBtn.disabled = false;
         startBtn.style.background = 'linear-gradient(135deg, #EF4444, #DC2626)';
 
-        startAudioCapture();
-        startSendLoop();
+        startAudioCapture()
+            .then(() => {
+                startSendLoop();
+            })
+            .catch((captureError) => {
+                console.error('❌ Failed to start audio capture:', captureError);
+                statusDiv.textContent = '❌ Audio capture failed';
+                stopChat();
+            });
     };
 
     socket.onmessage = (event) => {
@@ -239,11 +260,16 @@ async function startChat(startBtn, statusDiv) {
             audioQueue.push(msg.data);
 
             // Save audio chunk (will be sent to YOUR backend)
-            recordedAudioChunks.push({
-                role: 'assistant',
-                audioData: msg.data,
-                timestamp: new Date().toISOString()
-            });
+            if (recordedAudioChunks.length < MAX_STORED_AUDIO_CHUNKS) {
+                recordedAudioChunks.push({
+                    role: 'assistant',
+                    audioData: msg.data,
+                    timestamp: new Date().toISOString()
+                });
+            } else {
+                droppedAudioChunkCount += 1;
+                droppedAudioBase64Chars += msg.data.length;
+            }
 
             if (!isPlaying) playNextAudio();
         }
@@ -275,17 +301,12 @@ async function startChat(startBtn, statusDiv) {
 
     socket.onclose = () => {
         console.log('🔌 Disconnected');
-        stopChat();
+        stopChat({ fromSocketClose: true });
     };
 }
 
-function startAudioCapture() {
-    const source = audioContext.createMediaStreamSource(mediaStream);
-    processor = audioContext.createScriptProcessor(4096, 1, 1);
-
-    source.connect(processor);
-    processor.connect(audioContext.destination);
-
+async function startAudioCapture() {
+    inputSource = audioContext.createMediaStreamSource(mediaStream);
     const nativeSampleRate = audioContext.sampleRate;
     const targetSampleRate = 16000;
     const resampleRatio = targetSampleRate / nativeSampleRate;
@@ -293,11 +314,9 @@ function startAudioCapture() {
     console.log(`🎤 Resampling: ${nativeSampleRate}Hz → ${targetSampleRate}Hz (ratio: ${resampleRatio.toFixed(3)})`);
 
     let logCounter = 0;
-
-    processor.onaudioprocess = (e) => {
+    const processInputData = (inputData) => {
         if (!socket || socket.readyState !== WebSocket.OPEN) return;
-
-        const inputData = e.inputBuffer.getChannelData(0);
+        if (!inputData || inputData.length === 0) return;
 
         // DEBUG: Log input level occasionally to verify mic is working
         logCounter++;
@@ -330,7 +349,35 @@ function startAudioCapture() {
         sendBuffer.push(...bytes);
     };
 
-    console.log('✅ Audio capture started');
+    if (audioContext.audioWorklet && typeof AudioWorkletNode !== 'undefined') {
+        try {
+            if (!audioWorkletReady) {
+                await audioContext.audioWorklet.addModule(AUDIO_WORKLET_PATH);
+                audioWorkletReady = true;
+            }
+
+            captureNode = new AudioWorkletNode(audioContext, 'pcm16-capture-processor');
+            captureNode.port.onmessage = (event) => {
+                processInputData(event.data);
+            };
+
+            inputSource.connect(captureNode);
+            captureNode.connect(audioContext.destination);
+            console.log('✅ Audio capture started (AudioWorklet)');
+            return;
+        } catch (workletError) {
+            console.warn('⚠️ AudioWorklet unavailable, using ScriptProcessor fallback:', workletError);
+        }
+    }
+
+    processor = audioContext.createScriptProcessor(4096, 1, 1);
+    inputSource.connect(processor);
+    processor.connect(audioContext.destination);
+    processor.onaudioprocess = (e) => {
+        processInputData(e.inputBuffer.getChannelData(0));
+    };
+
+    console.log('✅ Audio capture started (ScriptProcessor fallback)');
 }
 
 function startSendLoop() {
@@ -414,14 +461,35 @@ async function playNextAudio() {
     }
 }
 
-function stopChat() {
+function stopChat(options = {}) {
+    const { fromSocketClose = false } = options;
+    if (isStopping) return;
+
+    isStopping = true;
+
     if (socket) {
-        socket.close();
+        if (!fromSocketClose) {
+            try {
+                socket.close();
+            } catch (e) {
+                console.warn('Socket close failed:', e);
+            }
+        }
         socket = null;
     }
+    if (captureNode) {
+        captureNode.port.onmessage = null;
+        captureNode.disconnect();
+        captureNode = null;
+    }
     if (processor) {
+        processor.onaudioprocess = null;
         processor.disconnect();
         processor = null;
+    }
+    if (inputSource) {
+        inputSource.disconnect();
+        inputSource = null;
     }
     if (currentSource) {
         try {
@@ -442,21 +510,29 @@ function stopChat() {
 
     const startBtn = document.getElementById('start-voice-btn');
     const statusDiv = document.getElementById('voice-status');
-    const transcriptDiv = document.getElementById('transcript');
 
-    startBtn.innerHTML = '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Start Voice Chat';
-    startBtn.disabled = false;
-    startBtn.style.background = 'linear-gradient(135deg, #6366F1, #8B5CF6)';
-    statusDiv.textContent = 'Disconnected';
-    statusDiv.style.color = 'var(--color-text-muted)';
+    if (startBtn) {
+        startBtn.innerHTML = '<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Start Voice Chat';
+        startBtn.disabled = false;
+        startBtn.style.background = 'linear-gradient(135deg, #6366F1, #8B5CF6)';
+    }
+    if (statusDiv) {
+        statusDiv.textContent = 'Disconnected';
+        statusDiv.style.color = 'var(--color-text-muted)';
+    }
 
     // Send conversation data to YOUR backend (not downloadable by visitor)
-    if (conversationHistory.length > 0) {
+    if (!conversationSent && conversationHistory.length > 0) {
+        conversationSent = true;
         sendConversationToBackend();
     }
+
+    isStopping = false;
 }
 
 async function sendConversationToBackend() {
+    if (!sessionStartTime) return;
+
     const conversationData = {
         sessionId: sessionId,
         sessionStart: sessionStartTime.toISOString(),
@@ -464,6 +540,11 @@ async function sendConversationToBackend() {
         durationSeconds: Math.round((new Date() - sessionStartTime) / 1000),
         transcript: conversationHistory,
         audioChunks: recordedAudioChunks,
+        audioSummary: {
+            storedChunks: recordedAudioChunks.length,
+            droppedChunks: droppedAudioChunkCount,
+            droppedBase64Chars: droppedAudioBase64Chars
+        },
         visitorInfo: {
             userAgent: navigator.userAgent,
             language: navigator.language,
@@ -472,19 +553,34 @@ async function sendConversationToBackend() {
         }
     };
 
+    let serializedConversation = JSON.stringify(conversationData);
+    const initialPayloadSize = new TextEncoder().encode(serializedConversation).length;
+
+    if (initialPayloadSize > MAX_CONVERSATION_PAYLOAD_BYTES) {
+        console.warn(`⚠️ Conversation payload too large (${initialPayloadSize} bytes). Sending transcript without audio chunks.`);
+        conversationData.audioChunks = [];
+        conversationData.audioSummary = {
+            ...conversationData.audioSummary,
+            droppedForPayloadLimit: true,
+            originalPayloadBytes: initialPayloadSize
+        };
+        serializedConversation = JSON.stringify(conversationData);
+    }
+
     try {
         const response = await fetch(BACKEND_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(conversationData)
+            body: serializedConversation
         });
 
         if (response.ok) {
             console.log('✅ Conversation data sent to backend');
         } else {
-            console.error('❌ Failed to send conversation data:', response.statusText);
+            const errorText = await response.text().catch(() => '');
+            console.error('❌ Failed to send conversation data:', response.status, response.statusText, errorText);
         }
     } catch (error) {
         console.error('❌ Error sending conversation data:', error);
