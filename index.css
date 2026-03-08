@@ -7,11 +7,11 @@
 
 :root {
     /* Color Palette */
-    --color-primary: hsl(239, 84%, 67%);
-    --color-primary-dark: hsl(243, 75%, 59%);
-    --color-primary-light: hsl(239, 84%, 75%);
-    --color-secondary: hsl(271, 91%, 65%);
-    --color-accent: hsl(328, 85%, 70%);
+    --color-primary: hsl(150, 70%, 50%);
+    --color-primary-dark: hsl(150, 80%, 40%);
+    --color-primary-light: hsl(150, 70%, 65%);
+    --color-secondary: hsl(160, 80%, 45%);
+    --color-accent: hsl(170, 75%, 50%);
     --color-success: hsl(142, 71%, 45%);
     --color-warning: hsl(38, 92%, 50%);
     --color-error: hsl(0, 84%, 60%);
