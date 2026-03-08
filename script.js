@@ -306,6 +306,63 @@ const handleFormSubmit = (formId, callback) => {
     }
 };
 
+// Contact Form submission handling
+const contactForm = document.getElementById('contact-form');
+const contactFormMessage = document.getElementById('contact-form-message');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Submitting...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(contactForm);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            message: formData.get('message'),
+            source: 'contact_form'
+        };
+
+        try {
+            const response = await fetch('/api/save-lead', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            let result = {};
+            try {
+                result = await response.json();
+            } catch (err) { }
+
+            contactFormMessage.style.display = 'block';
+            if (response.ok && (result.success || !result.error)) {
+                contactFormMessage.style.color = '#10B981';
+                contactFormMessage.innerText = 'Thank you! Your details have been saved.';
+                contactForm.reset();
+            } else {
+                contactFormMessage.style.color = '#EF4444';
+                contactFormMessage.innerText = result.error || 'Failed to submit. Please try again later.';
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            contactFormMessage.style.display = 'block';
+            contactFormMessage.style.color = '#EF4444';
+            contactFormMessage.innerText = 'An error occurred. Please try again later.';
+        } finally {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+}
+
 // Console easter egg
 console.log('%c🚀 Workforce AI', 'font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #6366F1, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;');
 console.log('%cInterested in joining our team? Check out our careers page!', 'font-size: 14px; color: #6366F1;');
