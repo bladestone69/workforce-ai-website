@@ -1,543 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Lockdown Studios - Gaming company, 3D assets, animations, websites, apps, and AI consultants. Creators of World War Toonz (Steam) and Emoji Match (Android). Now featuring custom AI Avatars.">
-    <title>Lockdown Studios | Gaming, 3D Assets, AI Avatars & More</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2310B981'/%3E%3Cstop offset='1' stop-color='%23059669'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='white' stroke-width='6'/%3E%3Ccircle cx='26' cy='28' r='2.5' fill='white'/%3E%3Ccircle cx='38' cy='28' r='2.5' fill='white'/%3E%3Cpath d='M24 38c2.5 3 5 4.5 8 4.5s5.5-1.5 8-4.5' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+    <meta name="description" content="Lockdown Studios is a futuristic creative technology studio that builds games, AI avatars, websites, apps, and 3D experiences for brands that want to stand out.">
+    <title>Lockdown Studios | AI-Powered Creative Studio</title>
+    
+    <!-- Fonts: Space Grotesk for headings, Inter for body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="index.css">
-    <!-- Hume AI Official Voice Embed -->
+    
+    <!-- Hume AI Voice Embed -->
     <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js"></script>
 </head>
-
 <body>
-    <!-- Navigation -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <!-- 1. NAVIGATION -->
     <nav class="navbar" id="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">
-                    <img src="images/logo-youtube.png" alt="Lockdown Studios" style="height: 50px; width: auto;">
-                </div>
-                <div class="nav-links">
-                    <a href="index.html#games" class="nav-link">Games</a>
-                    <a href="learning.html" class="nav-link">Learning</a>
-                    <a href="services.html" class="nav-link">Services</a>
-                    <a href="index.html#ai-avatars" class="nav-link">AI Avatars</a>
-                    <a href="index.html#contact" class="nav-link">Contact</a>
-                </div>
-                <div class="nav-actions">
-                    <a href="#contact" class="btn-primary" id="btn-get-started" style="text-decoration: none;">Get
-                        Started</a>
-                </div>
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+        <div class="container nav-content">
+            <a href="index.html" class="logo-text">Lockdown Studios</a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="ai-avatars.html" class="nav-link">AI Avatars</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#learning" class="nav-link">Learning</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-primary" id="btn-get-started">Launch a Project</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-background">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-            <div class="grid-overlay"></div>
-        </div>
-        <div class="container">
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section" id="home">
+        <div class="hero-bg"></div>
+        <div class="container hero-container">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-icon">🎮</span>
-                    <span>Gaming • 3D Assets • AI Innovation</span>
+                <span class="section-label" style="display: flex; align-items: center; justify-content: center; gap: 1rem;"><span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span> AI-POWERED CREATIVE STUDIO <span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span></span>
+                <h1>Build Worlds. Deploy Intelligence.</h1>
+                <p class="hero-description">Lockdown Studios creates AI avatars, Websites, apps and 3D experiences for businesses ready to look modern and move fast.</p>
+                
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.25rem 2rem; border-radius: var(--radius-pill); text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);">Launch Your Project</a>
+                    <a href="ai-avatars.html" class="btn btn-secondary" style="border-radius: var(--radius-pill);">Explore AI Avatars</a>
                 </div>
-                <h1 class="hero-title">
-                    <span class="gradient-text">Lockdown Studios</span><br>
-                    Where Creativity Meets Technology
-                </h1>
-                <p class="hero-description">
-                    We're a full-service gaming and creative studio based in Africa. From award-winning games like
-                    <strong>World War Toonz</strong> on Steam to cutting-edge <strong>AI Avatars</strong>, we build
-                    experiences that captivate and innovate.
-                </p>
-                <div class="hero-cta">
-                    <button class="btn-primary btn-large" id="btn-hero-start">
-                        Try Our AI Avatar
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                    <button class="btn-outline btn-large" id="btn-hero-demo">
-                        View Our Games
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M8 5L14 10L8 15V5Z" fill="currentColor" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
 
-        </div>
-    </section>
-
-    <!-- AI Avatars Section (Featured) -->
-    <section class="features" id="ai-avatars">
-        <div class="container">
-            <div class="section-header">
-                <div class="hero-badge" style="margin: 0 auto 1rem;">
-                    <span class="badge-icon">🎭</span>
-                    <span>NEW: Powered by Hume AI</span>
-                </div>
-                <h2 class="section-title">AI Avatars - Our Latest Innovation</h2>
-                <p class="section-description">Voice-powered AI assistants with personality, emotion, and intelligence
-                </p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-ai1)" />
-                            <circle cx="16" cy="16" r="8" stroke="white" stroke-width="2" />
-                            <path d="M16 12V16L19 18" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-ai1" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#6366F1" />
-                                    <stop offset="1" stop-color="#8B5CF6" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Natural Voice Interaction</h3>
-                    <p class="feature-description">Speak naturally to your AI avatar. It listens, understands, and
-                        responds with human-like conversation.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-ai2)" />
-                            <path d="M16 10C13 10 11 12 11 14C11 16 13 18 16 18C19 18 21 16 21 14C21 12 19 10 16 10Z"
-                                stroke="white" stroke-width="2" />
-                            <path d="M12 20C12 18 14 17 16 17C18 17 20 18 20 20V22H12V20Z" stroke="white"
-                                stroke-width="2" />
-                            <defs>
-                                <linearGradient id="icon-gradient-ai2" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#EC4899" />
-                                    <stop offset="1" stop-color="#F43F5E" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Emotional Intelligence</h3>
-                    <p class="feature-description">Powered by Hume AI, our avatars detect and respond to emotions,
-                        creating genuine connections.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-ai3)" />
-                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-ai3" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#10B981" />
-                                    <stop offset="1" stop-color="#059669" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Custom Personalities</h3>
-                    <p class="feature-description">Each avatar is tailored to your brand voice, tone, and business
-                        needs. Unique to you.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-ai4)" />
-                            <circle cx="16" cy="16" r="6" stroke="white" stroke-width="2" />
-                            <path d="M16 10V16L20 18" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-ai4" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#F59E0B" />
-                                    <stop offset="1" stop-color="#D97706" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">24/7 Availability</h3>
-                    <p class="feature-description">Your AI avatar never sleeps. Provide customer service, sales, and
-                        support around the clock.</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <button class="btn-primary btn-large" id="btn-try-avatar">
-                    Try Our AI Avatar Now
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Games Section -->
-    <section class="features" id="games">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Our Games</h2>
-                <p class="section-description">Award-winning titles played by thousands worldwide</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-game1)" />
-                            <path d="M16 8L22 12V20L16 24L10 20V12L16 8Z" stroke="white" stroke-width="2"
-                                stroke-linejoin="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-game1" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#EF4444" />
-                                    <stop offset="1" stop-color="#DC2626" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">World War ToonZ</h3>
-                    <p class="feature-description">Strategic warfare meets cartoon chaos! Available now on Steam.
-                        Command your toon army to victory.</p>
-                    <a href="world-war-toonz.html"
-                        style="color: #6366F1; font-weight: 600; text-decoration: none;">Learn More →</a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-game2)" />
-                            <circle cx="16" cy="16" r="6" stroke="white" stroke-width="2" />
-                            <circle cx="16" cy="16" r="2" fill="white" />
-                            <defs>
-                                <linearGradient id="icon-gradient-game2" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#F59E0B" />
-                                    <stop offset="1" stop-color="#D97706" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Emoji Match</h3>
-                    <p class="feature-description">Addictive puzzle fun! Match emojis, beat levels, and challenge
-                        friends. Download on Android today.</p>
-                    <a href="emoji-match.html" style="color: #6366F1; font-weight: 600; text-decoration: none;">Learn
-                        More →</a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-game3)" />
-                            <path d="M16 10V22M10 16H22" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <circle cx="16" cy="12" r="2" fill="white" />
-                            <circle cx="16" cy="20" r="2" fill="white" />
-                            <defs>
-                                <linearGradient id="icon-gradient-game3" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#8B5CF6" />
-                                    <stop offset="1" stop-color="#7C3AED" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Monster Match</h3>
-                    <p class="feature-description">Match monsters in this exciting puzzle adventure! Fun for all ages
-                        with challenging levels and power-ups.</p>
-                    <a href="monster-match.html" style="color: #6366F1; font-weight: 600; text-decoration: none;">Learn
-                        More →</a>
+                <div style="display: flex; align-items: center; gap: 1rem; color: var(--color-accent-cyan); margin-top: var(--spacing-md); opacity: 0.8; justify-content: center; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto;">
+                    <span style="height: 1px; flex: 1; background: var(--color-border-glow);"></span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--color-text-secondary);">Explore Features</span>
+                    <span style="height: 1px; flex: 1; background: var(--color-border-glow);"></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Learning/Tutorials Section -->
-    <section class="features" id="learning"
-        style="background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.05));">
+    <!-- 3. AI AVATARS SECTION -->
+    <section id="ai-avatars">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Learning & Tutorials</h2>
-                <p class="section-description">Free tutorials and resources to level up your skills</p>
+            <div style="margin-bottom: var(--spacing-2xl);">
+                <span class="section-label">FLAGSHIP AI SYSTEM</span>
+                <h2 class="section-title">AI Avatars That Speak,<br>Listen, and Connect</h2>
+                <p class="section-description">Create intelligent voice-driven avatars for customer service, lead generation, support, training, and digital experiences. Each avatar is tailored to your business, your tone, and your audience.</p>
             </div>
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <div class="feature-card" style="padding: 3rem;">
-                    <div class="feature-icon" style="margin: 0 auto 2rem;">
-                        <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-youtube)" />
-                            <path d="M12 10L22 16L12 22V10Z" fill="white" />
-                            <defs>
-                                <linearGradient id="icon-gradient-youtube" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#FF0000" />
-                                    <stop offset="1" stop-color="#CC0000" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title" style="font-size: 1.75rem; margin-bottom: 1rem;">YouTube Tutorials</h3>
-                    <p class="feature-description" style="font-size: 1.1rem; margin-bottom: 2rem;">
-                        Visit our YouTube channel for comprehensive tutorials on game development, 3D modeling,
-                        animation, and more. Learn from industry professionals.
-                    </p>
-                    <a href="learning.html" class="btn-primary btn-large">
-                        Visit YouTube Channel
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Services Section -->
-    <section class="features" id="services"
-        style="background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.05));">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Our Services</h2>
-                <p class="section-description">Full-stack creative and technical solutions for your business</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-1)" />
-                            <path d="M12 10L20 16L12 22V10Z" fill="white" />
-                            <defs>
-                                <linearGradient id="icon-gradient-1" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#6366F1" />
-                                    <stop offset="1" stop-color="#8B5CF6" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+            <div class="ai-showcase-grid">
+                <div class="features-list">
+                    <div class="feature-row">
+                        <div class="feature-icon">🎙️</div>
+                        <div>
+                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Natural Voice</h4>
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Speak naturally. Your avatar understands and responds in real time.</p>
+                        </div>
                     </div>
-                    <h3 class="feature-title">3D Assets & Modeling</h3>
-                    <p class="feature-description">High-quality 3D models, characters, environments, and props for
-                        games, films, and AR/VR.</p>
-                    <a href="3d-models.html"
-                        style="color: #6366F1; font-weight: 600; text-decoration: none; margin-top: 0.5rem; display: inline-block;">View
-                        Assets →</a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-2)" />
-                            <circle cx="16" cy="12" r="4" stroke="white" stroke-width="2" />
-                            <path d="M10 24C10 20 12 18 16 18C20 18 22 20 22 24" stroke="white" stroke-width="2"
-                                stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-2" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#EC4899" />
-                                    <stop offset="1" stop-color="#F43F5E" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="feature-row">
+                        <div class="feature-icon">🧠</div>
+                        <div>
+                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Emotion Aware</h4>
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Detect tone and respond with more human, empathetic interaction.</p>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Animation Services</h3>
-                    <p class="feature-description">Breathe life into your characters with professional 2D and 3D
-                        animation for any platform.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-3)" />
-                            <rect x="8" y="10" width="16" height="12" rx="2" stroke="white" stroke-width="2" />
-                            <path d="M12 14H20M12 18H18" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-3" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#10B981" />
-                                    <stop offset="1" stop-color="#059669" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="feature-row">
+                        <div class="feature-icon">🎯</div>
+                        <div>
+                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Brand Trained</h4>
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Personality, voice, and business goals shaped around your brand.</p>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Website Development</h3>
-                    <p class="feature-description">Modern, responsive websites that convert. From landing pages to full
-                        web applications.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-4)" />
-                            <rect x="10" y="8" width="12" height="16" rx="2" stroke="white" stroke-width="2" />
-                            <path d="M14 12H18M14 16H18" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-4" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#F59E0B" />
-                                    <stop offset="1" stop-color="#D97706" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="feature-row">
+                        <div class="feature-icon">⚡</div>
+                        <div>
+                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Always Active</h4>
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Available day and night for service, support, and sales.</p>
+                        </div>
                     </div>
-                    <h3 class="feature-title">App Development</h3>
-                    <p class="feature-description">Native and cross-platform mobile apps for iOS and Android. Built for
-                        performance and user experience.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-5)" />
-                            <circle cx="16" cy="16" r="6" stroke="white" stroke-width="2" />
-                            <path d="M16 10V16L20 18" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-5" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#8B5CF6" />
-                                    <stop offset="1" stop-color="#7C3AED" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Game Development</h3>
-                    <p class="feature-description">Full-cycle game development from concept to launch. PC, mobile, and
-                        console platforms.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="8" fill="url(#icon-gradient-6)" />
-                            <path d="M16 8L20 12L16 16L12 12L16 8Z" stroke="white" stroke-width="2"
-                                stroke-linejoin="round" />
-                            <path d="M16 16L20 20L16 24L12 20L16 16Z" stroke="white" stroke-width="2"
-                                stroke-linejoin="round" />
-                            <defs>
-                                <linearGradient id="icon-gradient-6" x1="0" y1="0" x2="32" y2="32">
-                                    <stop stop-color="#14B8A6" />
-                                    <stop offset="1" stop-color="#0D9488" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">AI Consulting</h3>
-                    <p class="feature-description">Strategic AI implementation for your business. From automation to
-                        custom AI solutions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Contact Section -->
-    <section class="features" id="contact"
-        style="background: linear-gradient(180deg, rgba(99, 102, 241, 0.05), transparent);">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Get In Touch. We'd Love To Help!</h2>
-                <p class="section-description">Ready to start your next project? Contact us today.</p>
-            </div>
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-                    <div
-                        style="text-align: center; padding: 2rem; background: rgba(99, 102, 241, 0.05); border-radius: 1rem;">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"
-                            style="margin: 0 auto 1rem;">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Location</h4>
-                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">41 Washington
-                            Drive<br>Northcliff, Johannesburg<br>South Africa</p>
-                    </div>
-                    <div
-                        style="text-align: center; padding: 2rem; background: rgba(99, 102, 241, 0.05); border-radius: 1rem;">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"
-                            style="margin: 0 auto 1rem;">
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                            </path>
-                        </svg>
-                        <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Phone</h4>
-                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;"><a href="tel:0107532383"
-                                style="color: #6366F1; text-decoration: none;">010 753 2383</a></p>
-                    </div>
-                    <div
-                        style="text-align: center; padding: 2rem; background: rgba(99, 102, 241, 0.05); border-radius: 1rem;">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"
-                            style="margin: 0 auto 1rem;">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                            </path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Email</h4>
-                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;"><a
-                                href="mailto:Admin@Lockdownstudio.com"
-                                style="color: #6366F1; text-decoration: none;">Admin@Lockdownstudio.com</a></p>
+                    
+                    <div style="margin-top: var(--spacing-md);">
+                        <button class="btn btn-primary" id="btn-try-avatar">Try the Avatar Demo</button>
                     </div>
                 </div>
-                <div style="text-align: center;">
-                    <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">
-                        Whether you need a game, 3D assets, a website, an app, or an AI avatar - we've got you covered.
-                        Based in South Africa, serving clients worldwide.
-                    </p>
-                    <div style="max-width: 500px; margin: 0 auto; background: rgba(99, 102, 241, 0.05); padding: 2rem; border-radius: 1rem; text-align: left;">
-                        <h4 style="font-size: 1.25rem; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">Leave your details</h4>
-                        <form id="contact-form" style="display: flex; flex-direction: column; gap: 1rem;">
-                            <div>
-                                <label for="contact-name" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--color-text-secondary);">Name</label>
-                                <input type="text" id="contact-name" name="name" required style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--color-border); background: var(--color-bg-darker); color: var(--color-text-primary); outline: none;">
-                            </div>
-                            <div>
-                                <label for="contact-email" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--color-text-secondary);">Email</label>
-                                <input type="email" id="contact-email" name="email" required style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--color-border); background: var(--color-bg-darker); color: var(--color-text-primary); outline: none;">
-                            </div>
-                            <div>
-                                <label for="contact-phone" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--color-text-secondary);">Phone (Optional)</label>
-                                <input type="tel" id="contact-phone" name="phone" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--color-border); background: var(--color-bg-darker); color: var(--color-text-primary); outline: none;">
-                            </div>
-                            <div>
-                                <label for="contact-message" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--color-text-secondary);">Message (Optional)</label>
-                                <textarea id="contact-message" name="message" rows="4" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--color-border); background: var(--color-bg-darker); color: var(--color-text-primary); resize: vertical; outline: none;"></textarea>
-                            </div>
-                            <button type="submit" class="btn-primary" style="justify-content: center; margin-top: 0.5rem;">
-                                Submit Details
-                            </button>
-                            <div id="contact-form-message" style="display: none; text-align: center; margin-top: 1rem; font-size: 0.9rem; font-weight: 500;"></div>
-                        </form>
-                    </div>
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                        <a href="mailto:Admin@Lockdownstudio.com" class="btn-primary btn-large"
-                            style="text-decoration: none;">
-                            Send Email
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
+                
+                <div class="avatar-visual-col">
+                    <div class="bracket-tl"></div>
+                    <div class="bracket-tr"></div>
+                    <div class="bracket-bl"></div>
+                    <div class="bracket-br"></div>
+                    <div class="avatar-frame">
+                        <div style="text-align: center; color: var(--color-text-secondary);">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(124, 58, 237, 0.5)" stroke-width="1" style="margin-bottom: 1rem;">
+                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="22"></line>
                             </svg>
-                        </a>
-                        <a href="tel:0107532383" class="btn-outline btn-large" style="text-decoration: none;">
-                            Call Us
-                        </a>
+                            <p style="font-family: var(--font-heading); letter-spacing: 2px;">AVATAR FEED ONLINE</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- AI Chat Modal -->
+    <!-- 4. WHAT WE BUILD SECTION -->
+    <section id="capabilities" style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                <span class="section-label">CAPABILITIES</span>
+                <h2 class="section-title">Creative Technology,<br>Built End to End</h2>
+                <p class="section-description" style="margin: 0 auto;">Games, AI systems, digital products, and visual production built by one studio.</p>
+            </div>
+
+            <div class="capabilities-grid">
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">🎮</div>
+                    <h3>Interactive Worlds</h3>
+                    <p>Games, environments, mechanics, characters, and immersive digital experiences.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">🤖</div>
+                    <h3>AI Systems</h3>
+                    <p>Voice avatars, AI consulting, automation, and custom intelligent workflows.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">💻</div>
+                    <h3>Digital Products</h3>
+                    <p>Modern websites, mobile apps, landing pages, and web platforms.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">🎨</div>
+                    <h3>Visual Production</h3>
+                    <p>3D assets, modeling, animation, branded scenes, and presentation visuals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. FEATURED PROJECTS -->
+    <section id="projects">
+        <div class="container">
+            <span class="section-label">FEATURED WORK</span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-2xl); flex-wrap: wrap; gap: var(--spacing-md);">
+                <div>
+                    <h2 class="section-title" style="margin-bottom: 0;">Playable Worlds.<br>Practical Systems.</h2>
+                    <p class="section-description" style="margin-bottom: 0; margin-top: var(--spacing-md);">See the games, products, and digital experiences we’ve already brought to life.</p>
+                </div>
+                <a href="#projects" class="btn btn-secondary">Explore More Projects</a>
+            </div>
+
+            <div class="work-grid">
+                <a href="world-war-toonz.html" class="work-card">
+                    <div class="work-img">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ WWT Visual ]</div>
+                    </div>
+                    <div class="work-content">
+                        <span style="font-size: 0.75rem; color: var(--color-accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Steam Game</span>
+                        <h3 class="work-title">World War ToonZ</h3>
+                        <p class="work-desc">Strategic warfare meets cartoon chaos. Command your toon army to victory.</p>
+                        <span class="work-link">View Project &rarr;</span>
+                    </div>
+                </a>
+                
+                <a href="emoji-match.html" class="work-card">
+                    <div class="work-img">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ Emoji Visual ]</div>
+                    </div>
+                    <div class="work-content">
+                        <span style="font-size: 0.75rem; color: var(--color-accent-violet); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Mobile App</span>
+                        <h3 class="work-title">Emoji Match</h3>
+                        <p class="work-desc">Addictive puzzle fun! Match emojis, beat levels, and challenge friends globally.</p>
+                        <span class="work-link">View Project &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="monster-match.html" class="work-card">
+                    <div class="work-img">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ Monster Visual ]</div>
+                    </div>
+                    <div class="work-content">
+                        <span style="font-size: 0.75rem; color: var(--color-accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Mobile App</span>
+                        <h3 class="work-title">Monster Match</h3>
+                        <p class="work-desc">Match monsters in this exciting puzzle adventure. Fun for all ages with power-ups.</p>
+                        <span class="work-link">View Project &rarr;</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. SERVICES GRID -->
+    <section id="services" style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <span class="section-label">STUDIO SERVICES</span>
+            <h2 class="section-title">Design, Development,<br>AI, and Production</h2>
+            <p class="section-description">From websites and mobile apps to 3D assets and custom AI solutions, Lockdown Studios builds what modern brands need.</p>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <h4 class="text-cyan">3D Modeling & Assets</h4>
+                    <p>High-quality 3D models, characters, environments, and props for games, films, and AR/VR.</p>
+                </div>
+                <div class="service-card">
+                    <h4 class="text-violet">Animation</h4>
+                    <p>Breathe life into your characters with professional 2D and 3D animation for any platform.</p>
+                </div>
+                <div class="service-card">
+                    <h4 class="text-cyan">Website Development</h4>
+                    <p>Modern, responsive websites that convert. From landing pages to full web applications.</p>
+                </div>
+                <div class="service-card">
+                    <h4 class="text-violet">App Development</h4>
+                    <p>Native and cross-platform mobile apps for iOS and Android. Built for performance.</p>
+                </div>
+                <div class="service-card">
+                    <h4 class="text-cyan">Game Development</h4>
+                    <p>Full-cycle game development from concept to launch. PC, mobile, and console platforms.</p>
+                </div>
+                <div class="service-card">
+                    <h4 class="text-cyan">AI Consulting</h4>
+                    <p>Strategic AI implementation for your business. From automation to custom solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. LEARNING SECTION -->
+    <section id="learning">
+        <div class="container learning-layout">
+            <div>
+                <span class="section-label">KNOWLEDGE HUB</span>
+                <h2 class="section-title">Learn with<br>Lockdown</h2>
+                <p class="section-description" style="margin-bottom: var(--spacing-lg);">Explore tutorials, workflows, and creative development insights across game design, 3D production, animation, and digital creation.</p>
+                <a href="learning.html" class="btn btn-secondary">Visit the Learning Hub</a>
+            </div>
+            
+            <div class="learning-cards">
+                <div class="vid-card">
+                    <div class="vid-thumb">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                    </div>
+                    <div class="vid-info">
+                        <h4>Getting Started with Custom AI Avatars</h4>
+                        <p>Learn how to connect Hume AI to your digital experiences.</p>
+                    </div>
+                </div>
+                <div class="vid-card">
+                    <div class="vid-thumb">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                    </div>
+                    <div class="vid-info">
+                        <h4>Game Design Fundamentals</h4>
+                        <p>Core mechanics and level design theory for modern games.</p>
+                    </div>
+                </div>
+                <div class="vid-card">
+                    <div class="vid-thumb">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                    </div>
+                    <div class="vid-info">
+                        <h4>3D Asset Optimization Strategies</h4>
+                        <p>How to keep your models high-fidelity but lightweight.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. WHY US -->
+    <section style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <span class="section-label">WHY US</span>
+            <h2 class="section-title" style="margin-bottom: var(--spacing-2xl);">Creative Vision.<br>Technical Execution.</h2>
+            
+            <div class="values-grid">
+                <div class="value-block">
+                    <h3>Future-Focused</h3>
+                    <p>We build for brands and audiences that want modern, memorable digital experiences.</p>
+                </div>
+                <div class="value-block">
+                    <h3>Cross-Disciplinary</h3>
+                    <p>Games, AI, 3D, websites, apps, and content production under one studio roof.</p>
+                </div>
+                <div class="value-block">
+                    <h3>Human-Centered AI</h3>
+                    <p>We create AI avatars and intelligent systems that feel natural and on-brand.</p>
+                </div>
+                <div class="value-block">
+                    <h3>Built to Deliver</h3>
+                    <p>From concept to final deployment, we turn ideas into polished experiences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CONTACT CTA -->
+    <section id="contact">
+        <div class="container" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <div style="margin-bottom: var(--spacing-md);">
+                <h2 class="section-title" style="font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 0;">Let's Build Something Future-Ready</h2>
+            </div>
+
+            <div class="contact-form-container" style="text-align: left; background: rgba(3, 8, 20, 0.85); box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.1); border-radius: var(--radius-md); padding: 2rem;">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <input type="text" class="form-input" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-input" required placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-input" placeholder="Message" style="min-height: 100px;"></textarea>
+                    </div>
+                    <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
+                        <div class="chip-group" style="justify-content: center; gap: 0.75rem;">
+                            <span class="chip-select">AI Avatar</span>
+                            <span class="chip-select">Website</span>
+                            <span class="chip-select active">App</span>
+                            <span class="chip-select">Game</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: var(--radius-pill); font-size: 1.1rem; padding: 1rem;">Send Project Brief</button>
+                    <div id="contact-form-message" style="display: none; text-align: center; margin-top: 1rem;"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-text">Lockdown Studios</a>
+                    <p>Lockdown Studios builds games, AI avatars, digital products, and immersive creative solutions for modern brands.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#projects" class="footer-link">Projects</a></li>
+                        <li><a href="#services" class="footer-link">Services</a></li>
+                        <li><a href="learning.html" class="footer-link">Learning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>What We Do</h4>
+                    <ul class="footer-links">
+                        <li><a href="#ai-avatars" class="footer-link">AI Avatars</a></li>
+                        <li><a href="#" class="footer-link">Web & Apps</a></li>
+                        <li><a href="#" class="footer-link">Game Design</a></li>
+                        <li><a href="#" class="footer-link">3D Production</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Twitter / X</a></li>
+                        <li><a href="#" class="footer-link">LinkedIn</a></li>
+                        <li><a href="#" class="footer-link">YouTube</a></li>
+                        <li><a href="#" class="footer-link">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>&copy; 2026 Lockdown Studios. All rights reserved.</span>
+                <span>Johannesburg, South Africa</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Modal (Hume AI Embed Container) -->
     <div class="modal" id="ai-chat-modal">
         <div class="modal-overlay"></div>
         <div class="modal-content">
-
+            <div style="display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid var(--color-border);">
+                <span style="font-family: var(--font-heading); font-weight: 700;">Aura - AI Avatar Setup</span>
+                <button class="ai-chat-close" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">&times;</button>
+            </div>
             <div id="hume-ai-container"></div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script>
+        // Inline script to handle simple chip selection for the contact form
+        const chips = document.querySelectorAll('.chip-select');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.classList.toggle('active');
+            });
+        });
 
+        // Modal basic close action
+        const modal = document.getElementById('ai-chat-modal');
+        const closeModal = document.querySelector('.ai-chat-close');
+        if (closeModal && modal) {
+            closeModal.addEventListener('click', () => modal.classList.remove('active'));
+        }
 
+        // Generate dynamic starfield box-shadows
+        function generateStars(n) {
+            let stars = '';
+            for (let i = 0; i < n; i++) {
+                stars += `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px #FFF`;
+                if (i < n - 1) stars += ', ';
+            }
+            return stars;
+        }
+        
+        const stars1 = generateStars(700);
+        const stars2 = generateStars(200);
+        const stars3 = generateStars(100);
+        
+        const style = document.createElement('style');
+        style.innerHTML = `
+            #stars { box-shadow: ${stars1}; }
+            #stars::after { box-shadow: ${stars1}; }
+            #stars2 { box-shadow: ${stars2}; }
+            #stars2::after { box-shadow: ${stars2}; }
+            #stars3 { box-shadow: ${stars3}; }
+            #stars3::after { box-shadow: ${stars3}; }
+        `;
+        document.head.appendChild(style);
+    </script>
     <script src="script.js"></script>
     <script src="hume-ai.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lockdown Studios AI Receptionist - 24/7 intelligent call answering and avatar services.">
+    <title>AI Avatars & Receptionist | Lockdown Studios</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- Hume AI Voice Embed -->
+    <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js"></script>
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <!-- 1. NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo-text">Lockdown Studios</a>
+            <div class="nav-links">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="ai-avatars.html" class="nav-link" style="color: var(--color-text-primary); border-bottom: 1px solid var(--color-accent-cyan);">AI Avatars</a>
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#services" class="nav-link">Services</a>
+                <a href="index.html#learning" class="nav-link">Learning</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#contact" class="btn btn-primary">Launch a Project</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. AVATAR HERO -->
+    <section class="hero-section" style="min-height: 80vh;">
+        <div class="container hero-container" style="grid-template-columns: 1fr; text-align: center;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto;">
+                <span class="section-label" style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                    <span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span> 
+                    INTELLIGENT RECEPTIONIST 
+                    <span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span>
+                </span>
+                <h1 style="font-size: clamp(3rem, 5vw, 4.5rem);">Never miss a business<br>call again.</h1>
+                <p class="hero-description" style="margin: 0 auto var(--spacing-xl);">Your AI Receptionist automates inquiries, schedules appointments, and ensures seamless, professional service around the clock—even after hours.</p>
+                
+                <div class="hero-actions" style="justify-content: center;">
+                    <a href="index.html#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.25rem 2.5rem; border-radius: var(--radius-pill);">Get Started Today</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. KEY BENEFITS -->
+    <section id="features" style="background: rgba(3, 8, 20, 0.5); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                <span class="section-label">ALWAYS ON. ALWAYS HELPFUL.</span>
+                <h2 class="section-title" style="font-size: clamp(2rem, 3.5vw, 3rem);">Deliver great first impressions<br>automatically</h2>
+            </div>
+
+            <div class="capabilities-grid">
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">⚡</div>
+                    <h3>Set up in seconds</h3>
+                    <p>Live in under 5 minutes. The AI Receptionist learns from your website, so customers get accurate answers instantly.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">🎙️</div>
+                    <h3>Sounds like a human</h3>
+                    <p>Uses advanced voice technology for natural, professional interactions. You stay focused while the assistant handles the conversations.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">🧠</div>
+                    <h3>Handles complex questions</h3>
+                    <p>Answers common questions about availability, pricing, or delivery times during the call so customers can move forward without waiting.</p>
+                </div>
+                <div class="glass-card cap-card">
+                    <div class="cap-icon">📅</div>
+                    <h3>Works with your tools</h3>
+                    <p>Works with your existing phone number, supports custom forwarding, and automatically schedules appointments in your calendar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FAQ SECTION -->
+    <section id="faq">
+        <div class="container" style="max-width: 900px;">
+            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
+                <span class="section-label">KNOWLEDGE BASE</span>
+                <h2 class="section-title">Your AI Receptionist FAQ</h2>
+            </div>
+
+            <div class="features-list">
+                <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">What is the AI Receptionist?</h4>
+                    <p style="color: var(--color-text-secondary);">An intelligent call answering service that handles incoming calls 24/7. It answers instantly and engages in natural-sounding conversations to understand caller intent, keeping your business accessible and professional around the clock.</p>
+                </div>
+                
+                <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">How can it make my daily business easier?</h4>
+                    <p style="color: var(--color-text-secondary);">It manages routine inquiries so your team can focus on core tasks. By providing instant responses, capturing detailed call summaries (sent directly to your email), and answering multiple calls simultaneously, it keeps your business organized without adding extra work.</p>
+                </div>
+                
+                <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">Can it handle more than one caller at once?</h4>
+                    <p style="color: var(--color-text-secondary);">Yes. The AI Virtual Receptionist processes multiple inquiries simultaneously. Even during peak times, every caller is answered promptly and professionally.</p>
+                </div>
+
+                <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">How does it handle questions it cannot answer?</h4>
+                    <p style="color: var(--color-text-secondary);">The system supports custom forwarding rules. If an inquiry requires personal attention, the call is routed to the appropriate human contact. Otherwise, it records a detailed call summary and emails it to you.</p>
+                </div>
+
+                <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">Is technical knowledge required to set it up?</h4>
+                    <p style="color: var(--color-text-secondary);">Not at all. The AI is designed for intuitive use setting up in just a few minutes safely without any IT skills. You can simply connect your website to automatically import business details.</p>
+                </div>
+                
+                 <div class="feature-row" style="flex-direction: column; align-items: flex-start;">
+                    <h4 style="margin-bottom: 8px; font-size: 1.25rem; color: var(--color-accent-cyan);">Can I keep my existing phone number?</h4>
+                    <p style="color: var(--color-text-secondary);">Yes. You can easily keep your current business number by setting up call forwarding to your new AI phone number.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--spacing-xl);">
+                <a href="index.html#contact" class="btn btn-secondary" style="border-radius: var(--radius-pill); padding: 1rem 2rem;">Contact Us to Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-text">Lockdown Studios</a>
+                    <p>Lockdown Studios builds games, AI avatars, digital products, and immersive creative solutions for modern brands.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#home" class="footer-link">Home</a></li>
+                        <li><a href="index.html#projects" class="footer-link">Projects</a></li>
+                        <li><a href="index.html#services" class="footer-link">Services</a></li>
+                        <li><a href="index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>What We Do</h4>
+                    <ul class="footer-links">
+                        <li><a href="ai-avatars.html" class="footer-link">AI Avatars</a></li>
+                        <li><a href="#" class="footer-link">Web & Apps</a></li>
+                        <li><a href="#" class="footer-link">Game Design</a></li>
+                        <li><a href="#" class="footer-link">3D Production</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Twitter / X</a></li>
+                        <li><a href="#" class="footer-link">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>&copy; 2026 Lockdown Studios. All rights reserved.</span>
+                <span>Johannesburg, South Africa</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Generate dynamic starfield box-shadows (Matching home page)
+        function generateStars(n) {
+            let stars = '';
+            for (let i = 0; i < n; i++) {
+                stars += `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px #FFF`;
+                if (i < n - 1) stars += ', ';
+            }
+            return stars;
+        }
+        
+        const stars1 = generateStars(700);
+        const stars2 = generateStars(200);
+        const stars3 = generateStars(100);
+        
+        const style = document.createElement('style');
+        style.innerHTML = `
+            #stars { box-shadow: ${stars1}; }
+            #stars::after { box-shadow: ${stars1}; }
+            #stars2 { box-shadow: ${stars2}; }
+            #stars2::after { box-shadow: ${stars2}; }
+            #stars3 { box-shadow: ${stars3}; }
+            #stars3::after { box-shadow: ${stars3}; }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
