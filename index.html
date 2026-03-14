@@ -14,8 +14,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="index.css">
     
-    <!-- Hume AI Voice Embed -->
-    <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js"></script>
+    <!-- Hume AI Voice Embed (loaded async so it never blocks the page) -->
+    <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js" async crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="stars"></div>
@@ -104,7 +104,7 @@
                     </div>
                     
                     <div style="margin-top: var(--spacing-md);">
-                        <button class="btn btn-primary" id="btn-try-avatar">Try the Avatar Demo</button>
+                        <button class="btn btn-primary" id="btn-try-avatar" onclick="(function(){var m=document.getElementById('ai-chat-modal');if(m){m.classList.add('active');}})();">Try the Avatar Demo</button>
                     </div>
                 </div>
                 
