@@ -131,6 +131,3 @@ If you need help:
 
 ## Lead SMS Alerts
 
-To send new leads by Twilio SMS, use:
-
-- `TWILIO_SMS_SETUP.md`

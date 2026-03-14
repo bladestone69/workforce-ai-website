@@ -116,6 +116,3 @@ Add password protection:
 
 ## Lead SMS Alerts
 
-For Twilio SMS lead alerts, follow:
-
-- `TWILIO_SMS_SETUP.md`

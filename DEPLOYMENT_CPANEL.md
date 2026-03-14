@@ -51,6 +51,3 @@ If you have email set up (e.g., `info@lockdownstudios.co.za`), ensure you **do n
 
 ## Lead Alerts Setup
 
-For Twilio SMS lead alerts, follow:
-
-- `TWILIO_SMS_SETUP.md`
