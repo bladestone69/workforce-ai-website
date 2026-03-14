@@ -400,49 +400,56 @@ a11yStyle.textContent = `
 document.head.appendChild(a11yStyle);
 
 // ===== AI CHAT MODAL =====
-const aiChatButton = document.getElementById('ai-chat-button');
-const aiChatModal = document.getElementById('ai-chat-modal');
-const aiChatClose = document.getElementById('ai-chat-close');
+document.addEventListener('DOMContentLoaded', () => {
+    const aiChatButton = document.getElementById('ai-chat-button');
+    const aiChatModal = document.getElementById('ai-chat-modal');
+    const aiChatClose = document.getElementById('ai-chat-close');
 
-// Open AI chat modal
-const heroStartBtn = document.getElementById('btn-hero-start');
-const heroDemoBtn = document.getElementById('btn-hero-demo');
-const tryAvatarBtn = document.getElementById('btn-try-avatar');
+    // Open AI chat modal
+    const heroStartBtn = document.getElementById('btn-hero-start');
+    const heroDemoBtn = document.getElementById('btn-hero-demo');
+    const tryAvatarBtn = document.getElementById('btn-try-avatar');
 
-function openAiModal() {
-    aiChatModal?.classList.add('active');
-}
+    function openAiModal() {
+        if (aiChatModal) {
+            aiChatModal.classList.add('active');
+        }
+    }
 
-function scrollToSection(sectionId) {
-    const target = document.getElementById(sectionId);
-    if (!target) return;
+    function scrollToSection(sectionId) {
+        const target = document.getElementById(sectionId);
+        if (!target) return;
 
-    const offsetTop = target.offsetTop - 80;
-    window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
+        const offsetTop = target.offsetTop - 80;
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
+
+    heroStartBtn?.addEventListener('click', () => scrollToSection('ai-avatars'));
+    heroDemoBtn?.addEventListener('click', () => scrollToSection('games'));
+    tryAvatarBtn?.addEventListener('click', openAiModal);
+
+    // Close AI chat modal
+    const closeModalElements = document.querySelectorAll('.ai-chat-close');
+    closeModalElements.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (aiChatModal) aiChatModal.classList.remove('active');
+        });
     });
-}
 
-heroStartBtn?.addEventListener('click', () => scrollToSection('ai-avatars'));
-heroDemoBtn?.addEventListener('click', () => scrollToSection('games'));
-tryAvatarBtn?.addEventListener('click', openAiModal);
+    // Close modal when clicking outside
+    aiChatModal?.addEventListener('click', (e) => {
+        if (e.target === aiChatModal) {
+            aiChatModal.classList.remove('active');
+        }
+    });
 
-// Close AI chat modal
-// aiChatClose?.addEventListener('click', () => {
-//     aiChatModal.classList.remove('active');
-// });
-
-// Close modal when clicking outside
-aiChatModal?.addEventListener('click', (e) => {
-    if (e.target === aiChatModal) {
-        aiChatModal.classList.remove('active');
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && aiChatModal.classList.contains('active')) {
-        aiChatModal.classList.remove('active');
-    }
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && aiChatModal?.classList.contains('active')) {
+            aiChatModal.classList.remove('active');
+        }
+    });
 });
