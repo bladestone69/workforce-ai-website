@@ -76,7 +76,7 @@ function initializeHumeUI() {
                 </svg>
                 Start Voice Chat
             </button>
-            <div id="voice-status" style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--color-text-muted);"></div>
+            <div id="voice-status" style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--color-text-muted); text-align: center; max-width: 420px; line-height: 1.6;"></div>
             <div id="transcript" style="margin-top: 1rem; padding: 1rem; background: rgba(99, 102, 241, 0.05); border-radius: 0.5rem; min-width: 400px; max-width: 500px; font-size: 0.9rem; display: none; max-height: 200px; overflow-y: auto;"></div>
         </div>
     `;
@@ -86,6 +86,7 @@ function initializeHumeUI() {
 
 async function toggleVoiceChat() {
     const startBtn = document.getElementById('start-voice-btn');
+    const statusDiv = document.getElementById('voice-status');
 
     if (socket && socket.readyState === WebSocket.OPEN) {
         stopChat();
@@ -98,14 +99,29 @@ async function toggleVoiceChat() {
     }
 
     try {
-        const statusDiv = document.getElementById('voice-status');
-        statusDiv.textContent = 'Requesting microphone...';
+        statusDiv.style.color = 'var(--color-text-muted)';
+        statusDiv.textContent = 'Checking microphone access...';
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            throw new Error('Microphone is unavailable in this browser/context. Use HTTPS.');
+            throw Object.assign(new Error('NO_API'), { name: 'NO_API' });
         }
 
-        // 2. Request Mic Permission *before* doing anything else that might block
+        // Pre-flight: check current mic permission state if browser supports it
+        if (navigator.permissions) {
+            try {
+                const permResult = await navigator.permissions.query({ name: 'microphone' });
+                if (permResult.state === 'denied') {
+                    throw Object.assign(new Error('DENIED'), { name: 'DENIED' });
+                }
+            } catch (permErr) {
+                if (permErr.name === 'DENIED') throw permErr;
+                // permissions.query not supported — continue anyway
+            }
+        }
+
+        statusDiv.textContent = 'Requesting microphone... (click Allow if prompted by your browser)';
+
+        // 2. Request Mic Permission
         mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         // 3. Resume AudioContext now that we have permission & flow is active
@@ -114,7 +130,7 @@ async function toggleVoiceChat() {
         }
         console.log('✅ AudioContext active. State:', audioContext.state);
 
-        statusDiv.textContent = 'Connecting...';
+        statusDiv.textContent = 'Connecting to AI...';
         startBtn.disabled = true;
 
         // Initialize recording
@@ -130,8 +146,24 @@ async function toggleVoiceChat() {
         await startChat(startBtn, statusDiv);
 
     } catch (error) {
-        console.error('❌ Error/Permission Denied:', error);
-        document.getElementById('voice-status').textContent = `❌ Error: ${error.message || 'Mic access denied'}`;
+        console.error('❌ Mic/Permission Error:', error);
+        startBtn.disabled = false;
+
+        let msg = '';
+        if (error.name === 'DENIED' || error.name === 'NotAllowedError') {
+            msg = `🎤 <strong>Microphone access was blocked.</strong><br><br>
+                   <strong>To fix in Chrome / Edge:</strong><br>
+                   Click the 🔒 lock icon in your address bar → set <em>Microphone</em> to <strong>Allow</strong> → refresh the page.`;
+        } else if (error.name === 'NO_API') {
+            msg = `🎤 Microphone not supported in this browser.<br>Please try <strong>Chrome</strong> or <strong>Edge</strong>.`;
+        } else if (error.name === 'NotFoundError') {
+            msg = `🎤 No microphone found.<br>Please plug in a mic or headset and try again.`;
+        } else {
+            msg = `❌ ${error.message || 'Could not access microphone. Check browser permissions and try again.'}`;
+        }
+
+        statusDiv.style.color = '#EF4444';
+        statusDiv.innerHTML = msg;
     }
 }
 
