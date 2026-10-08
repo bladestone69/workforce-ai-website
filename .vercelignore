@@ -14,3 +14,10 @@ ids.txt
 ai-sales-prompt.txt
 .env.example
 README.md
+ADMIN_ANALYTICS_SETUP.md
+SECURITY_DEPLOYMENT.md
+docs/
+test/
+supabase/
+scripts/
+.gitignore
