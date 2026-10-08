@@ -18,6 +18,7 @@ function allowedOrigins() {
         .filter(Boolean);
 
     if (process.env.VERCEL_URL) configured.push(`https://${process.env.VERCEL_URL}`);
+    if (process.env.VERCEL_BRANCH_URL) configured.push(`https://${process.env.VERCEL_BRANCH_URL}`);
     if (process.env.NODE_ENV !== 'production') {
         configured.push('http://localhost:3000', 'http://127.0.0.1:3000');
     }

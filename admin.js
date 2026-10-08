@@ -27,7 +27,41 @@ async function showDashboard() {
     login.hidden = true;
     dashboard.hidden = false;
     logout.hidden = false;
-    await loadLeads();
+    await Promise.all([loadLeads(), loadAnalytics()]);
+}
+
+function renderMetricList(id, rows, format) {
+    const list = $(id);
+    list.replaceChildren();
+    if (!rows?.length) {
+        const item = document.createElement('li');
+        item.textContent = 'No data yet';
+        list.append(item);
+        return;
+    }
+    for (const row of rows) {
+        const item = document.createElement('li');
+        item.textContent = `${format(row)} — ${row.views} views`;
+        list.append(item);
+    }
+}
+
+async function loadAnalytics() {
+    try {
+        const data = await api('/api/admin-analytics');
+        if (!data.configured) {
+            $('analytics-note').textContent = 'Connect the Supabase project and enable tracking to see visits here.';
+            return;
+        }
+        const report = data.report || {};
+        $('analytics-note').textContent = 'Page views in the last 30 days. Counts are aggregate and may include repeat visits; no individual visitor profiles are stored.';
+        $('pageview-count').textContent = Number(report.pageviews || 0).toLocaleString();
+        renderMetricList('analytics-pages', report.pages, row => row.path);
+        renderMetricList('analytics-referrers', report.referrers, row => row.host);
+        renderMetricList('analytics-routes', report.routes, row => `${row.from_path} → ${row.path}`);
+    } catch (error) {
+        $('analytics-note').textContent = error.message;
+    }
 }
 
 function addDetail(label, value) {
@@ -139,7 +173,7 @@ logout.addEventListener('click', async () => {
         message(error.message);
     }
 });
-$('refresh').addEventListener('click', loadLeads);
+$('refresh').addEventListener('click', () => { loadLeads(); loadAnalytics(); });
 $('lead-filter').addEventListener('input', renderLeads);
 
 api('/api/admin-auth').then(showDashboard).catch(() => { showLogin(); message('Sign in with the studio mailbox to view private enquiries.'); });

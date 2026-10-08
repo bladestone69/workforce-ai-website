@@ -28,6 +28,13 @@ label { display:block; margin:.8rem 0 .4rem; color:#dcecef; font-size:.85rem; fo
 .admin-analytics,.admin-list-head { display:flex; align-items:center; justify-content:space-between; gap:1.2rem; }
 .admin-analytics p,.admin-list-head p { margin:0; }
 .admin-analytics a { flex:none; }
+.admin-analytics { align-items:stretch; flex-direction:column; }
+.admin-metric { display:block; margin-top:.7rem; font-size:2rem; color:#86e8e7; }
+.analytics-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.analytics-grid section { border:1px solid #34535d; padding:1rem; background:#0c2029; }
+.analytics-grid h3 { margin:0 0 .7rem; font-size:.95rem; }
+.analytics-grid ol { margin:0; padding-left:1.3rem; color:#c4d9dd; }
+.analytics-grid li { margin:.4rem 0; overflow-wrap:anywhere; }
 .lead-list { display:grid; gap:.5rem; margin-top:1rem; }
 .lead-row { display:grid; grid-template-columns:140px minmax(140px,1fr) minmax(140px,1fr) 110px; gap:.8rem; width:100%; min-height:58px; align-items:center; text-align:left; border:1px solid #365762; background:#0c2029; color:#e9f5f6; font-weight:400; }
 .lead-row:hover { border-color:#7bdbdf; background:#15323d; }
@@ -38,5 +45,5 @@ label { display:block; margin:.8rem 0 .4rem; color:#dcecef; font-size:.85rem; fo
 #detail-fields dt { color:#9fc1c8; }
 #detail-fields dd { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
 footer { display:flex; justify-content:space-between; gap:1rem; margin-top:1.5rem; color:#8eabb2; font-size:.78rem; }
-@media(max-width:760px){.admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.lead-row{grid-template-columns:1fr 1fr}.admin-analytics{align-items:start;flex-direction:column}}
+@media(max-width:760px){.admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.lead-row{grid-template-columns:1fr 1fr}.admin-analytics{align-items:start;flex-direction:column}.analytics-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.admin-shell{width:calc(100% - 1rem);padding-top:1rem}.admin-header{align-items:start;flex-direction:column}.admin-form-row{flex-direction:column}.admin-summary{gap:.4rem}#detail-fields{grid-template-columns:1fr;gap:.3rem}#detail-fields dd{margin-bottom:.7rem}footer{flex-direction:column}}
