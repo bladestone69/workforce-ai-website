@@ -3,455 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lockdown Studios is a futuristic creative technology studio that builds games, AI avatars, websites, apps, and 3D experiences for brands that want to stand out.">
-    <title>Lockdown Studios | AI-Powered Creative Studio</title>
-    
-    <!-- Fonts: Space Grotesk for headings, Inter for body -->
+    <meta name="description" content="Lockdown Studios designs and builds websites and apps, games, 3D visuals, and tailored AI tools—from the first idea to a working experience.">
+    <link rel="canonical" href="https://www.lockdownstudios.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lockdown Studios">
+    <meta property="og:title" content="Lockdown Studios | Make it clear. Make it count.">
+    <meta property="og:description" content="Websites, apps, games, 3D visuals and tailored AI tools built by one connected studio.">
+    <meta property="og:url" content="https://www.lockdownstudios.com/">
+    <meta property="og:image" content="https://www.lockdownstudios.com/images/social-preview-clean.png">
+    <meta property="og:image:width" content="1731">
+    <meta property="og:image:height" content="909">
+    <meta property="og:image:alt" content="Lockdown Studios: Make it clear. Make it count.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lockdown Studios | Make it clear. Make it count.">
+    <meta name="twitter:description" content="Websites, apps, games, 3D visuals and tailored AI tools built by one connected studio.">
+    <meta name="twitter:image" content="https://www.lockdownstudios.com/images/social-preview-clean.png">
+    <link rel="icon" href="images/logo-mark.png" type="image/png">
+    <title>Lockdown Studios | Websites, Games, 3D & AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="index.css">
-    
-    <!-- Hume AI Voice Embed (loaded async so it never blocks the page) -->
-    <script src="https://unpkg.com/@humeai/voice-embed@latest/dist/index.umd.js" async crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css?v=19">
+    <link rel="stylesheet" href="northstar.css?v=37">
 </head>
-<body>
-    <div id="stars"></div>
-    <div id="stars2"></div>
-    <div id="stars3"></div>
+<body class="home-page" data-star-hero>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
-    <!-- 1. NAVIGATION -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-content">
-            <a href="index.html" class="logo-text">Lockdown Studios</a>
-            <div class="nav-links">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="ai-avatars.html" class="nav-link">AI Avatars</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#learning" class="nav-link">Learning</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="nav-actions">
-                <a href="#contact" class="btn btn-primary" id="btn-get-started">Launch a Project</a>
-            </div>
+    <div class="star-field" data-star-field aria-hidden="true">
+        <div class="star-layer star-layer-back" data-star-layer="back"></div>
+        <div class="star-layer star-layer-mid" data-star-layer="mid"></div>
+        <div class="star-layer star-layer-front" data-star-layer="front"></div>
+        <div class="star-layer star-layer-bright" data-star-layer="bright"></div>
+    </div>
+
+    <header class="site-header" data-site-header>
+        <div class="container nav-shell">
+            <a class="brand" href="index.html" aria-label="Lockdown Studios home">
+                <span class="brand-mark" aria-hidden="true">LS</span>
+                <span>Lockdown Studios</span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation" data-menu-toggle>
+                <span></span>
+            </button>
+
+            <nav class="nav-links" id="primary-navigation" aria-label="Primary navigation" data-nav-links>
+                <a class="nav-link" href="services.html">Services</a>
+                <a class="nav-link" href="work.html">Projects</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="#contact">Contact</a>
+                <a class="button button-primary button-small nav-cta" href="#contact">Start a Project</a>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- 2. HERO SECTION -->
-    <section class="hero-section" id="home">
-        <div class="hero-bg"></div>
-        <div class="container hero-container">
-            <div class="hero-content">
-                <span class="section-label" style="display: flex; align-items: center; justify-content: center; gap: 1rem;"><span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span> AI-POWERED CREATIVE STUDIO <span style="height: 1px; width: 30px; background: var(--color-border-glow);"></span></span>
-                <h1>Build Worlds. Deploy Intelligence.</h1>
-                <p class="hero-description">Lockdown Studios creates AI avatars, Websites, apps and 3D experiences for businesses ready to look modern and move fast.</p>
-                
-                <div class="hero-actions">
-                    <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.25rem 2rem; border-radius: var(--radius-pill); text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);">Launch Your Project</a>
-                    <a href="ai-avatars.html" class="btn btn-secondary" style="border-radius: var(--radius-pill);">Explore AI Avatars</a>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 1rem; color: var(--color-accent-cyan); margin-top: var(--spacing-md); opacity: 0.8; justify-content: center; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto;">
-                    <span style="height: 1px; flex: 1; background: var(--color-border-glow);"></span>
-                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--color-text-secondary);">Explore Features</span>
-                    <span style="height: 1px; flex: 1; background: var(--color-border-glow);"></span>
+    <main id="main-content">
+        <section class="hero home-hero northstar-hero">
+            <canvas class="northstar-constellation" data-constellation aria-hidden="true"></canvas>
+            <div class="container northstar-hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">Creative technology studio</span>
+                    <h1>Make it clear.<br><em>Make it count.</em></h1>
+                    <p>We design and build <strong>websites &amp; apps, games, 3D visuals, and tailored AI tools</strong>—from the first idea to a working experience.</p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#contact">Discuss Your Project <span aria-hidden="true">↗</span></a>
+                        <a class="northstar-text-link" href="#services">Find Your Service ↓</a>
+                    </div>
+                    <p class="northstar-hero-note">Five ways to work with one connected studio.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 3. AI AVATARS SECTION -->
-    <section id="ai-avatars">
-        <div class="container">
-            <div style="margin-bottom: var(--spacing-2xl);">
-                <span class="section-label">FLAGSHIP AI SYSTEM</span>
-                <h2 class="section-title">AI Avatars That Speak,<br>Listen, and Connect</h2>
-                <p class="section-description">Create intelligent voice-driven avatars for customer service, lead generation, support, training, and digital experiences. Each avatar is tailored to your business, your tone, and your audience.</p>
-            </div>
-
-            <div class="ai-showcase-grid">
-                <div class="features-list">
-                    <div class="feature-row">
-                        <div class="feature-icon">🎙️</div>
-                        <div>
-                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Natural Voice</h4>
-                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Speak naturally. Your avatar understands and responds in real time.</p>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-icon">🧠</div>
-                        <div>
-                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Emotion Aware</h4>
-                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Detect tone and respond with more human, empathetic interaction.</p>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-icon">🎯</div>
-                        <div>
-                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Brand Trained</h4>
-                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Personality, voice, and business goals shaped around your brand.</p>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-icon">⚡</div>
-                        <div>
-                            <h4 style="margin-bottom: 4px; font-size: 1.1rem;">Always Active</h4>
-                            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Available day and night for service, support, and sales.</p>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: var(--spacing-md); display: flex; gap: 12px; flex-wrap: wrap;">
-                        <button class="btn btn-primary" id="btn-try-avatar" onclick="(function(){var m=document.getElementById('ai-chat-modal');if(m){m.classList.add('active');}})();">Try the Avatar Demo</button>
-                        <a href="https://www.auraoffice.xyz/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Visit Aura Office</a>
-                    </div>
+        <section class="section section-soft" id="services">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">01 / Start here</span>
+                    <h2>What do you need to build?</h2>
+                    <p>Choose the result that fits your brief. Each service stands on its own; when a project crosses disciplines, we connect the pieces.</p>
                 </div>
-                
-                <div class="avatar-visual-col">
-                    <div class="bracket-tl"></div>
-                    <div class="bracket-tr"></div>
-                    <div class="bracket-bl"></div>
-                    <div class="bracket-br"></div>
-                    <div class="avatar-frame">
-                        <div style="text-align: center; color: var(--color-text-secondary);">
-                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(124, 58, 237, 0.5)" stroke-width="1" style="margin-bottom: 1rem;">
-                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                <line x1="12" y1="19" x2="12" y2="22"></line>
-                            </svg>
-                            <p style="font-family: var(--font-heading); letter-spacing: 2px;">AVATAR FEED ONLINE</p>
-                        </div>
-                    </div>
+
+                <div class="service-grid">
+                    <a class="service-card" href="websites-apps.html">
+                        <span class="service-index">01 / HELP PEOPLE FIND AND CHOOSE YOU</span>
+                        <h3>Websites</h3>
+                        <p>Clear business websites and better routes from visitor to enquiry.</p>
+                        <span class="text-link">Explore the service <span aria-hidden="true">↗</span></span>
+                    </a>
+
+                    <a class="service-card" href="apps.html">
+                        <span class="service-index">02 / MAKE A WORKFLOW EASIER</span>
+                        <h3>Apps &amp; Digital Tools</h3>
+                        <p>Customer portals, internal tools and prototypes built around a useful task.</p>
+                        <span class="text-link">Explore the service <span aria-hidden="true">↗</span></span>
+                    </a>
+
+                    <a class="service-card" href="games-interactive.html">
+                        <span class="service-index">03 / GIVE PEOPLE SOMETHING TO PLAY</span>
+                        <h3>Games &amp; Interactive</h3>
+                        <p>Playable ideas, game production, and interactions that invite people in.</p>
+                        <span class="text-link">Explore the service <span aria-hidden="true">↗</span></span>
+                    </a>
+
+                    <a class="service-card" href="3d-animation.html">
+                        <span class="service-index">04 / MAKE AN IDEA VISIBLE</span>
+                        <h3>3D &amp; Animation</h3>
+                        <p>Characters, environments, and motion for products, stories, and worlds.</p>
+                        <span class="text-link">Explore the service <span aria-hidden="true">↗</span></span>
+                    </a>
+
+                    <a class="service-card" href="ai-automation.html">
+                        <span class="service-index">05 / SIMPLIFY A REAL TASK</span>
+                        <h3>AI &amp; Automation</h3>
+                        <p>Assistants, avatars, and workflows designed around a defined customer or team need.</p>
+                        <span class="text-link">Explore the service <span aria-hidden="true">↗</span></span>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 4. WHAT WE BUILD SECTION -->
-    <section id="capabilities" style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: var(--spacing-2xl);">
-                <span class="section-label">CAPABILITIES</span>
-                <h2 class="section-title">Creative Technology,<br>Built End to End</h2>
-                <p class="section-description" style="margin: 0 auto;">Games, AI systems, digital products, and visual production built by one studio.</p>
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-heading section-heading-row">
+                    <div>
+                        <span class="eyebrow">02 / Evidence, not claims</span>
+                        <h2>Made by the studio.</h2>
+                        <p>Our studio-owned games and assets show how we combine art, interaction, and technical execution.</p>
+                    </div>
+                    <a class="button button-secondary" href="work.html">Explore All Projects</a>
+                </div>
+
+                <div class="work-grid home-work-grid">
+                    <a class="work-card" href="world-war-toonz.html">
+                        <div class="home-work-media">
+                            <img src="images/studio/gameplay/wwt-01.webp" alt="World War ToonZ gameplay screenshot" width="1300" height="731" loading="lazy">
+                        </div>
+                        <div class="work-card-copy">
+                            <span class="tag">Studio-owned / PC game</span>
+                            <h3>World War ToonZ</h3>
+                            <p>A fast-paced zombie action game published on Steam.</p>
+                        </div>
+                    </a>
+
+                    <a class="work-card" href="monster-match.html">
+                        <div class="home-work-media">
+                            <img src="images/studio/monster-match.jpg" alt="Colourful characters from Monster Match" width="1152" height="864" loading="lazy">
+                        </div>
+                        <div class="work-card-copy">
+                            <span class="tag">Studio-owned / Mobile game</span>
+                            <h3>Monster Match</h3>
+                            <p>A bright puzzle adventure with friendly characters and progressive challenges.</p>
+                        </div>
+                    </a>
+
+                    <a class="work-card" href="3d-models.html">
+                        <div class="home-work-media">
+                            <img src="images/assets/packs/bedroom-01.webp" alt="Rendered bedroom furniture from a studio asset pack" width="1300" height="731" loading="lazy">
+                        </div>
+                        <div class="work-card-copy">
+                            <span class="tag">Studio-owned / Digital assets</span>
+                            <h3>3D Asset Collection</h3>
+                            <p>Characters, props, clothing, and environment pieces for creative production.</p>
+                        </div>
+                    </a>
+                </div>
             </div>
+        </section>
 
-            <div class="capabilities-grid">
-                <div class="glass-card cap-card">
-                    <div class="cap-icon">🎮</div>
-                    <h3>Interactive Worlds</h3>
-                    <p>Games, environments, mechanics, characters, and immersive digital experiences.</p>
+        <section class="section section-soft" id="process">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">How we work</span>
+                    <h2>A clear route from idea to launch.</h2>
+                    <p>Every project is different. The path should still feel understandable.</p>
                 </div>
-                <div class="glass-card cap-card">
-                    <div class="cap-icon">🤖</div>
-                    <h3>AI Systems</h3>
-                    <p>Voice avatars, AI consulting, automation, and custom intelligent workflows.</p>
-                </div>
-                <div class="glass-card cap-card">
-                    <div class="cap-icon">💻</div>
-                    <h3>Digital Products</h3>
-                    <p>Modern websites, mobile apps, landing pages, and web platforms.</p>
-                </div>
-                <div class="glass-card cap-card">
-                    <div class="cap-icon">🎨</div>
-                    <h3>Visual Production</h3>
-                    <p>3D assets, modeling, animation, branded scenes, and presentation visuals.</p>
+
+                <div class="process-grid">
+                    <article class="process-step">
+                        <span>01 / DISCOVER</span>
+                        <h3>Define the goal</h3>
+                        <p>We clarify the audience, the problem, the scope, and what success needs to look like.</p>
+                    </article>
+                    <article class="process-step">
+                        <span>02 / DESIGN</span>
+                        <h3>Shape the experience</h3>
+                        <p>We establish the creative direction, user flow, visual language, and technical approach.</p>
+                    </article>
+                    <article class="process-step">
+                        <span>03 / BUILD</span>
+                        <h3>Create and test</h3>
+                        <p>We develop, produce, review, and test while keeping progress and decisions visible.</p>
+                    </article>
+                    <article class="process-step">
+                        <span>04 / LAUNCH</span>
+                        <h3>Release with confidence</h3>
+                        <p>We prepare the final product, support the launch, and identify the next improvements.</p>
+                    </article>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 5. FEATURED PROJECTS -->
-    <section id="projects">
-        <div class="container">
-            <span class="section-label">FEATURED WORK</span>
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-2xl); flex-wrap: wrap; gap: var(--spacing-md);">
+        <section class="northstar-price-band" aria-labelledby="northstar-pricing-heading">
+            <div class="container northstar-price-grid cta-band">
                 <div>
-                    <h2 class="section-title" style="margin-bottom: 0;">Playable Worlds.<br>Practical Systems.</h2>
-                    <p class="section-description" style="margin-bottom: 0; margin-top: var(--spacing-md);">See the games, products, and digital experiences we’ve already brought to life.</p>
+                    <span class="eyebrow">A starting point, not a guessing game</span>
+                    <h2 id="northstar-pricing-heading">Website work starts from R3,000.</h2>
+                    <p>Focused improvements from R3,000, a deeper rescue from R6,500, and new lead websites from R12,500. Care starts from R499/month. Games and 3D have guide prices on their service pages; Apps and AI are quoted by scope. We confirm the right option after a conversation.</p>
                 </div>
-                <a href="#projects" class="btn btn-secondary">Explore More Projects</a>
+                <a class="button button-primary" href="websites-apps.html#pricing">See Website Options ↗</a>
             </div>
+        </section>
 
-            <div class="work-grid">
-                <a href="world-war-toonz.html" class="work-card">
-                    <div class="work-img">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ WWT Visual ]</div>
-                    </div>
-                    <div class="work-content">
-                        <span style="font-size: 0.75rem; color: var(--color-accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Steam Game</span>
-                        <h3 class="work-title">World War ToonZ</h3>
-                        <p class="work-desc">Strategic warfare meets cartoon chaos. Command your toon army to victory.</p>
-                        <span class="work-link">View Project &rarr;</span>
-                    </div>
-                </a>
-                
-                <a href="emoji-match.html" class="work-card">
-                    <div class="work-img">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ Emoji Visual ]</div>
-                    </div>
-                    <div class="work-content">
-                        <span style="font-size: 0.75rem; color: var(--color-accent-violet); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Mobile App</span>
-                        <h3 class="work-title">Emoji Match</h3>
-                        <p class="work-desc">Addictive puzzle fun! Match emojis, beat levels, and challenge friends globally.</p>
-                        <span class="work-link">View Project &rarr;</span>
-                    </div>
-                </a>
+        <section class="section" id="contact">
+            <div class="container contact-panel">
+                <div class="contact-copy">
+                    <span class="eyebrow">Start a project</span>
+                    <h2>Tell us what you need to achieve.</h2>
+                    <p>Tell us the goal and we’ll help shape the first step.</p>
+                    <a class="contact-direct" href="mailto:Lockdownstudio021@gmail.com">Lockdownstudio021@gmail.com</a>
+                </div>
 
-                <a href="monster-match.html" class="work-card">
-                    <div class="work-img">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-border-glow);">[ Monster Visual ]</div>
-                    </div>
-                    <div class="work-content">
-                        <span style="font-size: 0.75rem; color: var(--color-accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Mobile App</span>
-                        <h3 class="work-title">Monster Match</h3>
-                        <p class="work-desc">Match monsters in this exciting puzzle adventure. Fun for all ages with power-ups.</p>
-                        <span class="work-link">View Project &rarr;</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. SERVICES GRID -->
-    <section id="services" style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-            <span class="section-label">STUDIO SERVICES</span>
-            <h2 class="section-title">Design, Development,<br>AI, and Production</h2>
-            <p class="section-description">From websites and mobile apps to 3D assets and custom AI solutions, Lockdown Studios builds what modern brands need.</p>
-
-            <div class="services-grid">
-                <div class="service-card">
-                    <h4 class="text-cyan">3D Modeling & Assets</h4>
-                    <p>High-quality 3D models, characters, environments, and props for games, films, and AR/VR.</p>
-                </div>
-                <div class="service-card">
-                    <h4 class="text-violet">Animation</h4>
-                    <p>Breathe life into your characters with professional 2D and 3D animation for any platform.</p>
-                </div>
-                <div class="service-card">
-                    <h4 class="text-cyan">Website Development</h4>
-                    <p>Modern, responsive websites that convert. From landing pages to full web applications.</p>
-                </div>
-                <div class="service-card">
-                    <h4 class="text-violet">App Development</h4>
-                    <p>Native and cross-platform mobile apps for iOS and Android. Built for performance.</p>
-                </div>
-                <div class="service-card">
-                    <h4 class="text-cyan">Game Development</h4>
-                    <p>Full-cycle game development from concept to launch. PC, mobile, and console platforms.</p>
-                </div>
-                <div class="service-card">
-                    <h4 class="text-cyan">AI Consulting</h4>
-                    <p>Strategic AI implementation for your business. From automation to custom solutions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. LEARNING SECTION -->
-    <section id="learning">
-        <div class="container learning-layout">
-            <div>
-                <span class="section-label">KNOWLEDGE HUB</span>
-                <h2 class="section-title">Learn with<br>Lockdown</h2>
-                <p class="section-description" style="margin-bottom: var(--spacing-lg);">Explore tutorials, workflows, and creative development insights across game design, 3D production, animation, and digital creation.</p>
-                <a href="learning.html" class="btn btn-secondary">Visit the Learning Hub</a>
-            </div>
-            
-            <div class="learning-cards">
-                <div class="vid-card">
-                    <div class="vid-thumb">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                    </div>
-                    <div class="vid-info">
-                        <h4>Getting Started with Custom AI Avatars</h4>
-                        <p>Learn how to connect Hume AI to your digital experiences.</p>
-                    </div>
-                </div>
-                <div class="vid-card">
-                    <div class="vid-thumb">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                    </div>
-                    <div class="vid-info">
-                        <h4>Game Design Fundamentals</h4>
-                        <p>Core mechanics and level design theory for modern games.</p>
-                    </div>
-                </div>
-                <div class="vid-card">
-                    <div class="vid-thumb">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-                    </div>
-                    <div class="vid-info">
-                        <h4>3D Asset Optimization Strategies</h4>
-                        <p>How to keep your models high-fidelity but lightweight.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. WHY US -->
-    <section style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
-        <div class="container">
-            <span class="section-label">WHY US</span>
-            <h2 class="section-title" style="margin-bottom: var(--spacing-2xl);">Creative Vision.<br>Technical Execution.</h2>
-            
-            <div class="values-grid">
-                <div class="value-block">
-                    <h3>Future-Focused</h3>
-                    <p>We build for brands and audiences that want modern, memorable digital experiences.</p>
-                </div>
-                <div class="value-block">
-                    <h3>Cross-Disciplinary</h3>
-                    <p>Games, AI, 3D, websites, apps, and content production under one studio roof.</p>
-                </div>
-                <div class="value-block">
-                    <h3>Human-Centered AI</h3>
-                    <p>We create AI avatars and intelligent systems that feel natural and on-brand.</p>
-                </div>
-                <div class="value-block">
-                    <h3>Built to Deliver</h3>
-                    <p>From concept to final deployment, we turn ideas into polished experiences.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 9. CONTACT CTA -->
-    <section id="contact">
-        <div class="container" style="max-width: 600px; margin: 0 auto; text-align: center;">
-            <div style="margin-bottom: var(--spacing-md);">
-                <h2 class="section-title" style="font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 0;">Let's Build Something Future-Ready</h2>
-            </div>
-
-            <div class="contact-form-container" style="text-align: left; background: rgba(3, 8, 20, 0.85); box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.1); border-radius: var(--radius-md); padding: 2rem;">
-                <form id="contact-form">
-                    <div class="form-group">
-                        <input type="text" class="form-input" required placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-input" required placeholder="Email Address">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-input" placeholder="Message" style="min-height: 100px;"></textarea>
-                    </div>
-                    <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
-                        <div class="chip-group" style="justify-content: center; gap: 0.75rem;">
-                            <span class="chip-select">AI Avatar</span>
-                            <span class="chip-select">Website</span>
-                            <span class="chip-select active">App</span>
-                            <span class="chip-select">Game</span>
+                <form class="form-grid" id="contact-form" data-enquiry-type="project">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="contact-name">Name</label>
+                            <input class="field-control" id="contact-name" name="name" type="text" autocomplete="name" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="contact-email">Email</label>
+                            <input class="field-control" id="contact-email" name="email" type="email" autocomplete="email" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: var(--radius-pill); font-size: 1.1rem; padding: 1rem;">Send Project Brief</button>
-                    <div id="contact-form-message" style="display: none; text-align: center; margin-top: 1rem;"></div>
+                    <div class="field-group">
+                        <label for="contact-service">Type of project</label>
+                        <select class="field-control" id="contact-service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="Website">Website</option>
+                            <option value="App or digital tool">App or digital tool (not sure which yet)</option>
+                            <option value="Web app">Web app</option>
+                            <option value="Mobile app">Mobile app</option>
+                            <option value="Game development">Game development</option>
+                            <option value="3D or animation">3D or animation</option>
+                            <option value="AI Business Avatar">AI Business Avatar</option>
+                            <option value="Automation or AI solution">Automation or AI solution</option>
+                            <option value="Other">Something else</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="contact-message">Project description</label>
+                        <textarea class="field-control" id="contact-message" name="message" required placeholder="What would you like to build?"></textarea>
+                    </div>
+                    <div class="field-group">
+                        <label for="contact-preference">Preferred contact method</label>
+                        <select class="field-control" id="contact-preference" name="contactPreference">
+                            <option value="Email">Email</option>
+                            <option value="Phone call">Phone call</option>
+                            <option value="WhatsApp">WhatsApp</option>
+                        </select>
+                    </div>
+                    <div class="field-group contact-phone-field" hidden>
+                        <label for="contact-phone">Phone number <span data-call-required>(required for phone or WhatsApp)</span></label>
+                        <input class="field-control" id="contact-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+                    </div>
+                    <details class="contact-extra">
+                        <summary>Add company or a suitable contact time (optional)</summary>
+                        <div class="form-row">
+                            <div class="field-group">
+                                <label for="contact-company">Business or organisation (optional)</label>
+                                <input class="field-control" id="contact-company" name="company" type="text" autocomplete="organization">
+                            </div>
+                            <div class="field-group">
+                                <label for="contact-time">Best time to contact you (optional)</label>
+                                <input class="field-control" id="contact-time" name="bestTime" type="text" placeholder="Example: Weekdays after 14:00">
+                            </div>
+                        </div>
+                    </details>
+                    <p class="form-note">We use your details only to reply. Read our <a href="privacy.html">Privacy information</a>.</p>
+                    <button class="button button-primary" type="submit">Send Project Brief</button>
+                    <div class="form-status" id="contact-form-status" role="status" aria-live="polite"></div>
                 </form>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- 10. FOOTER -->
-    <footer class="footer">
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo-text">Lockdown Studios</a>
-                    <p>Lockdown Studios builds games, AI avatars, digital products, and immersive creative solutions for modern brands.</p>
+                <div class="footer-intro">
+                    <a class="brand" href="index.html">
+                        <span class="brand-mark" aria-hidden="true">LS</span>
+                        <span>Lockdown Studios</span>
+                    </a>
                 </div>
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h3>Explore</h3>
                     <ul class="footer-links">
-                        <li><a href="#home" class="footer-link">Home</a></li>
-                        <li><a href="#projects" class="footer-link">Projects</a></li>
-                        <li><a href="#services" class="footer-link">Services</a></li>
-                        <li><a href="learning.html" class="footer-link">Learning</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="work.html">Projects</a></li>
+                        <li><a href="about.html">About</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>What We Do</h4>
+                    <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><a href="#ai-avatars" class="footer-link">AI Avatars</a></li>
-                        <li><a href="#" class="footer-link">Web & Apps</a></li>
-                        <li><a href="#" class="footer-link">Game Design</a></li>
-                        <li><a href="#" class="footer-link">3D Production</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Social</h4>
-                    <ul class="footer-links">
-                        <li><a href="#" class="footer-link">Twitter / X</a></li>
-                        <li><a href="#" class="footer-link">LinkedIn</a></li>
-                        <li><a href="#" class="footer-link">YouTube</a></li>
-                        <li><a href="#" class="footer-link">Instagram</a></li>
+                        <li><a href="#contact">Start a project</a></li>
+                        <li><a href="mailto:Lockdownstudio021@gmail.com">Email the studio</a></li>
+                        <li><a href="privacy.html">Privacy information</a></li>
                     </ul>
                 </div>
             </div>
-            
             <div class="footer-bottom">
-                <span>&copy; 2026 Lockdown Studios. All rights reserved.</span>
-                <span>Johannesburg, South Africa</span>
+                <span>&copy; 2026 Lockdown Studios</span>
             </div>
         </div>
     </footer>
 
-    <!-- AI Chat Modal (Hume AI Embed Container) -->
-    <div class="modal" id="ai-chat-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid var(--color-border);">
-                <span style="font-family: var(--font-heading); font-weight: 700;">Aura - AI Avatar Setup</span>
-                <button class="ai-chat-close" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">&times;</button>
-            </div>
-            <div id="hume-ai-container"></div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script>
-        // Inline script to handle simple chip selection for the contact form
-        const chips = document.querySelectorAll('.chip-select');
-        chips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                chip.classList.toggle('active');
-            });
-        });
-
-        // Modal basic close action
-        const modal = document.getElementById('ai-chat-modal');
-        const closeModal = document.querySelector('.ai-chat-close');
-        if (closeModal && modal) {
-            closeModal.addEventListener('click', () => modal.classList.remove('active'));
-        }
-
-        // Generate dynamic starfield box-shadows
-        function generateStars(n) {
-            let stars = '';
-            for (let i = 0; i < n; i++) {
-                stars += `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px #FFF`;
-                if (i < n - 1) stars += ', ';
-            }
-            return stars;
-        }
-        
-        const stars1 = generateStars(700);
-        const stars2 = generateStars(200);
-        const stars3 = generateStars(100);
-        
-        const style = document.createElement('style');
-        style.innerHTML = `
-            #stars { box-shadow: ${stars1}; }
-            #stars::after { box-shadow: ${stars1}; }
-            #stars2 { box-shadow: ${stars2}; }
-            #stars2::after { box-shadow: ${stars2}; }
-            #stars3 { box-shadow: ${stars3}; }
-            #stars3::after { box-shadow: ${stars3}; }
-        `;
-        document.head.appendChild(style);
-    </script>
-    <script src="script.js"></script>
-    <script src="hume-ai.js"></script>
+    <script src="site.js?v=16"></script>
+    <script src="hero-constellation.js?v=5" defer></script>
 </body>
 </html>

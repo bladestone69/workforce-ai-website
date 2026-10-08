@@ -222,8 +222,8 @@ const addButtonFeedback = (button) => {
 document.querySelectorAll('button').forEach(addButtonFeedback);
 
 // Add CSS for ripple animation
-const style = document.createElement('style');
-style.textContent = `
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
     @keyframes ripple {
         to {
             transform: scale(4);
@@ -231,7 +231,7 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(rippleStyle);
 
 // Parallax effect for hero orbs
 window.addEventListener('mousemove', (e) => {
@@ -325,6 +325,7 @@ if (contactForm) {
             email: formData.get('email'),
             phone: formData.get('phone'),
             message: formData.get('message'),
+            service: formData.get('service'),
             source: 'contact_form'
         };
 
@@ -345,7 +346,7 @@ if (contactForm) {
             contactFormMessage.style.display = 'block';
             if (response.ok && (result.success || !result.error)) {
                 contactFormMessage.style.color = '#10B981';
-                contactFormMessage.innerText = 'Thank you! Your details have been saved.';
+                contactFormMessage.innerText = 'Thank you! Your enquiry has been received.';
                 contactForm.reset();
             } else {
                 contactFormMessage.style.color = '#EF4444';
@@ -363,9 +364,20 @@ if (contactForm) {
     });
 }
 
-// Console easter egg
-console.log('%c🚀 Workforce AI', 'font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #6366F1, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;');
-console.log('%cInterested in joining our team? Check out our careers page!', 'font-size: 14px; color: #6366F1;');
+// Carry enquiry context from a product or service CTA into the contact form.
+document.querySelectorAll('[data-enquiry-service]').forEach(link => {
+    link.addEventListener('click', () => {
+        const serviceSelect = document.getElementById('contact-service');
+        if (serviceSelect) serviceSelect.value = link.dataset.enquiryService || '';
+    });
+});
+
+const requestedService = new URLSearchParams(window.location.search).get('service');
+const contactService = document.getElementById('contact-service');
+if (requestedService && contactService) {
+    const optionExists = Array.from(contactService.options).some(option => option.value === requestedService);
+    if (optionExists) contactService.value = requestedService;
+}
 
 // Performance monitoring
 if ('performance' in window) {
@@ -398,58 +410,3 @@ a11yStyle.textContent = `
     }
 `;
 document.head.appendChild(a11yStyle);
-
-// ===== AI CHAT MODAL =====
-document.addEventListener('DOMContentLoaded', () => {
-    const aiChatButton = document.getElementById('ai-chat-button');
-    const aiChatModal = document.getElementById('ai-chat-modal');
-    const aiChatClose = document.getElementById('ai-chat-close');
-
-    // Open AI chat modal
-    const heroStartBtn = document.getElementById('btn-hero-start');
-    const heroDemoBtn = document.getElementById('btn-hero-demo');
-    const tryAvatarBtn = document.getElementById('btn-try-avatar');
-
-    function openAiModal() {
-        if (aiChatModal) {
-            aiChatModal.classList.add('active');
-        }
-    }
-
-    function scrollToSection(sectionId) {
-        const target = document.getElementById(sectionId);
-        if (!target) return;
-
-        const offsetTop = target.offsetTop - 80;
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
-    }
-
-    heroStartBtn?.addEventListener('click', () => scrollToSection('ai-avatars'));
-    heroDemoBtn?.addEventListener('click', () => scrollToSection('games'));
-    tryAvatarBtn?.addEventListener('click', openAiModal);
-
-    // Close AI chat modal
-    const closeModalElements = document.querySelectorAll('.ai-chat-close');
-    closeModalElements.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (aiChatModal) aiChatModal.classList.remove('active');
-        });
-    });
-
-    // Close modal when clicking outside
-    aiChatModal?.addEventListener('click', (e) => {
-        if (e.target === aiChatModal) {
-            aiChatModal.classList.remove('active');
-        }
-    });
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && aiChatModal?.classList.contains('active')) {
-            aiChatModal.classList.remove('active');
-        }
-    });
-});
