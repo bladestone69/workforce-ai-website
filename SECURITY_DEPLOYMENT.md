@@ -53,7 +53,7 @@ The public Privacy notice commits the studio to reviewing enquiries, testing-poo
 - Confirm `/admin` and `/admin.html` show only the sign-in screen to unauthenticated visitors; `/api/admin-leads` must return 401 without a valid studio session.
 - After the firewall rule is active, set `ADMIN_ENABLED=true` and redeploy. Until then, the admin APIs return 503 and no private data is available.
 - Test an allowed studio mailbox, a disallowed mailbox, expired and incorrect codes, sign-out and session expiry. Never share sign-in codes.
-- Enable Vercel Web Analytics in the project dashboard and check that page views appear without form fields or personal data.
+- Before enabling any visit analytics, approve the provider, update the Privacy page, and test that no form fields or personal details are sent.
 - Confirm removed voice and conversation endpoints return 404.
 - Confirm cross-origin POST requests to `/api/save-lead` return 403.
 - Confirm malformed payloads return 400/413/415 without stack traces.

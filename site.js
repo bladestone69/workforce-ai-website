@@ -342,11 +342,3 @@ contactForm?.addEventListener('submit', async event => {
 
 // Luna offers guided site answers in static previews and live AI when the server gate is ready.
 import('./assistant.js?v=3').catch(() => {});
-
-// Vercel Web Analytics records aggregate page views and referrers; no form data is sent.
-if (!['localhost', '127.0.0.1'].includes(window.location.hostname)) {
-    const analytics = document.createElement('script');
-    analytics.defer = true;
-    analytics.src = '/_vercel/insights/script.js';
-    document.head.append(analytics);
-}
