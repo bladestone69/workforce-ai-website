@@ -10,14 +10,14 @@
         }
     },
     "redirects": [
-        { "source": "/admin", "destination": "/", "permanent": false },
-        { "source": "/admin.html", "destination": "/", "permanent": false },
         { "source": "/website-templates", "destination": "/websites-apps", "permanent": false },
         { "source": "/website-templates.html", "destination": "/websites-apps", "permanent": false },
         { "source": "/ai-avatars", "destination": "/ai-automation", "permanent": false },
         { "source": "/ai-avatars.html", "destination": "/ai-automation", "permanent": false }
     ],
     "headers": [
+        { "source": "/admin", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }] },
+        { "source": "/admin.html", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }] },
         {
             "source": "/(.*)",
             "headers": [

@@ -13,6 +13,8 @@ Configure these as encrypted variables for Production and, where appropriate, tr
 - `GMAIL_USER` — the Gmail account used to send website notifications: `Lockdownstudio021@gmail.com`.
 - `GMAIL_APP_PASSWORD` — a dedicated 16-character Google App Password; never use the normal Gmail password.
 - `CONTACT_TO_EMAIL` — set to `Lockdownstudio021@gmail.com`.
+- `ADMIN_ENABLED` — leave unset or `false` until the firewall rule below is live; then set to `true` only in trusted environments.
+- `ADMIN_EMAILS` — optional comma-separated mailbox allowlist; defaults to `GMAIL_USER`.
 
 Never prefix a secret with `NEXT_PUBLIC_` and never commit a populated `.env` file.
 
@@ -40,6 +42,7 @@ The public Privacy notice commits the studio to reviewing enquiries, testing-poo
 ## Platform controls
 
 - Add a Vercel Firewall rate-limit rule for `/api/save-lead`. The in-function limiter is defense in depth and is not a globally consistent distributed limiter.
+- Add a Vercel Firewall rate-limit rule for `/api/admin-auth` before setting `ADMIN_ENABLED=true`; do not rely on the in-function limiter alone.
 - Add a Vercel Firewall rate-limit rule for `/api/assistant-chat` before enabling it; confirm a spend/usage alert with the provider.
 - Keep preview deployments protected when they use real storage credentials.
 - Confirm deployment protection and access logs are enabled for the team.
@@ -47,7 +50,10 @@ The public Privacy notice commits the studio to reviewing enquiries, testing-poo
 
 ## Release verification
 
-- Confirm `/admin` and `/admin.html` redirect to `/`.
+- Confirm `/admin` and `/admin.html` show only the sign-in screen to unauthenticated visitors; `/api/admin-leads` must return 401 without a valid studio session.
+- After the firewall rule is active, set `ADMIN_ENABLED=true` and redeploy. Until then, the admin APIs return 503 and no private data is available.
+- Test an allowed studio mailbox, a disallowed mailbox, expired and incorrect codes, sign-out and session expiry. Never share sign-in codes.
+- Enable Vercel Web Analytics in the project dashboard and check that page views appear without form fields or personal data.
 - Confirm removed voice and conversation endpoints return 404.
 - Confirm cross-origin POST requests to `/api/save-lead` return 403.
 - Confirm malformed payloads return 400/413/415 without stack traces.

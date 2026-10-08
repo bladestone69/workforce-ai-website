@@ -7,7 +7,7 @@
     "build": "echo 'Static site - no build needed'",
     "deploy": "vercel --prod",
     "test": "node --test",
-    "check": "node --check site.js && node --check hero-constellation.js && node --check assistant.js && node --check luna-answers.js && node --check script.js && node --check drift-demo.js && node --check drift-project.js && node --check asset-gallery.js && node --check testing-pool.js && node --check api/_security.js && node --check api/_email.js && node --check api/save-lead.js && node --check api/save-game-feedback.js && node --check api/assistant-chat.js && node --check api/assistant-status.js"
+    "check": "node --check site.js && node --check hero-constellation.js && node --check assistant.js && node --check luna-answers.js && node --check script.js && node --check drift-demo.js && node --check drift-project.js && node --check asset-gallery.js && node --check testing-pool.js && node --check admin.js && node --check api/_security.js && node --check api/_email.js && node --check api/_admin.js && node --check api/admin-auth.js && node --check api/admin-leads.js && node --check api/save-lead.js && node --check api/save-game-feedback.js && node --check api/assistant-chat.js && node --check api/assistant-status.js"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",
