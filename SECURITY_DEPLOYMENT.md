@@ -41,8 +41,7 @@ The public Privacy notice commits the studio to reviewing enquiries, testing-poo
 
 ## Platform controls
 
-- Add a Vercel Firewall rate-limit rule for `/api/save-lead`. The in-function limiter is defense in depth and is not a globally consistent distributed limiter.
-- Add a Vercel Firewall rate-limit rule for `/api/track-page` before setting `SITE_ANALYTICS_ENABLED=true`; a public tracking endpoint could otherwise be abused to create database writes.
+- Add Vercel Firewall rate limiting for public `/api/` endpoints before enabling analytics or admin. Hobby currently permits one rate-limit rule per project; use a broad API rule with a threshold that permits normal form use, or finer rules if the plan supports them. In-function limiters are defense in depth and are not globally consistent.
 - Add a Vercel Firewall rate-limit rule for `/api/admin-auth` before setting `ADMIN_ENABLED=true`; do not rely on the in-function limiter alone.
 - Add a Vercel Firewall rate-limit rule for `/api/assistant-chat` before enabling it; confirm a spend/usage alert with the provider.
 - Keep preview deployments protected when they use real storage credentials.
