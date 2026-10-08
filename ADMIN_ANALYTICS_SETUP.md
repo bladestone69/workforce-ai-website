@@ -5,11 +5,11 @@ This release adds `/admin` for studio staff. The admin page is deliberately abse
 ## Connect Supabase visits
 
 1. In the new Supabase project, open **SQL Editor** and run `supabase/site_analytics.sql`. It creates a private page-view table and a report function. No public or authenticated browser role has table access.
-2. In **Project Settings / API Keys**, create or copy a new `sb_secret_...` key. Put it in Vercel as `SUPABASE_SECRET_KEY` for the intended environment. Never put this key in browser code, Git, email or chat. Set `SUPABASE_URL` to `https://aazclycxdxjuylhtrher.supabase.co`.
-3. Add a Vercel Firewall rate-limit rule for `/api/track-page` to protect database writes. The code also has an in-memory limiter, but that is not a distributed protection.
-4. Set `SITE_ANALYTICS_ENABLED=true` in Vercel and redeploy. Until this flag and both Supabase variables are set, tracking does not write visits and the admin reports setup pending.
-5. Visit several public pages on the deployed site. Sign in at `/admin`; the 30-day report should show page views, popular pages, external referrer domains and common on-site routes. No visitor ID, IP, form data, query strings or full external URLs are saved in the visit table.
-6. Enable **Cron** in Supabase, then run `supabase/site_analytics_retention.sql` and confirm its daily job appears. Assign a monthly owner to inspect job history. Until the job is confirmed, leave tracking disabled. The commented delete in the schema alone does not remove records.
+2. Enable **Cron** in Supabase, then run `supabase/site_analytics_retention.sql` and confirm its daily job appears. Assign a monthly owner to inspect job history. Until the job is confirmed, leave tracking disabled. The commented delete in the schema alone does not remove records.
+3. In **Project Settings / API Keys**, create or copy a new `sb_secret_...` key. Put it in Vercel as `SUPABASE_SECRET_KEY` for the intended environment. Never put this key in browser code, Git, email or chat. Set `SUPABASE_URL` to `https://aazclycxdxjuylhtrher.supabase.co`.
+4. Add a Vercel Firewall rate-limit rule for `/api/track-page` to protect database writes. The code also has an in-memory limiter, but that is not a distributed protection.
+5. Set `SITE_ANALYTICS_ENABLED=true` in Vercel and redeploy. Until this flag and both Supabase variables are set, tracking does not write visits and the admin reports setup pending.
+6. Visit several public pages on the deployed site. Sign in at `/admin`; the 30-day report should show page views, popular pages, external referrer domains and common on-site routes. No visitor ID, IP, form data, query strings or full external URLs are saved in the visit table.
 
 The counts are page loads, not unique people. Ad blockers, disabled JavaScript, Do Not Track, bots and network failures can affect counts. Enquiry records and Gmail notifications remain in their current working flow and do not depend on Supabase.
 
