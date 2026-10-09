@@ -121,6 +121,7 @@ body {
 }
 @media (max-width: 640px) {
     .ns-services-grid { grid-template-columns: 1fr; }
+    .home-page .northstar-constellation { display: none; }
     .home-page .northstar-hero { padding-block: 4rem; }
     .nav-shell { min-height: 70px; }
     .home-page .northstar-hero { min-height: 0; }

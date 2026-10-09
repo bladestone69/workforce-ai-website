@@ -6,6 +6,7 @@ const context = canvas?.getContext('2d');
 
 if (hero && canvas && context) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileView = window.matchMedia('(max-width: 640px)');
 
     // Coordinates are local to a tall, narrow mark on the right side of the hero.
     // The first trail follows the teal outer flame; the second follows its pale inner curl.
@@ -134,6 +135,7 @@ if (hero && canvas && context) {
 
     function draw() {
         queued = false;
+        if (mobileView.matches) return;
         context.clearRect(0, 0, width, height);
         backgroundStars.forEach(star => {
             context.beginPath();
@@ -164,6 +166,11 @@ if (hero && canvas && context) {
     }
 
     function resize() {
+        if (mobileView.matches) {
+            activeLabel = -1;
+            pointer = null;
+            return;
+        }
         const bounds = hero.getBoundingClientRect();
         width = Math.max(1, bounds.width);
         height = Math.max(1, bounds.height);
@@ -198,7 +205,7 @@ if (hero && canvas && context) {
     }
 
     hero.addEventListener('pointermove', event => {
-        if (event.pointerType === 'touch') return;
+        if (mobileView.matches || event.pointerType === 'touch') return;
         const bounds = hero.getBoundingClientRect();
         pointer = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
         const nextLabel = nearestLabel(pointer.x, pointer.y);
@@ -213,7 +220,7 @@ if (hero && canvas && context) {
     });
 
     hero.addEventListener('pointerdown', event => {
-        if (event.pointerType !== 'touch') return;
+        if (mobileView.matches || event.pointerType !== 'touch') return;
         const bounds = hero.getBoundingClientRect();
         activeLabel = nearestLabel(event.clientX - bounds.left, event.clientY - bounds.top);
         pointer = null;
@@ -223,5 +230,6 @@ if (hero && canvas && context) {
     }, { passive: true });
 
     reducedMotion.addEventListener('change', () => { activeLabel = -1; pointer = null; scheduleDraw(); });
+    mobileView.addEventListener('change', resize);
     new ResizeObserver(resize).observe(hero);
 }
