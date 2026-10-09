@@ -2,14 +2,21 @@ import { get, list } from '@vercel/blob';
 import { adminConfigured, readAdmin } from './_admin.js';
 import { setApiSecurityHeaders } from './_security.js';
 
+export function leadReferenceFromPath(pathname) {
+    // Blob may append a mixed-case random suffix before .json when saving a lead.
+    const match = /^leads\/\d{4}-\d{2}-\d{2}\/([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})(?:-[A-Za-z0-9]{6,32})?\.json$/.exec(pathname);
+    return match?.[1] || '';
+}
+
 async function readLead(blob) {
-    if (blob.size > 32_768 || !/^leads\/\d{4}-\d{2}-\d{2}\/[a-f0-9-]+\.json$/.test(blob.pathname)) return null;
+    const reference = leadReferenceFromPath(blob.pathname);
+    if (blob.size > 32_768 || !reference) return null;
     try {
         const result = await get(blob.pathname, { access: 'private' });
         if (!result || result.statusCode !== 200 || !result.stream) return null;
         const lead = JSON.parse(await new Response(result.stream).text());
         return {
-            reference: blob.pathname.split('/').at(-1).replace(/\.json$/, ''),
+            reference,
             receivedAt: lead.receivedAt || blob.uploadedAt,
             name: lead.name || '', email: lead.email || '', phone: lead.phone || '',
             company: lead.company || '', contactPreference: lead.contactPreference || '',

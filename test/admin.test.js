@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import { adminConfigured, adminEmails, adminSessionPath, adminToken, setAdminCookie } from '../api/_admin.js';
 import adminAuth from '../api/admin-auth.js';
-import adminLeads from '../api/admin-leads.js';
+import adminLeads, { leadReferenceFromPath } from '../api/admin-leads.js';
 
 function response() {
     return {
@@ -58,6 +58,14 @@ test('private enquiry API fails closed while admin is disabled', async () => {
         assert.equal(res.statusCode, 503);
         assert.equal(res.headers['Cache-Control'], 'no-store');
     });
+});
+
+test('admin accepts private lead filenames with Vercel Blob suffixes', () => {
+    const reference = 'e5e44d0a-9bde-4ed4-bf6b-3a423baec783';
+    assert.equal(leadReferenceFromPath(`leads/2026-10-08/${reference}.json`), reference);
+    assert.equal(leadReferenceFromPath(`leads/2026-10-08/${reference}-NoOVGDVcqSPc7VYCUAGnTzLTG2qEM2.json`), reference);
+    assert.equal(leadReferenceFromPath(`leads/2026-10-08/${reference}-x.json`), '');
+    assert.equal(leadReferenceFromPath(`public/${reference}.json`), '');
 });
 
 test('admin sign-in fails closed while admin is disabled', async () => {
