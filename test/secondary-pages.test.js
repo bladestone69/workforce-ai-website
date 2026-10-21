@@ -39,3 +39,25 @@ test('public studio pages avoid redundant location copy', () => {
     }
     assert.match(read('index.html'), /images\/social-preview-clean\.png/);
 });
+
+test('website client showcase links to three live sites with named notes', () => {
+    const html = read('websites-apps.html');
+    for (const [slug, url] of [
+        ['veronica-snacks', 'https://veronica-snacks.vercel.app/#top'],
+        ['sky-printing', 'https://sky-printing.vercel.app/'],
+        ['fairbairn-consult', 'https://fairbairn-consult.vercel.app/']
+    ]) {
+        assert.ok(html.includes(`href="${url}"`), url);
+        assert.ok(html.includes(`images/client-sites/${slug}.png`), slug);
+    }
+    assert.equal((html.match(/data-client-site>/g) || []).length, 3);
+    for (const name of ['Jos', 'Veronica', 'Erenst']) {
+        assert.match(html, new RegExp(`<span>${name}</span>`));
+    }
+    assert.doesNotMatch(html, /Draft for|approval pending|client-sites-disclaimer/);
+    assert.equal((html.match(/class="client-site-image" type="button" data-client-select/g) || []).length, 3);
+    assert.equal((html.match(/class="client-site-link" href="https:\/\//g) || []).length, 3);
+    assert.match(html, /data-client-prev/);
+    assert.match(html, /data-client-next/);
+    assert.match(html, /client-sites\.js\?v=2/);
+});
