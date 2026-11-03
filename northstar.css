@@ -958,3 +958,69 @@ body {
 @media(max-width:800px){.asset-preview-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }.studio-game-gallery-grid { grid-template-columns: 1fr 1fr; }.studio-game-gallery-grid figure:last-child { grid-column: 1 / -1; }.studio-game-gallery-grid--portrait img { height: 380px; }}
 @media(max-width:540px){.asset-preview-grid { gap: .55rem; }.asset-preview-tile strong { font-size: .94rem; }.asset-preview-tile span,.asset-preview-tile strong,.asset-preview-tile small { margin-inline: .65rem; }.asset-preview-foot { align-items: flex-start; flex-direction: column; }.studio-game-gallery-grid { grid-template-columns: 1fr; }.studio-game-gallery-grid figure:last-child { grid-column: auto; }.studio-game-gallery-grid--portrait img { height: 390px; }.asset-preview-dialog { padding: .7rem; }.asset-preview-dialog figure img { height: min(55dvh,520px); }}
 @media(prefers-reduced-motion:reduce){.button-primary,.button-secondary{transition:none}.button-primary:hover,.button-primary:focus-visible,.button-secondary:hover,.button-secondary:focus-visible{transform:none}}
+
+/* November 2026 website offer: hidden by default, enabled by black-friday.js. */
+[data-black-friday] { display: none !important; }
+.black-friday-active [data-black-friday] { display: block !important; }
+.black-friday-active .northstar-price-band { display: none; }
+.bf-home { position: relative; z-index: 2; margin-top: -2.4rem; padding: 0 0 clamp(1.2rem,2.5vw,2rem); background: transparent; }
+.bf-home-inner { display: grid; grid-template-columns: minmax(260px,.42fr) 1fr; align-items: stretch; padding: 0; border: 1px solid rgba(111,232,228,.6); box-shadow: 0 22px 60px rgba(0,0,0,.35); background: #0b2630; overflow: hidden; }
+.bf-home-visual,.bf-offer-visual { position: relative; min-height: 270px; overflow: hidden; background: #0b2630; }
+.bf-home-visual img,.bf-offer-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.bf-home-visual::after,.bf-offer-visual::after { content: ""; position: absolute; inset: 48% 0 0; background: linear-gradient(transparent,rgba(2,16,22,.78)); pointer-events: none; }
+.bf-home-visual span,.bf-offer-visual span { position: absolute; z-index: 1; bottom: 1rem; left: 1rem; padding: .35rem .55rem; color: #f5fcfb; border: 1px solid rgba(131,234,230,.65); background: rgba(4,25,32,.84); font: 800 .7rem var(--font-display); letter-spacing: .1em; }
+.bf-home-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(1.3rem,3vw,2.1rem); }
+.bf-kicker { display: block; margin-bottom: .55rem; color: #ffbf90; font: 800 .72rem var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
+.bf-home h2 { max-width: 850px; margin: 0; color: #f4fbfa; font-size: clamp(1.55rem,3vw,2.5rem); line-height: 1.13; }
+.bf-home h2 em { color: #78e2df; font-style: normal; }
+.bf-home p { margin: .6rem 0 0; color: #deeeee; line-height: 1.5; }
+.bf-home p strong { color: #9ff3ef; }
+.bf-home .button { margin-top: 1rem; min-height: 44px; }
+.bf-offer { padding: clamp(2.5rem,5vw,4.5rem) 0; border-block: 1px solid rgba(120,232,239,.32); background: rgba(9,29,39,.93); }
+.bf-offer-header { display: grid; grid-template-columns: minmax(240px,.72fr) 1fr; align-items: center; gap: clamp(1.2rem,3vw,2.6rem); margin-bottom: 1.4rem; padding: clamp(1rem,2.5vw,1.8rem); border: 1px solid rgba(100,220,216,.65); background: linear-gradient(130deg,#0d3440,#071e27); }
+.bf-offer-visual { min-height: 310px; }
+.bf-offer h2 { margin: .3rem 0 .65rem; color: #f6fbfa; font-size: clamp(1.9rem,4vw,3.1rem); line-height: 1.12; }
+.bf-offer-intro { margin: 0; color: #d7e9e9; line-height: 1.55; }
+.bf-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .85rem; }
+.bf-card { min-width: 0; padding: 1.3rem; border: 1px solid rgba(150,210,214,.38); border-top: 3px solid #f0a975; background: #1b3c48; }
+.bf-card > span { color: #ffbf90; font: 800 .68rem var(--font-display); letter-spacing: .11em; text-transform: uppercase; }
+.bf-card h3 { margin: .55rem 0 .9rem; font-size: clamp(1.2rem,2vw,1.5rem); }
+.bf-prices { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+.bf-prices del { color: #b6cbce; font-size: .9rem; }
+.bf-prices strong { color: #9df3ee; font-size: clamp(1.4rem,2.5vw,1.85rem); }
+.bf-card p { margin: .9rem 0 0; color: #e0eded; font-size: .9rem; line-height: 1.52; }
+.bf-terms { margin: 1.3rem 0 0; padding: 1rem 1.2rem; border-left: 3px solid #f0a975; background: rgba(7,24,32,.78); color: #dceaea; font-size: .88rem; line-height: 1.6; }
+.bf-terms p { margin: 0; }
+.bf-terms p + p { margin-top: .45rem; }
+.bf-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.25rem; }
+.bf-actions .button { min-height: 44px; }
+.bf-actions .button-secondary { color: #eafafa; border: 1px solid rgba(150,210,214,.52); background: rgba(20,55,66,.8); }
+.bf-actions .button-secondary:hover { background: rgba(35,79,89,.95); }
+.bf-regular-note { margin: 0 0 1.4rem; padding: .75rem 1rem; border-left: 3px solid #f0a975; background: rgba(7,24,32,.72); color: #dceaea; font-size: .88rem; }
+@media (max-width: 850px) { .bf-cards { grid-template-columns: 1fr; } .bf-card { padding: 1.15rem; } .bf-offer-header { grid-template-columns: 1fr; } .bf-offer-visual { min-height: 230px; } }
+@media (max-width: 700px) { .bf-home { margin-top: 0; } .bf-home-inner { grid-template-columns: 1fr; } .bf-home-visual { min-height: 185px; } .bf-home-visual img { object-position: center 46%; } .bf-home .button { width: 100%; text-align: center; } .bf-actions { flex-direction: column; } .bf-actions .button { width: 100%; justify-content: center; text-align: center; } }
+
+/* The approved campaign art forms one banner with live copy and a real CTA. */
+.bf-home-inner,.bf-offer-header { display: grid; grid-template-columns: 68% 32%; gap: 0; min-height: 340px; padding: 0; border: 1px solid rgba(111,232,228,.42); background: #06131c url("images/black-friday-banner-art-2026.png") center / cover no-repeat; }
+.bf-home-art { min-width: 0; }
+.bf-home-inner .bf-home-copy,.bf-offer-header .bf-home-copy { align-items: flex-start; padding: clamp(1rem,2.1vw,1.6rem); background: linear-gradient(90deg,rgba(4,17,25,.03),rgba(4,17,25,.38)); }
+.bf-home .bf-kicker,.bf-offer .bf-kicker { color: #d5e9e9; font-size: .66rem; letter-spacing: .07em; }
+.bf-home h2,.bf-offer .bf-offer-header h2 { margin: 0; color: #f5fbfa; font-size: clamp(1.3rem,2.1vw,2rem); line-height: 1.12; }
+.bf-home h2 em,.bf-offer .bf-offer-header h2 em { color: #56e2de; font-style: normal; }
+.bf-home p,.bf-offer .bf-offer-intro { margin: .7rem 0 0; color: #e5eeee; font-size: .91rem; line-height: 1.45; }
+.bf-home p strong,.bf-offer .bf-offer-intro strong { color: #a0f4ef; }
+.bf-banner-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 1rem; min-height: 46px; padding: .75rem 1rem; color: #071b22; border: 0; background: #ff8069; font-size: .87rem; font-weight: 800; text-decoration: none; box-shadow: 0 8px 24px rgba(255,128,105,.14); }
+.bf-banner-cta:hover,.bf-banner-cta:focus-visible { color: #061820; background: #ffa18d; box-shadow: 0 0 24px rgba(255,128,105,.48); }
+@media (max-width: 850px) { .bf-home-inner,.bf-offer-header { grid-template-columns: 1fr; min-height: 0; background-image: none; } .bf-home-art { min-height: clamp(170px,50vw,300px); background: #06131c url("images/black-friday-banner-art-2026.png") left center / cover no-repeat; } .bf-home-inner .bf-home-copy,.bf-offer-header .bf-home-copy { background: #071c26; padding: 1.2rem; } .bf-home h2,.bf-offer .bf-offer-header h2 { font-size: clamp(1.5rem,5vw,2rem); } }
+
+/* The campaign takes the Website hero preview slot while the offer is active. */
+.black-friday-active .website-hero-preview { display: none; }
+.website-bf-preview {
+  position: relative; min-width: 0; min-height: 360px; overflow: hidden;
+  border: 1px solid rgba(112,231,225,.55);
+  background: #06131c url("images/black-friday-50-off-hero-2026.png") center / cover no-repeat;
+  box-shadow: 0 18px 45px rgba(0,0,0,.28);
+  text-decoration: none;
+}
+.website-bf-preview:hover,.website-bf-preview:focus-visible { border-color: #ff937e; box-shadow: 0 0 0 3px rgba(255,128,105,.25),0 18px 45px rgba(0,0,0,.28); }
+@media (max-width: 900px) { .website-bf-preview { min-height: clamp(260px,55vw,390px); } }

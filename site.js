@@ -201,6 +201,7 @@ document.querySelectorAll('.service-detail').forEach(card => {
 const serviceSelect = document.getElementById('contact-service');
 const requestedService = new URLSearchParams(window.location.search).get('service');
 const requestedEnquiry = new URLSearchParams(window.location.search).get('enquiry');
+const requestedOffer = new URLSearchParams(window.location.search).get('offer');
 
 if (serviceSelect && requestedService) {
     const matchingOption = Array.from(serviceSelect.options).find(option => option.value === requestedService);
@@ -232,6 +233,15 @@ if (requestedEnquiry === 'call') {
     if (submitButton) submitButton.textContent = 'Request My Call';
     if (messageField && !messageField.value) {
         messageField.placeholder = 'Tell us briefly what you would like to discuss.';
+    }
+}
+
+if (requestedOffer === 'black-friday') {
+    const messageField = document.getElementById('contact-message');
+    if (messageField && !messageField.value) {
+        messageField.value = requestedEnquiry === 'call'
+            ? 'I am interested in the Black Friday website offer (1–30 November 2026). Please call me to discuss my website.'
+            : 'I am interested in the Black Friday website offer (1–30 November 2026). Please contact me about a quote.';
     }
 }
 
