@@ -37,10 +37,10 @@ if (testingForm) {
             savedWithoutEmail = result.notificationSent === false;
             if (result.notificationSent !== false) testingForm.reset();
             status.textContent = result.notificationSent === false
-                ? `Your details were saved, but our email alert failed. Please email Lockdownstudio021@gmail.com and quote ${result.reference}.`
+                ? `Your details were saved, but our email alert failed. Please email info@lockdownstudios.com and quote ${result.reference}.`
                 : 'Thanks! You are on our testing interest list. We’ll email if a suitable test opens.';
         } catch {
-            status.textContent = 'We could not submit your details. Please email Lockdownstudio021@gmail.com with “Mobile testing pool” in the subject.';
+            status.textContent = 'We could not submit your details. Please email info@lockdownstudios.com with “Mobile testing pool” in the subject.';
         } finally {
             if (!savedWithoutEmail) submit.disabled = false;
         }

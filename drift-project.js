@@ -61,10 +61,10 @@ if (feedbackForm) {
             savedWithoutEmail = result.notificationSent === false;
             if (result.notificationSent !== false) feedbackForm.reset();
             status.textContent = result.notificationSent === false
-                ? `Feedback saved, but our email alert failed. Please email Lockdownstudio021@gmail.com and quote ${result.reference}.`
+                ? `Feedback saved, but our email alert failed. Please email info@lockdownstudios.com and quote ${result.reference}.`
                 : 'Thank you. Your feedback has been sent privately to the development team.';
         } catch {
-            status.textContent = 'Feedback could not be sent right now. Please try later or email Lockdownstudio021@gmail.com.';
+            status.textContent = 'Feedback could not be sent right now. Please try later or email info@lockdownstudios.com.';
         } finally {
             if (!savedWithoutEmail) submit.disabled = false;
         }

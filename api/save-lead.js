@@ -77,7 +77,7 @@ export default async function handler(req, res) {
             success: true,
             reference,
             notificationSent: false,
-            message: `Your details were saved, but our email notification failed. Please email Lockdownstudio021@gmail.com and quote ${reference}. Do not submit the form again.`
+            message: `Your details were saved, but our email notification failed. Please email info@lockdownstudios.com and quote ${reference}. Do not submit the form again.`
         });
     }
 }

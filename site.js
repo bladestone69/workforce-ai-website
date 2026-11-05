@@ -327,9 +327,16 @@ contactForm?.addEventListener('submit', async event => {
 
         if (!response.ok) throw new Error(result.error || 'The enquiry could not be sent.');
 
+        // Fire only after the server has saved the enquiry. Do not send contact details to Tag Manager.
+        window.dataLayer?.push({
+            event: 'studio_enquiry_saved',
+            enquiry_type: payload.enquiryType,
+            service: payload.service
+        });
+
         if (result.notificationSent === false) {
             enquirySavedWithoutNotification = true;
-            showFormStatus(result.message || `Your details were saved, but the notification failed. Please email Lockdownstudio021@gmail.com and quote ${result.reference}. Do not submit again.`, 'error');
+            showFormStatus(result.message || `Your details were saved, but the notification failed. Please email info@lockdownstudios.com and quote ${result.reference}. Do not submit again.`, 'error');
         } else {
             contactForm.reset();
             syncPhonePreference();
@@ -341,7 +348,7 @@ contactForm?.addEventListener('submit', async event => {
             );
         }
     } catch (error) {
-        showFormStatus(`${error.message} You can also email Lockdownstudio021@gmail.com.`, 'error');
+        showFormStatus(`${error.message} You can also email info@lockdownstudios.com.`, 'error');
     } finally {
         if (submitButton) {
             submitButton.disabled = enquirySavedWithoutNotification;
