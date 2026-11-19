@@ -20,9 +20,12 @@ export function createLeadMessage(lead, reference) {
     const isCallRequest = lead.enquiryType === 'call';
     const isTestingSignup = lead.enquiryType === 'testing';
     const isSpriteForge = lead.enquiryType === 'spriteforge';
+    const offer = lead.offer === 'black-friday' ? 'November website offer' :
+        lead.offer === 'luna-launch' ? 'Luna launch special' : '';
     const subject = isSpriteForge ? 'SpriteForge pre-order list signup' : isCallRequest
-        ? `Call request from ${lead.name}`
-        : isTestingSignup ? `Mobile testing pool signup from ${lead.name}` : `Website enquiry from ${lead.name}`;
+        ? `${offer ? `${offer} callback` : 'Call request'} from ${lead.name}`
+        : isTestingSignup ? `Mobile testing pool signup from ${lead.name}` :
+        `${offer ? `${offer} enquiry` : 'Website enquiry'} from ${lead.name}`;
 
     const rows = [
         detailRow('Enquiry type', isSpriteForge ? 'SpriteForge launch notification (no payment)' : isCallRequest ? 'Free 15-minute call' : isTestingSignup ? 'Mobile game testing pool' : 'Project enquiry'),
@@ -33,6 +36,8 @@ export function createLeadMessage(lead, reference) {
         detailRow('Contact preference', lead.contactPreference),
         detailRow('Preferred call time', lead.bestTime),
         detailRow('Service', lead.service),
+        detailRow('Offer', offer),
+        detailRow('Website option', lead.websitePackage),
         detailRow('Testing contact consent', isTestingSignup && lead.testingConsent ? 'Yes' : ''),
         detailRow('Message', lead.message),
         detailRow('Received', lead.receivedAt),
@@ -43,9 +48,9 @@ export function createLeadMessage(lead, reference) {
     return {
         from: `Lockdown Studios Website <${gmailUser}>`,
         to: process.env.CONTACT_TO_EMAIL || gmailUser,
-        replyTo: lead.email,
+        ...(lead.email ? { replyTo: lead.email } : {}),
         subject,
-        html: `<div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#111820"><h1 style="font-size:24px">${escapeHtml(subject)}</h1><p style="color:#40505e">A new enquiry was submitted through lockdownstudios.com.</p><table style="width:100%;border-collapse:collapse;border:1px solid #dce3e8">${rows}</table><p style="margin-top:20px;color:#667786;font-size:12px">Reply to this message to contact ${escapeHtml(lead.name)} at ${escapeHtml(lead.email)}.</p></div>`
+        html: `<div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#111820"><h1 style="font-size:24px">${escapeHtml(subject)}</h1><p style="color:#40505e">A new enquiry was submitted through lockdownstudios.com.</p><table style="width:100%;border-collapse:collapse;border:1px solid #dce3e8">${rows}</table><p style="margin-top:20px;color:#667786;font-size:12px">${isCallRequest ? `Call ${escapeHtml(lead.name)} at ${escapeHtml(lead.phone)}.` : `Reply to this message to contact ${escapeHtml(lead.name)} at ${escapeHtml(lead.email)}.`}</p></div>`
     };
 }
 

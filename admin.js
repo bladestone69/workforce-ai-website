@@ -77,7 +77,8 @@ function showLead(lead) {
     $('detail-fields').replaceChildren();
     for (const [label, key] of [
         ['Received', 'receivedAt'], ['Reference', 'reference'], ['Type', 'enquiryType'],
-        ['Service', 'service'], ['Name', 'name'], ['Business', 'company'],
+        ['Service', 'service'], ['Offer', 'offer'], ['Website option', 'websitePackage'],
+        ['Name', 'name'], ['Business', 'company'],
         ['Email', 'email'], ['Phone', 'phone'], ['Contact preference', 'contactPreference'],
         ['Best time', 'bestTime'], ['Message', 'message'], ['Source', 'source']
     ]) addDetail(label, lead[key]);
@@ -87,7 +88,7 @@ function showLead(lead) {
 
 function renderLeads() {
     const query = $('lead-filter').value.trim().toLowerCase();
-    const filtered = leads.filter(lead => [lead.name, lead.email, lead.service, lead.message, lead.enquiryType]
+    const filtered = leads.filter(lead => [lead.name, lead.email, lead.service, lead.message, lead.enquiryType, lead.offer, lead.websitePackage]
         .some(value => String(value || '').toLowerCase().includes(query)));
     const list = $('lead-list');
     list.replaceChildren();

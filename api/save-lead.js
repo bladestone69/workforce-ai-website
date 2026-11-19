@@ -10,6 +10,13 @@ import {
     setApiSecurityHeaders
 } from './_security.js';
 
+const WEBSITE_PACKAGES = new Map([
+    ['starter', 'Starter Improvement'],
+    ['rescue', 'Website Rescue'],
+    ['new-site', 'New Business Website'],
+    ['unsure', 'Not sure yet']
+]);
+
 export const createLeadHandler = (store = put, notify = sendLeadNotification) => async function handler(req, res) {
     setApiSecurityHeaders(res);
     if (!requireMethod(req, res, 'POST')) return;
@@ -45,7 +52,26 @@ export const createLeadHandler = (store = put, notify = sendLeadNotification) =>
         Object.assign(lead, {service:'SpriteForge Studio', source:'spriteforge_preorder', contactPreference:'Email',
             message:'Requested SpriteForge launch notification. No purchase or payment.', launchConsent:true, consentVersion:'spriteforge-launch-v1'});
     }
-    if (!lead.name || !lead.email || !lead.message || !lead.service) {
+    const isCall = lead.enquiryType === 'call';
+    const requestedOffer = cleanString(req.body?.offer, 40);
+    const isNovember = requestedOffer === 'black-friday' && lead.service === 'Website' &&
+        ['project', 'call'].includes(lead.enquiryType);
+    const isLuna = requestedOffer === 'luna-launch' && lead.service === 'Luna' && lead.enquiryType === 'project';
+    const isNovemberQuote = isNovember && !isCall;
+    if (isNovember || isLuna) lead.offer = requestedOffer;
+    if (isNovemberQuote) {
+        const packageId = cleanString(req.body?.websitePackage, 30);
+        if (!WEBSITE_PACKAGES.has(packageId)) {
+            return res.status(400).json({ error: 'Select a website option or choose Not sure yet' });
+        }
+        lead.websitePackage = WEBSITE_PACKAGES.get(packageId);
+    }
+
+    if (isCall) {
+        lead.contactPreference = 'Phone call';
+        if (!lead.name) return res.status(400).json({ error: 'Name is required for a callback' });
+        if (!lead.service) lead.service = 'Other';
+    } else if (!lead.name || !lead.email || (!isNovemberQuote && !lead.message) || !lead.service) {
         return res.status(400).json({ error: 'Name, email, service, and project details are required' });
     }
     if (lead.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) {

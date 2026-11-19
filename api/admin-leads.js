@@ -22,6 +22,7 @@ async function readLead(blob) {
             company: lead.company || '', contactPreference: lead.contactPreference || '',
             bestTime: lead.bestTime || '', enquiryType: lead.enquiryType || 'project',
             service: lead.service || '', message: lead.message || '', source: lead.source || '',
+            offer: lead.offer || '', websitePackage: lead.websitePackage || '',
             testingConsent: lead.testingConsent === true
         };
     } catch {
