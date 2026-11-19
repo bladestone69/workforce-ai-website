@@ -132,6 +132,9 @@ test('Luna hero only enables chat through the server-gated assistant', () => {
     assert.match(assistant, /liveAvailable = Boolean/);
     assert.match(assistant, /guidedAnswer\(question\)/);
     assert.match(assistant, /heroTrigger\.disabled = false/);
+    assert.match(assistant, /actions\.append\(launcher, eve\)/);
+    assert.match(assistant, /\.after\(voiceLink\)/);
+    assert.match(assistant, /eve\.href = '\/eve'/);
 });
 
 test('Home and Services present five routes with privacy and social metadata', () => {
