@@ -1,0 +1,5 @@
+#sf-signup{display:grid;gap:1rem;max-width:32rem;margin:1.6rem 0}.offer small{color:#292d23}
+#sf-signup label{display:grid;gap:.3rem;font-weight:650}#sf-signup input:not([type=checkbox]){width:100%;font:inherit;background:#fff;color:#17151e;border:1px solid #47572d;border-radius:.65rem;padding:.65rem .85rem}
+#sf-signup .sf-opt{display:flex;align-items:baseline;gap:.7rem;font-size:.98rem;font-weight:500}
+#sf-signup button{justify-self:start;background:#1b1823;color:white}#sf-signup button:disabled{opacity:.8}
+#sf-signup p:empty{display:none}

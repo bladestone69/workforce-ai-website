@@ -1,4 +1,5 @@
 node_modules/
+eve-audio/
 .vercel/
 .env
 .env.local

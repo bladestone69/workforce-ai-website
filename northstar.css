@@ -133,7 +133,12 @@ body {
 }
 
 /* Visitor assistant supports guided site answers and server-gated live AI. */
-.assistant-launcher { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 1190; border: 1px solid #9bf5f1; border-radius: 999px; padding: 0.75rem 1.1rem; background: #72e7eb; color: #08252d; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35); font-weight: 800; cursor: pointer; }
+.studio-assistants { position: fixed; right: max(1.25rem, env(safe-area-inset-right)); bottom: max(1.25rem, env(safe-area-inset-bottom)); z-index: 1190; display: flex; gap: .45rem; }
+.assistant-launcher, .eve-launcher { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #9bf5f1; border-radius: 999px; padding: .65rem 1rem; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); font: 700 .9rem/1.2 var(--font-body); cursor: pointer; }
+.assistant-launcher { background: #102630; color: #e9ffff; }
+.eve-launcher { background: #72e7eb; color: #08252d; text-decoration: none; }
+.eve-launcher:hover, .eve-launcher:focus-visible { background: #a1f2f2; color: #08252d; }
+body:has(.studio-assistants) .site-footer { padding-bottom: max(4.5rem, calc(3.75rem + env(safe-area-inset-bottom))); }
 .assistant-panel { position: fixed; right: 1.25rem; bottom: 4.8rem; z-index: 1200; width: min(390px, calc(100vw - 2rem)); max-height: min(650px, calc(100dvh - 6rem)); display: flex; flex-direction: column; background: #102630; color: #f2fbfa; border: 1px solid rgba(120, 232, 239, 0.62); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5); }
 .assistant-panel[hidden] { display: none; }
 .assistant-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--line); font-weight: 800; }
@@ -153,7 +158,7 @@ body {
 .assistant-form button:disabled { opacity: 0.6; cursor: wait; }
 .assistant-foot { margin: 0; padding: 0 1rem 0.85rem; color: #b1cbd0; font-size: 0.7rem; }
 .assistant-foot a { color: var(--cyan); }
-@media (max-width: 640px) { .assistant-launcher { right: 0.8rem; bottom: 0.8rem; } .assistant-panel { right: 0.5rem; bottom: 4.5rem; max-height: calc(100dvh - 5rem); } .assistant-head { flex-wrap: wrap; } }
+@media (max-width: 640px) { .studio-assistants { right: max(.8rem, env(safe-area-inset-right)); bottom: max(.8rem, env(safe-area-inset-bottom)); } .assistant-panel { right: .5rem; bottom: calc(4.5rem + env(safe-area-inset-bottom)); max-height: calc(100dvh - 5rem - env(safe-area-inset-bottom)); } .assistant-head { flex-wrap: wrap; } }
 .ns-privacy { max-width: 880px; }
 .ns-privacy h1 { margin: 1rem 0 1.5rem; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 1.04; letter-spacing: -0.06em; }
 .ns-privacy h2 { margin: 2rem 0 0.65rem; font-size: 1.5rem; }
@@ -630,6 +635,7 @@ body {
 .luna-card p { margin: 0 0 1.3rem; font-size: .9rem; line-height: 1.6; }
 .luna-card .button { width: 100%; cursor: pointer; }
 .luna-card .button:disabled { cursor: not-allowed; opacity: .55; }
+.luna-card-voice { margin-top: .9rem; }
 .luna-card small { display: block; margin-top: .9rem; color: #bdcfce; font-size: .72rem; line-height: 1.5; }
 .luna-card small a { color: #9ce7d1; }
 @media(max-width:900px){.luna-card{justify-self:start}}
@@ -809,9 +815,7 @@ body {
 .home-page #contact .field-control { min-height: 44px; }
 .home-page .home-work-media img[src$="assets-render-wireframe.png"] { object-position: center; }
 @media(max-width:900px) {
-  .assistant-launcher { top: calc(.72rem + env(safe-area-inset-top)); right: 4.4rem; bottom: auto; display: grid; place-items: center; width: 44px; height: 44px; padding: .2rem; border-radius: 50%; font-size: .65rem; line-height: 1.05; text-align: center; white-space: normal; }
-  .assistant-launcher:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
-  .assistant-panel { top: calc(4.65rem + env(safe-area-inset-top)); right: .5rem; bottom: auto; max-height: calc(100dvh - 5.15rem - env(safe-area-inset-top)); }
+  .menu-open .studio-assistants { visibility: hidden; }
 }
 @media(max-width:640px) {
   .home-page #contact { padding-block: .8rem; }

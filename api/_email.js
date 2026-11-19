@@ -19,15 +19,16 @@ function detailRow(label, value) {
 export function createLeadMessage(lead, reference) {
     const isCallRequest = lead.enquiryType === 'call';
     const isTestingSignup = lead.enquiryType === 'testing';
+    const isSpriteForge = lead.enquiryType === 'spriteforge';
     const offer = lead.offer === 'black-friday' ? 'November website offer' :
-        lead.offer === 'aura-launch' ? 'Aura launch special' : '';
-    const subject = isCallRequest
+        lead.offer === 'luna-launch' ? 'Luna launch special' : '';
+    const subject = isSpriteForge ? 'SpriteForge pre-order list signup' : isCallRequest
         ? `${offer ? `${offer} callback` : 'Call request'} from ${lead.name}`
         : isTestingSignup ? `Mobile testing pool signup from ${lead.name}` :
         `${offer ? `${offer} enquiry` : 'Website enquiry'} from ${lead.name}`;
 
     const rows = [
-        detailRow('Enquiry type', isCallRequest ? 'Free 15-minute call' : isTestingSignup ? 'Mobile game testing pool' : 'Project enquiry'),
+        detailRow('Enquiry type', isSpriteForge ? 'SpriteForge launch notification (no payment)' : isCallRequest ? 'Free 15-minute call' : isTestingSignup ? 'Mobile game testing pool' : 'Project enquiry'),
         detailRow('Name', lead.name),
         detailRow('Business', lead.company),
         detailRow('Email', lead.email),

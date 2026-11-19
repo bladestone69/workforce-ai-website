@@ -202,8 +202,8 @@ const contactParams = new URLSearchParams(window.location.search);
 const requestedService = contactParams.get('service');
 const isCallback = contactParams.get('enquiry') === 'call';
 const requestedOffer = contactParams.get('offer');
-const activeOffer = requestedOffer === 'aura-launch' && requestedService === 'Aura'
-    ? 'aura-launch'
+const activeOffer = requestedOffer === 'luna-launch' && requestedService === 'Luna'
+    ? 'luna-launch'
     : requestedOffer === 'black-friday' && requestedService === 'Website' &&
       document.documentElement.classList.contains('black-friday-active') ? 'black-friday' : '';
 const contactForm = document.getElementById('contact-form');
@@ -266,13 +266,13 @@ if (contactForm && isCallback) {
         'Improvements from R1,500. The offer runs until 30 November 2026 for new clients; we’ll confirm your price once we know the scope.',
         'Request My November Quote'
     );
-} else if (contactForm && activeOffer === 'aura-launch') {
+} else if (contactForm && activeOffer === 'luna-launch') {
     serviceSelect.closest('.field-group').hidden = true;
-    contactMessage.placeholder = 'What could Aura help you with?';
+    contactMessage.placeholder = 'What could Luna help you with?';
     setContactCopy(
-        'Aura launch special', 'See what Aura can do for your business.',
-        'Tell us what you’d like Aura to help with and we’ll get back to you with launch details.',
-        'Ask About Aura'
+        'Luna launch special', 'Meet your AI personal assistant.',
+        'Tell us what you’d like Luna to help with and we’ll get back to you with launch details.',
+        'Ask About Luna'
     );
 }
 
@@ -382,7 +382,7 @@ contactForm?.addEventListener('submit', async event => {
                 payload.enquiryType === 'call'
                     ? 'Thank you. Your call request has been emailed to the studio.'
                     : isNovemberQuote ? 'Thank you. Your November quote request has been emailed to the studio.'
-                    : activeOffer === 'aura-launch' ? 'Thank you. Your Aura enquiry has been emailed to the studio.'
+                    : activeOffer === 'luna-launch' ? 'Thank you. Your Luna enquiry has been emailed to the studio.'
                     : 'Thank you. Your project enquiry has been emailed to the studio.',
                 'success'
             );
@@ -399,7 +399,7 @@ contactForm?.addEventListener('submit', async event => {
 });
 
 // Luna offers guided site answers in static previews and live AI when the server gate is ready.
-import('./assistant.js?v=3').catch(() => {});
+import('./assistant.js?v=4').catch(() => {});
 
 // Aggregate page counts and on-site routes only; no IDs, query strings, or form fields.
 if (!['localhost', '127.0.0.1'].includes(window.location.hostname) && navigator.doNotTrack !== '1') {

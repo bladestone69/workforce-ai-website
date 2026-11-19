@@ -132,6 +132,9 @@ test('Luna hero only enables chat through the server-gated assistant', () => {
     assert.match(assistant, /liveAvailable = Boolean/);
     assert.match(assistant, /guidedAnswer\(question\)/);
     assert.match(assistant, /heroTrigger\.disabled = false/);
+    assert.match(assistant, /actions\.append\(launcher, eve\)/);
+    assert.match(assistant, /\.after\(voiceLink\)/);
+    assert.match(assistant, /eve\.href = '\/eve'/);
 });
 
 test('Home and Services present five routes with privacy and social metadata', () => {
@@ -160,5 +163,5 @@ test('Services has balanced routes and a neutral app enquiry path', () => {
     assert.match(services, /href="privacy\.html">Privacy information/);
     assert.match(styles, /\.services-page \.ns-services-card \{ grid-column: span 2; \}/);
     assert.doesNotMatch(styles, /\.services-page \.ns-services-card:last-child \{ grid-column: 1 \/ -1; \}/);
-    assert.match(styles, /@media\(max-width:900px\) \{\s*\.assistant-launcher/);
+    assert.match(styles, /\.menu-open \.studio-assistants \{ visibility: hidden; \}/);
 });

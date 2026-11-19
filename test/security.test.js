@@ -125,16 +125,16 @@ test('campaign enquiry storage and studio notification work with minimal fields'
     }
     const stored = [];
     const mailed = [];
-    const handler = createLeadHandler({
-        save: async (_path, data, options) => {
+    const handler = createLeadHandler(
+        async (_path, data, options) => {
             assert.equal(options.access, 'private');
             stored.push(JSON.parse(data));
         },
-        notify: async (lead, reference) => {
+        async (lead, reference) => {
             mailed.push(createLeadMessage(lead, reference));
             if (lead.name === 'Notification failure') throw new Error('Test-only SMTP failure');
         }
-    });
+    );
     let ip = 100;
     async function submit(body) {
         const req = request({ body });
@@ -145,9 +145,9 @@ test('campaign enquiry storage and studio notification work with minimal fields'
     }
     const call = { name: 'QA Callback', phone: '0123456789', service: 'Website', enquiryType: 'call', offer: 'black-friday' };
     const quote = { name: 'QA Quote', email: 'qa@example.com', service: 'Website', offer: 'black-friday', websitePackage: 'starter' };
-    const aura = { name: 'QA Aura', email: 'qa@example.com', service: 'Aura', offer: 'aura-launch', message: 'Demo enquiry' };
+    const luna = { name: 'QA Luna', email: 'qa@example.com', service: 'Luna', offer: 'luna-launch', message: 'Demo enquiry' };
 
-    for (const payload of [call, quote, aura]) {
+    for (const payload of [call, quote, luna]) {
         const result = await submit(payload);
         assert.equal(result.statusCode, 201);
         assert.equal(result.payload.notificationSent, true);
@@ -159,7 +159,7 @@ test('campaign enquiry storage and studio notification work with minimal fields'
     assert.match(mailed[0].html, /Call QA Callback at 0123456789\./);
     assert.equal(stored[1].websitePackage, 'Starter Improvement');
     assert.match(mailed[1].html, /Starter Improvement/);
-    assert.match(mailed[2].subject, /Aura launch special/);
+    assert.match(mailed[2].subject, /Luna launch special/);
 
     for (const invalid of [
         { ...call, phone: '' },

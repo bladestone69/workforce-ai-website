@@ -17,13 +17,7 @@ const WEBSITE_PACKAGES = new Map([
     ['unsure', 'Not sure yet']
 ]);
 
-export default createLeadHandler();
-
-export function createLeadHandler({ save = put, notify = sendLeadNotification } = {}) {
-    return (req, res) => handleLead(req, res, save, notify);
-}
-
-async function handleLead(req, res, save, notify) {
+export const createLeadHandler = (store = put, notify = sendLeadNotification) => async function handler(req, res) {
     setApiSecurityHeaders(res);
     if (!requireMethod(req, res, 'POST')) return;
     if (!requireSameOrigin(req, res)) return;
@@ -53,13 +47,18 @@ async function handleLead(req, res, save, notify) {
         receivedAt: new Date().toISOString()
     };
 
+    if (lead.enquiryType === 'spriteforge') {
+        if (req.body?.launchConsent !== true) return res.status(400).json({error:'Consent required for launch updates'});
+        Object.assign(lead, {service:'SpriteForge Studio', source:'spriteforge_preorder', contactPreference:'Email',
+            message:'Requested SpriteForge launch notification. No purchase or payment.', launchConsent:true, consentVersion:'spriteforge-launch-v1'});
+    }
     const isCall = lead.enquiryType === 'call';
     const requestedOffer = cleanString(req.body?.offer, 40);
     const isNovember = requestedOffer === 'black-friday' && lead.service === 'Website' &&
         ['project', 'call'].includes(lead.enquiryType);
-    const isAura = requestedOffer === 'aura-launch' && lead.service === 'Aura' && lead.enquiryType === 'project';
+    const isLuna = requestedOffer === 'luna-launch' && lead.service === 'Luna' && lead.enquiryType === 'project';
     const isNovemberQuote = isNovember && !isCall;
-    if (isNovember || isAura) lead.offer = requestedOffer;
+    if (isNovember || isLuna) lead.offer = requestedOffer;
     if (isNovemberQuote) {
         const packageId = cleanString(req.body?.websitePackage, 30);
         if (!WEBSITE_PACKAGES.has(packageId)) {
@@ -87,7 +86,7 @@ async function handleLead(req, res, save, notify) {
 
     const reference = randomUUID();
     try {
-        await save(
+        await store(
             `leads/${lead.receivedAt.slice(0, 10)}/${reference}.json`,
             JSON.stringify(lead),
             {
@@ -112,4 +111,5 @@ async function handleLead(req, res, save, notify) {
             message: `Your details were saved, but our email notification failed. Please email info@lockdownstudios.com and quote ${reference}. Do not submit the form again.`
         });
     }
-}
+};
+export default createLeadHandler();

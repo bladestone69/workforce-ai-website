@@ -4,12 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'Static site - no build needed'",
+    "build": "node build-eve.mjs",
     "deploy": "vercel --prod",
     "test": "node --test",
     "check": "node --check site.js && node --check client-sites.js && node --check hero-constellation.js && node --check assistant.js && node --check luna-answers.js && node --check script.js && node --check drift-demo.js && node --check drift-project.js && node --check asset-gallery.js && node --check testing-pool.js && node --check admin.js && node --check api/_security.js && node --check api/_email.js && node --check api/_admin.js && node --check api/_analytics.js && node --check api/admin-auth.js && node --check api/admin-leads.js && node --check api/admin-analytics.js && node --check api/track-page.js && node --check api/save-lead.js && node --check api/save-game-feedback.js && node --check api/assistant-chat.js && node --check api/assistant-status.js"
   },
   "dependencies": {
+    "@alexanderolsen/libsamplerate-js": "2.1.2",
+    "@elevenlabs/client": "1.37.1",
     "@vercel/blob": "^2.8.0",
     "nodemailer": "^10.0.10"
   }
