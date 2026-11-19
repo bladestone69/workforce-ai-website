@@ -160,5 +160,5 @@ test('Services has balanced routes and a neutral app enquiry path', () => {
     assert.match(services, /href="privacy\.html">Privacy information/);
     assert.match(styles, /\.services-page \.ns-services-card \{ grid-column: span 2; \}/);
     assert.doesNotMatch(styles, /\.services-page \.ns-services-card:last-child \{ grid-column: 1 \/ -1; \}/);
-    assert.match(styles, /@media\(max-width:900px\) \{\s*\.assistant-launcher/);
+    assert.match(styles, /\.menu-open \.studio-assistants \{ visibility: hidden; \}/);
 });
