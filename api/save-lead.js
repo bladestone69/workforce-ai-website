@@ -10,7 +10,7 @@ import {
     setApiSecurityHeaders
 } from './_security.js';
 
-export default async function handler(req, res) {
+export const createLeadHandler = (store = put, notify = sendLeadNotification) => async function handler(req, res) {
     setApiSecurityHeaders(res);
     if (!requireMethod(req, res, 'POST')) return;
     if (!requireSameOrigin(req, res)) return;
@@ -40,6 +40,11 @@ export default async function handler(req, res) {
         receivedAt: new Date().toISOString()
     };
 
+    if (lead.enquiryType === 'spriteforge') {
+        if (req.body?.launchConsent !== true) return res.status(400).json({error:'Consent required for launch updates'});
+        Object.assign(lead, {service:'SpriteForge Studio', source:'spriteforge_preorder', contactPreference:'Email',
+            message:'Requested SpriteForge launch notification. No purchase or payment.', launchConsent:true, consentVersion:'spriteforge-launch-v1'});
+    }
     if (!lead.name || !lead.email || !lead.message || !lead.service) {
         return res.status(400).json({ error: 'Name, email, service, and project details are required' });
     }
@@ -55,7 +60,7 @@ export default async function handler(req, res) {
 
     const reference = randomUUID();
     try {
-        await put(
+        await store(
             `leads/${lead.receivedAt.slice(0, 10)}/${reference}.json`,
             JSON.stringify(lead),
             {
@@ -69,7 +74,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        await sendLeadNotification(lead, reference);
+        await notify(lead, reference);
         return res.status(201).json({ success: true, reference, notificationSent: true });
     } catch {
         // The private lead record exists, but the studio may not see it until email is restored.
@@ -80,4 +85,5 @@ export default async function handler(req, res) {
             message: `Your details were saved, but our email notification failed. Please email info@lockdownstudios.com and quote ${reference}. Do not submit the form again.`
         });
     }
-}
+};
+export default createLeadHandler();
