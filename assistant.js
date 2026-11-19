@@ -115,6 +115,9 @@ async function startWebsiteAssistant() {
     if (heroTrigger) {
         heroTrigger.disabled = false;
         heroTrigger.addEventListener('click', () => setOpen(true, heroTrigger));
+        const voiceLink = eve.cloneNode(true);
+        voiceLink.className = 'button button-secondary luna-card-voice';
+        (heroNote || heroTrigger).after(voiceLink);
     }
     if (heroStatus) heroStatus.textContent = liveAvailable ? 'Live AI ready' : 'Guided mode ready';
     if (heroNote) heroNote.textContent = liveAvailable

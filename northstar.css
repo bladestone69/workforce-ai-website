@@ -635,6 +635,7 @@ body:has(.studio-assistants) .site-footer { padding-bottom: max(4.5rem, calc(3.7
 .luna-card p { margin: 0 0 1.3rem; font-size: .9rem; line-height: 1.6; }
 .luna-card .button { width: 100%; cursor: pointer; }
 .luna-card .button:disabled { cursor: not-allowed; opacity: .55; }
+.luna-card-voice { margin-top: .9rem; }
 .luna-card small { display: block; margin-top: .9rem; color: #bdcfce; font-size: .72rem; line-height: 1.5; }
 .luna-card small a { color: #9ce7d1; }
 @media(max-width:900px){.luna-card{justify-self:start}}
