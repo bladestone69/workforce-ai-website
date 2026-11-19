@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="site.css?v=19">
     <script src="black-friday.js?v=1"></script>
     <link rel="stylesheet" href="northstar.css?v=48">
+    <link rel="stylesheet" href="enquiry.css?v=1">
 </head>
 <body class="home-page" data-star-hero>
 <!-- Google Tag Manager (noscript) -->
@@ -89,6 +90,19 @@
                     <h2 id="bf-home-title">Your website deserves an update.<br><em>Your wallet deserves a break.</em></h2>
                     <p><strong>50% off</strong> new websites and website improvements. Improvements from <strong>R1,500.</strong></p>
                     <a class="button bf-banner-cta" href="websites-apps.html#black-friday">View Black Friday Offers ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="aura-launch-title">
+            <div class="container contact-panel">
+                <div class="contact-copy">
+                    <span class="eyebrow">Aura launch special</span>
+                    <h2 id="aura-launch-title">Meet Aura, our AI personal assistant.</h2>
+                    <p>See how Aura can answer common customer questions and take down enquiry details when your team is busy.</p>
+                </div>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="index.html?service=Aura&amp;offer=aura-launch#contact">Ask about the Aura launch special ↗</a>
                 </div>
             </div>
         </section>
@@ -262,9 +276,19 @@
                             <option value="Mobile app">Mobile app</option>
                             <option value="Game development">Game development</option>
                             <option value="3D or animation">3D or animation</option>
+                            <option value="Aura">Aura AI Personal Assistant</option>
                             <option value="AI Business Avatar">AI Business Avatar</option>
                             <option value="Automation or AI solution">Automation or AI solution</option>
                             <option value="Other">Something else</option>
+                        </select>
+                    </div>
+                    <div class="field-group" id="contact-package-group" hidden>
+                        <label for="contact-package">Which website option interests you?</label>
+                        <select class="field-control" id="contact-package" name="websitePackage" disabled>
+                            <option value="unsure">Not sure yet</option>
+                            <option value="starter">Starter Improvement (from R1,500)</option>
+                            <option value="rescue">Website Rescue (from R3,250)</option>
+                            <option value="new-site">New Business Website (from R6,250)</option>
                         </select>
                     </div>
                     <div class="field-group">
@@ -296,6 +320,10 @@
                             </div>
                         </div>
                     </details>
+                    <div class="field-group" id="contact-call-time-group" hidden>
+                        <label for="contact-call-time">Best time to call (optional)</label>
+                        <input class="field-control" id="contact-call-time" name="bestTime" type="text" placeholder="Example: Weekdays after 14:00" disabled>
+                    </div>
                     <p class="form-note">We use your details only to reply. Read our <a href="privacy.html">Privacy information</a>.</p>
                     <button class="button button-primary" type="submit">Send Project Brief</button>
                     <div class="form-status" id="contact-form-status" role="status" aria-live="polite"></div>
@@ -336,7 +364,7 @@
         </div>
     </footer>
 
-    <script src="site.js?v=18"></script>
+    <script src="site.js?v=19"></script>
     <script src="hero-constellation.js?v=6" defer></script>
 </body>
 </html>

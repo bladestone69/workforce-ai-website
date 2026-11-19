@@ -10,7 +10,20 @@ import {
     setApiSecurityHeaders
 } from './_security.js';
 
-export default async function handler(req, res) {
+const WEBSITE_PACKAGES = new Map([
+    ['starter', 'Starter Improvement'],
+    ['rescue', 'Website Rescue'],
+    ['new-site', 'New Business Website'],
+    ['unsure', 'Not sure yet']
+]);
+
+export default createLeadHandler();
+
+export function createLeadHandler({ save = put, notify = sendLeadNotification } = {}) {
+    return (req, res) => handleLead(req, res, save, notify);
+}
+
+async function handleLead(req, res, save, notify) {
     setApiSecurityHeaders(res);
     if (!requireMethod(req, res, 'POST')) return;
     if (!requireSameOrigin(req, res)) return;
@@ -40,7 +53,26 @@ export default async function handler(req, res) {
         receivedAt: new Date().toISOString()
     };
 
-    if (!lead.name || !lead.email || !lead.message || !lead.service) {
+    const isCall = lead.enquiryType === 'call';
+    const requestedOffer = cleanString(req.body?.offer, 40);
+    const isNovember = requestedOffer === 'black-friday' && lead.service === 'Website' &&
+        ['project', 'call'].includes(lead.enquiryType);
+    const isAura = requestedOffer === 'aura-launch' && lead.service === 'Aura' && lead.enquiryType === 'project';
+    const isNovemberQuote = isNovember && !isCall;
+    if (isNovember || isAura) lead.offer = requestedOffer;
+    if (isNovemberQuote) {
+        const packageId = cleanString(req.body?.websitePackage, 30);
+        if (!WEBSITE_PACKAGES.has(packageId)) {
+            return res.status(400).json({ error: 'Select a website option or choose Not sure yet' });
+        }
+        lead.websitePackage = WEBSITE_PACKAGES.get(packageId);
+    }
+
+    if (isCall) {
+        lead.contactPreference = 'Phone call';
+        if (!lead.name) return res.status(400).json({ error: 'Name is required for a callback' });
+        if (!lead.service) lead.service = 'Other';
+    } else if (!lead.name || !lead.email || (!isNovemberQuote && !lead.message) || !lead.service) {
         return res.status(400).json({ error: 'Name, email, service, and project details are required' });
     }
     if (lead.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) {
@@ -55,7 +87,7 @@ export default async function handler(req, res) {
 
     const reference = randomUUID();
     try {
-        await put(
+        await save(
             `leads/${lead.receivedAt.slice(0, 10)}/${reference}.json`,
             JSON.stringify(lead),
             {
@@ -69,7 +101,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        await sendLeadNotification(lead, reference);
+        await notify(lead, reference);
         return res.status(201).json({ success: true, reference, notificationSent: true });
     } catch {
         // The private lead record exists, but the studio may not see it until email is restored.

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import saveLead from '../api/save-lead.js';
+import saveLead, { createLeadHandler } from '../api/save-lead.js';
 import saveGameFeedback from '../api/save-game-feedback.js';
 import { createGameFeedbackMessage, createLeadMessage } from '../api/_email.js';
 import { requireJson, requireSameOrigin } from '../api/_security.js';
@@ -108,6 +108,73 @@ test('phone and WhatsApp enquiries require a reachable phone number', async () =
             else process.env[key] = value;
         }
     }
+});
+
+test('campaign enquiry storage and studio notification work with minimal fields', async t => {
+    for (const [key, value] of Object.entries({
+        BLOB_READ_WRITE_TOKEN: 'test-only',
+        GMAIL_USER: 'studio@example.com',
+        GMAIL_APP_PASSWORD: 'test-only'
+    })) {
+        const previous = process.env[key];
+        process.env[key] = value;
+        t.after(() => {
+            if (previous === undefined) delete process.env[key];
+            else process.env[key] = previous;
+        });
+    }
+    const stored = [];
+    const mailed = [];
+    const handler = createLeadHandler({
+        save: async (_path, data, options) => {
+            assert.equal(options.access, 'private');
+            stored.push(JSON.parse(data));
+        },
+        notify: async (lead, reference) => {
+            mailed.push(createLeadMessage(lead, reference));
+            if (lead.name === 'Notification failure') throw new Error('Test-only SMTP failure');
+        }
+    });
+    let ip = 100;
+    async function submit(body) {
+        const req = request({ body });
+        req.headers['x-forwarded-for'] = `203.0.113.${ip++}`;
+        const res = response();
+        await handler(req, res);
+        return res;
+    }
+    const call = { name: 'QA Callback', phone: '0123456789', service: 'Website', enquiryType: 'call', offer: 'black-friday' };
+    const quote = { name: 'QA Quote', email: 'qa@example.com', service: 'Website', offer: 'black-friday', websitePackage: 'starter' };
+    const aura = { name: 'QA Aura', email: 'qa@example.com', service: 'Aura', offer: 'aura-launch', message: 'Demo enquiry' };
+
+    for (const payload of [call, quote, aura]) {
+        const result = await submit(payload);
+        assert.equal(result.statusCode, 201);
+        assert.equal(result.payload.notificationSent, true);
+    }
+    assert.equal(stored[0].contactPreference, 'Phone call');
+    assert.equal(stored[0].email, '');
+    assert.equal(stored[0].message, '');
+    assert.equal(mailed[0].replyTo, undefined);
+    assert.match(mailed[0].html, /Call QA Callback at 0123456789\./);
+    assert.equal(stored[1].websitePackage, 'Starter Improvement');
+    assert.match(mailed[1].html, /Starter Improvement/);
+    assert.match(mailed[2].subject, /Aura launch special/);
+
+    for (const invalid of [
+        { ...call, phone: '' },
+        { ...call, email: 'not-an-email' },
+        { ...quote, websitePackage: 'injected' },
+        { ...quote, offer: '' },
+        { ...quote, enquiryType: 'testing' }
+    ]) assert.equal((await submit(invalid)).statusCode, 400);
+    assert.equal(stored.length, 3);
+
+    const savedWithoutMail = await submit({ ...call, name: 'Notification failure' });
+    assert.equal(savedWithoutMail.statusCode, 202);
+    assert.equal(savedWithoutMail.payload.notificationSent, false);
+    assert.match(savedWithoutMail.payload.message, /Do not submit the form again/);
+    assert.equal(stored.length, 4);
 });
 
 test('email notification targets the configured studio address and escapes lead details', () => {

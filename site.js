@@ -198,66 +198,96 @@ document.querySelectorAll('.service-detail').forEach(card => {
     });
 });
 
-const serviceSelect = document.getElementById('contact-service');
-const requestedService = new URLSearchParams(window.location.search).get('service');
-const requestedEnquiry = new URLSearchParams(window.location.search).get('enquiry');
-const requestedOffer = new URLSearchParams(window.location.search).get('offer');
-
-if (serviceSelect && requestedService) {
-    const matchingOption = Array.from(serviceSelect.options).find(option => option.value === requestedService);
-    if (matchingOption) serviceSelect.value = requestedService;
-}
-
-if (requestedEnquiry === 'call') {
-    const contactFormElement = document.getElementById('contact-form');
-    const phoneField = document.getElementById('contact-phone');
-    const contactPreference = document.getElementById('contact-preference');
-    const callRequiredLabel = document.querySelector('[data-call-required]');
-    const messageField = document.getElementById('contact-message');
-    const contactEyebrow = document.querySelector('#contact .contact-copy .eyebrow');
-    const contactHeading = document.querySelector('#contact .contact-copy h2');
-    const contactIntro = document.querySelector('#contact .contact-copy p');
-    const messageLabel = document.querySelector('label[for="contact-message"]');
-    const submitButton = document.querySelector('#contact-form button[type="submit"]');
-
-    if (contactFormElement) contactFormElement.dataset.enquiryType = 'call';
-    if (phoneField) phoneField.required = true;
-    if (contactPreference) contactPreference.value = 'Phone call';
-    if (callRequiredLabel) callRequiredLabel.textContent = '(required for a call)';
-    const extraDetails = document.querySelector('#contact-form .contact-extra');
-    if (extraDetails) extraDetails.open = true;
-    if (contactEyebrow) contactEyebrow.textContent = 'Request a call';
-    if (contactHeading) contactHeading.textContent = 'Choose a suitable time to talk.';
-    if (contactIntro) contactIntro.textContent = 'Leave your contact details and a little context. We will email or call you to confirm a free 15-minute conversation.';
-    if (messageLabel) messageLabel.textContent = 'What would you like to discuss?';
-    if (submitButton) submitButton.textContent = 'Request My Call';
-    if (messageField && !messageField.value) {
-        messageField.placeholder = 'Tell us briefly what you would like to discuss.';
-    }
-}
-
-if (requestedOffer === 'black-friday') {
-    const messageField = document.getElementById('contact-message');
-    if (messageField && !messageField.value) {
-        messageField.value = requestedEnquiry === 'call'
-            ? 'I am interested in the Black Friday website offer (1–30 November 2026). Please call me to discuss my website.'
-            : 'I am interested in the Black Friday website offer (1–30 November 2026). Please contact me about a quote.';
-    }
-}
-
-document.querySelectorAll('[data-enquiry-service]').forEach(link => {
-    link.addEventListener('click', () => {
-        if (serviceSelect) serviceSelect.value = link.dataset.enquiryService || '';
-    });
-});
-
+const contactParams = new URLSearchParams(window.location.search);
+const requestedService = contactParams.get('service');
+const isCallback = contactParams.get('enquiry') === 'call';
+const requestedOffer = contactParams.get('offer');
+const activeOffer = requestedOffer === 'aura-launch' && requestedService === 'Aura'
+    ? 'aura-launch'
+    : requestedOffer === 'black-friday' && requestedService === 'Website' &&
+      document.documentElement.classList.contains('black-friday-active') ? 'black-friday' : '';
 const contactForm = document.getElementById('contact-form');
+const serviceSelect = document.getElementById('contact-service');
 const formStatus = document.getElementById('contact-form-status');
 const contactPreference = document.getElementById('contact-preference');
 const contactPhone = document.getElementById('contact-phone');
 const contactPhoneGroup = contactPhone?.closest('.contact-phone-field');
 const contactPhoneNote = document.querySelector('[data-call-required]');
+const contactEmail = document.getElementById('contact-email');
+const contactMessage = document.getElementById('contact-message');
+const websitePackage = document.getElementById('contact-package');
+const isNovemberQuote = activeOffer === 'black-friday' && !isCallback;
+
+function setContactCopy(eyebrow, heading, intro, button) {
+    document.querySelector('#contact .contact-copy .eyebrow').textContent = eyebrow;
+    document.querySelector('#contact .contact-copy h2').textContent = heading;
+    document.querySelector('#contact .contact-copy p').textContent = intro;
+    contactForm.querySelector('button[type="submit"]').textContent = button;
+}
+
+function restoreContactDefaults() {
+    if (!contactForm) return;
+    if (Array.from(serviceSelect.options).some(option => option.value === requestedService)) {
+        serviceSelect.value = requestedService;
+    } else if (isCallback) {
+        serviceSelect.value = 'Other';
+    }
+    if (isCallback) contactPreference.value = 'Phone call';
+}
+
+if (contactForm && isCallback) {
+    contactForm.dataset.enquiryType = 'call';
+    for (const field of [contactEmail, contactMessage, serviceSelect, contactPreference]) {
+        field.required = false;
+        field.closest('.field-group').hidden = true;
+    }
+    contactEmail.disabled = true;
+    contactMessage.disabled = true;
+    contactForm.querySelector('.contact-extra').hidden = true;
+    contactForm.querySelector('.contact-extra input[name="bestTime"]').disabled = true;
+    document.getElementById('contact-call-time-group').hidden = false;
+    document.getElementById('contact-call-time').disabled = false;
+    setContactCopy(
+        'Request a call', 'Let’s talk about your project.',
+        activeOffer === 'black-friday'
+            ? 'Ask us about the November website offer. Leave your name and number for a free 15-minute call.'
+            : 'Leave your name and number for a free 15-minute call.',
+        'Request My Call'
+    );
+} else if (contactForm && isNovemberQuote) {
+    document.getElementById('contact-package-group').hidden = false;
+    websitePackage.disabled = false;
+    serviceSelect.closest('.field-group').hidden = true;
+    contactMessage.required = false;
+    contactMessage.placeholder = 'Share your website URL or tell us what you need (optional).';
+    contactForm.querySelector('label[for="contact-message"]').textContent = 'Anything we should know? (optional)';
+    setContactCopy(
+        'November website offer', 'Get a quote for your website.',
+        'Improvements from R1,500. The offer runs until 30 November 2026 for new clients; we’ll confirm your price once we know the scope.',
+        'Request My November Quote'
+    );
+} else if (contactForm && activeOffer === 'aura-launch') {
+    serviceSelect.closest('.field-group').hidden = true;
+    contactMessage.placeholder = 'What could Aura help you with?';
+    setContactCopy(
+        'Aura launch special', 'See what Aura can do for your business.',
+        'Tell us what you’d like Aura to help with and we’ll get back to you with launch details.',
+        'Ask About Aura'
+    );
+}
+
+restoreContactDefaults();
+
+document.querySelectorAll('[data-enquiry-service]').forEach(link => {
+    link.addEventListener('click', () => {
+        if (serviceSelect && !isCallback && !isNovemberQuote && !activeOffer) {
+            serviceSelect.value = link.dataset.enquiryService || '';
+        }
+    });
+});
+
 let enquirySavedWithoutNotification = false;
+let enquiryInFlight = false;
 
 function syncPhonePreference() {
     if (!contactForm || !contactPreference || !contactPhone || !contactPhoneGroup) return;
@@ -287,6 +317,7 @@ function showFormStatus(message, type) {
 contactForm?.addEventListener('submit', async event => {
     event.preventDefault();
     if (enquirySavedWithoutNotification) return;
+    if (enquiryInFlight) return;
 
     if (!contactForm.reportValidity()) return;
 
@@ -303,9 +334,12 @@ contactForm?.addEventListener('submit', async event => {
         enquiryType: contactForm.dataset.enquiryType || 'project',
         service: formData.get('service'),
         message: formData.get('message'),
+        offer: activeOffer,
+        websitePackage: formData.get('websitePackage'),
         source: 'website_project_enquiry'
     };
 
+    enquiryInFlight = true;
     if (submitButton) {
         submitButton.disabled = true;
         submitButton.textContent = 'Sending…';
@@ -325,13 +359,16 @@ contactForm?.addEventListener('submit', async event => {
             result = {};
         }
 
-        if (!response.ok) throw new Error(result.error || 'The enquiry could not be sent.');
+        if (!response.ok || result.success !== true) throw new Error(result.error || 'The enquiry could not be sent.');
 
         // Fire only after the server has saved the enquiry. Do not send contact details to Tag Manager.
         window.dataLayer?.push({
             event: 'studio_enquiry_saved',
             enquiry_type: payload.enquiryType,
-            service: payload.service
+            service: payload.service,
+            ...(activeOffer ? { offer: activeOffer } : {}),
+            ...(payload.websitePackage ? { website_package: payload.websitePackage } : {}),
+            notification_sent: result.notificationSent === true
         });
 
         if (result.notificationSent === false) {
@@ -339,10 +376,13 @@ contactForm?.addEventListener('submit', async event => {
             showFormStatus(result.message || `Your details were saved, but the notification failed. Please email info@lockdownstudios.com and quote ${result.reference}. Do not submit again.`, 'error');
         } else {
             contactForm.reset();
+            restoreContactDefaults();
             syncPhonePreference();
             showFormStatus(
                 payload.enquiryType === 'call'
                     ? 'Thank you. Your call request has been emailed to the studio.'
+                    : isNovemberQuote ? 'Thank you. Your November quote request has been emailed to the studio.'
+                    : activeOffer === 'aura-launch' ? 'Thank you. Your Aura enquiry has been emailed to the studio.'
                     : 'Thank you. Your project enquiry has been emailed to the studio.',
                 'success'
             );
@@ -350,6 +390,7 @@ contactForm?.addEventListener('submit', async event => {
     } catch (error) {
         showFormStatus(`${error.message} You can also email info@lockdownstudios.com.`, 'error');
     } finally {
+        enquiryInFlight = false;
         if (submitButton) {
             submitButton.disabled = enquirySavedWithoutNotification;
             submitButton.textContent = enquirySavedWithoutNotification ? 'Enquiry saved' : originalLabel;

@@ -1,0 +1,2 @@
+.home-page #contact [hidden] { display: none !important; }
+.home-page #contact-form[data-enquiry-type="call"] > .form-row:first-child { grid-template-columns: 1fr; }
