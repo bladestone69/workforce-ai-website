@@ -1,0 +1,18 @@
+.eve-page { min-height: 100svh; background: radial-gradient(ellipse at 80% 22%, #143c44 0%, transparent 47%), #081318; }
+.eve-header { max-width: 78rem; margin: 0 auto; padding: 1.25rem clamp(1.25rem, 5vw, 4rem); }
+.eve-header a { display: inline-flex; align-items: center; gap: .65rem; color: #e4f5f5; text-decoration: none; font-weight: 700; }
+.eve-header img { object-fit: contain; }
+.eve-room { width: min(100% - 2.5rem, 42rem); margin: clamp(2.5rem, 9vh, 7rem) auto 4rem; }
+.eve-intro { color: #8fe6e5; font-weight: 700; font-size: .88rem; }
+.eve-room h1 { margin: .45rem 0 .9rem; font-size: clamp(3.25rem, 9vw, 6rem); line-height: 1.02; letter-spacing: -.055em; }
+.eve-summary { max-width: 33rem; color: #cce0e1; font-size: clamp(1.05rem, 2.5vw, 1.3rem); }
+.eve-disclosure { max-width: 33rem; margin: 2rem 0 1rem; color: #b3c6cb; font-size: .92rem; }
+.eve-room a { color: #a5eeec; text-underline-offset: .2em; }
+#eve-call { min-width: 10.75rem; min-height: 48px; background: #79e6e3; color: #0b282d; border-color: #79e6e3; cursor: pointer; }
+#eve-call:disabled { opacity: .6; cursor: default; }
+#eve-status { min-height: 1.7em; margin: .8rem 0; color: #cce0e1; }
+#eve-transcript { padding-block: .8rem; border-block: 1px solid #37535a; }
+#eve-transcript summary { cursor: pointer; color: #a5eeec; }
+#eve-messages { max-height: 14rem; overflow-y: auto; }
+#eve-messages p { margin-top: .65rem; }
+.eve-alternatives { display: flex; gap: .75rem 1.35rem; flex-wrap: wrap; margin-top: 1.5rem; font-size: .9rem; }

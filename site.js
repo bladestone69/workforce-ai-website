@@ -358,7 +358,7 @@ contactForm?.addEventListener('submit', async event => {
 });
 
 // Luna offers guided site answers in static previews and live AI when the server gate is ready.
-import('./assistant.js?v=3').catch(() => {});
+import('./assistant.js?v=4').catch(() => {});
 
 // Aggregate page counts and on-site routes only; no IDs, query strings, or form fields.
 if (!['localhost', '127.0.0.1'].includes(window.location.hostname) && navigator.doNotTrack !== '1') {

@@ -17,6 +17,16 @@ async function startWebsiteAssistant() {
     launcher.setAttribute('aria-controls', 'website-assistant');
     launcher.setAttribute('aria-expanded', 'false');
 
+    const eve = document.createElement('a');
+    eve.className = 'eve-launcher';
+    eve.href = '/eve';
+    eve.textContent = 'Talk to Eve';
+    const actions = document.createElement('div');
+    actions.className = 'studio-assistants';
+    actions.setAttribute('role', 'group');
+    actions.setAttribute('aria-label', 'Studio assistants');
+    actions.append(launcher, eve);
+
     const panel = document.createElement('section');
     panel.id = 'website-assistant';
     panel.className = 'assistant-panel';
@@ -97,7 +107,7 @@ async function startWebsiteAssistant() {
     privacy.textContent = 'Privacy';
     foot.append(human, ' · ', privacy);
     panel.append(header, log, suggestions, form, foot);
-    document.body.append(launcher, panel);
+    document.body.append(actions, panel);
 
     const heroTrigger = document.querySelector('[data-assistant-open]');
     const heroStatus = document.querySelector('[data-luna-status]');

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Talk to Eve | Lockdown Studios</title>
+    <meta name="description" content="Speak with Eve, the Lockdown Studios AI assistant, about a website, app, game, 3D project or automation.">
+    <link rel="canonical" href="https://www.lockdownstudios.com/eve">
+    <link rel="icon" href="/images/logo-mark.png" type="image/png">
+    <link rel="stylesheet" href="/site.css?v=19">
+    <link rel="stylesheet" href="/eve.css">
+    <script src="/eve-audio/client.js" defer></script>
+    <script src="/eve.js" defer></script>
+</head>
+<body class="eve-page">
+    <header class="eve-header"><a href="/" aria-label="Lockdown Studios home"><img src="/images/logo-mark.png" width="34" height="34" alt="">Lockdown Studios</a></header>
+    <main class="eve-room">
+        <p class="eve-intro">Studio voice assistant</p>
+        <h1>Talk to Eve</h1>
+        <p class="eve-summary">Tell Eve what you’d like to build. Ask about a website, an app or a game, and she’ll talk it through with you.</p>
+        <p class="eve-disclosure">Starting a call connects your microphone to ElevenLabs. Conversations may be recorded and stored. <a href="/privacy#eve">Voice call privacy</a></p>
+        <button class="button button-primary" id="eve-call" type="button" disabled>Start voice call</button>
+        <p id="eve-status" role="status"></p>
+        <details id="eve-transcript" hidden>
+            <summary>Call transcript</summary>
+            <div id="eve-messages"></div>
+        </details>
+        <noscript><p>Turn on JavaScript to start a voice call.</p></noscript>
+        <p class="eve-alternatives"><a href="https://elevenlabs.io/app/talk-to?agent_id=agent_0501kf4tknq1eecr4rs5dgg8v4qw">Open Eve on ElevenLabs</a><a href="/#contact">Contact the studio</a></p>
+    </main>
+</body>
+</html>
